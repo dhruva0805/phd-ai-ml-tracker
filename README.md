@@ -1,0 +1,58 @@
+# PhD-Level AI / ML / GenAI Expertise Tracker (v1)
+
+A self-contained, browser-based curriculum tracker for building **research-scientist depth** in AI, machine learning, and generative models.
+
+Open [`index.html`](index.html) in any modern browser — no build step, server, or dependencies.
+
+## What it is
+
+A seven-phase core spine plus optional specialization tracks and modules. Every item is checkable and linked. Major learning units expand to show rationale, prerequisites, key topics, mastery checks, and a required artifact.
+
+Progress is meant to reflect real mastery, not just “watched it.”
+
+## Features
+
+- **Four progress states** for major units: Not started → In progress → Done → Mastered (simple resources toggle done)
+- **Overall + per-section progress** bars (mastered share shown as an overlay on the overall bar)
+- **Search and filter** by type / status
+- **Collapsible sections** — specialization tracks and modules start collapsed
+- **Import / Export / Reset** — back up progress as a file; import merges or replaces safely
+- **Local persistence** — progress is stored in the browser’s `localStorage` for this page
+
+## Curriculum structure
+
+### Core phases
+
+| Phase | Focus | Typical duration |
+|-------|--------|------------------|
+| 0 | Diagnostic & prerequisite repair | 1–3 months (parallel with Phase 1) |
+| 1 | Mathematical & CS foundations | 6–9 months |
+| 2 | Classical & statistical machine learning | 4–6 months |
+| 3 | Deep learning — core & beyond | 9–12 months |
+| 4 | Reinforcement learning | 4–6 months |
+| 5 | Foundation models, LLMs & ML systems | 12–18 months |
+| 6 | Increasingly independent research | Ongoing (years 3–7) |
+
+### Specialization tracks & modules
+
+Optional tracks (e.g. advanced RL, probabilistic ML, ML systems) and modules such as the **Frontier 2025–2026** rolling list, **telecom / wireless-AI**, research methodology, qualifying-exam checkpoints, a curated resource index, and a **milestone ladder** of artifacts.
+
+Item types include courses, books, papers, projects, milestones, standards, and skills.
+
+## How to use
+
+1. Open `index.html` locally (double-click or serve the folder with any static file server).
+2. Click a row to advance its state.
+3. Expand major units for detail and mastery criteria.
+4. Use **Export** periodically to back up progress; **Import** to restore on another machine or after clearing site data.
+5. **Reset** clears all progress for this tracker in the current browser.
+
+> Progress is tied to this browser and origin. Export before switching devices or clearing storage.
+
+## Tech
+
+Single static HTML file (CSS + JS inline). No framework, no package manager.
+
+## License
+
+Personal learning roadmap / tracker. Use and adapt for your own study path.

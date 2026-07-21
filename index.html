@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhD-Level AI / ML / GenAI Curriculum — Tracker (Enhanced)</title>
+<style>
+  :root{
+    --sans: system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --serif: Georgia,Cambria,'Times New Roman',serif;
+    --mono: ui-monospace,'SF Mono','Cascadia Code',Menlo,Consolas,'Liberation Mono',monospace;
+    --paper:#F6F4EF; --paper-2:#EFEBE2; --ink:#15171C; --ink-soft:#33363F;
+    --deep:#0D1524; --deep-2:#131F35;
+    --signal:#3B4FD1; --signal-soft:#5D6FE0;
+    --amber:#C6871B; --telecom:#1C7A6C; --frontier:#A5352B; --project:#7A5AA6;
+    --rule:#DAD5CA; --rule-deep:#243149; --muted:#6A6C74; --muted-deep:#8FA0BD;
+    --done:#2A7D57; --master:#2B57C6; --prog:#C6871B;
+    --maxw:1120px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; scroll-padding-top:150px;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans);
+    font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;}
+  ::selection{background:var(--signal); color:#fff;}
+  a{color:var(--signal); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .mono{font-family:var(--mono);}
+
+  /* ---------- command bar ---------- */
+  .bar{position:sticky; top:0; z-index:60; background:var(--deep); color:#fff; border-bottom:1px solid var(--rule-deep);}
+  .bar-inner{max-width:var(--maxw); margin:0 auto; padding:.75rem 1.3rem;}
+  .bar-top{display:flex; align-items:center; gap:1rem; flex-wrap:wrap; justify-content:space-between;}
+  .bar-title{font-family:var(--mono); font-size:12px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted-deep);}
+  .bar-title b{color:#fff; font-weight:700;}
+  .overall{display:flex; align-items:center; gap:.7rem; flex:1; min-width:220px; max-width:440px;}
+  .obar{flex:1; height:8px; background:rgba(255,255,255,.1); border-radius:6px; overflow:hidden; position:relative;}
+  .obar > i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--signal),var(--signal-soft)); border-radius:6px; transition:width .4s ease;}
+  .obar > b{position:absolute; top:0; height:100%; width:0%; background:var(--master); opacity:.55; border-radius:6px; transition:width .4s ease;}
+  .opct{font-family:var(--mono); font-size:13px; font-weight:600; white-space:nowrap;}
+  .bar-actions{display:flex; gap:.45rem; flex-wrap:wrap;}
+  .btn{font-family:var(--mono); font-size:11px; letter-spacing:.05em; text-transform:uppercase; background:transparent;
+    color:var(--muted-deep); border:1px solid var(--rule-deep); padding:.4rem .65rem; border-radius:6px; cursor:pointer; transition:.15s;}
+  .btn:hover{color:#fff; border-color:var(--signal-soft);}
+  .bar-tools{display:flex; align-items:center; gap:.6rem; margin-top:.65rem; flex-wrap:wrap;}
+  .search{flex:1; min-width:190px; display:flex; align-items:center; gap:.5rem; background:rgba(255,255,255,.06);
+    border:1px solid var(--rule-deep); border-radius:7px; padding:.35rem .7rem;}
+  .search input{flex:1; background:transparent; border:0; outline:0; color:#fff; font-size:14px; font-family:var(--sans);}
+  .search input::placeholder{color:var(--muted-deep);}
+  .chips{display:flex; gap:.32rem; flex-wrap:wrap;}
+  .chip{font-family:var(--mono); font-size:10.5px; letter-spacing:.04em; text-transform:uppercase; background:transparent;
+    color:var(--muted-deep); border:1px solid var(--rule-deep); padding:.32rem .55rem; border-radius:20px; cursor:pointer; transition:.15s;}
+  .chip:hover{color:#fff;}
+  .chip.on{background:var(--signal); color:#fff; border-color:var(--signal);}
+  .navjump{display:flex; gap:.55rem 1rem; flex-wrap:wrap; margin-top:.6rem;}
+  .navjump a{font-family:var(--mono); font-size:10.5px; letter-spacing:.03em; text-transform:uppercase; color:var(--muted-deep);}
+  .navjump a:hover{color:var(--signal-soft); text-decoration:none;}
+  @media(max-width:720px){ .navjump{display:none;} }
+
+  /* ---------- hero ---------- */
+  .hero{max-width:var(--maxw); margin:0 auto; padding:2.4rem 1.3rem .8rem;}
+  .eyebrow{font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--signal);}
+  .hero h1{font-family:var(--serif); font-weight:600; font-size:clamp(1.8rem,4.4vw,2.9rem); line-height:1.07; margin:.55rem 0 .5rem; letter-spacing:-.01em;}
+  .hero h1 em{font-style:italic; color:var(--signal);}
+  .hero p{color:var(--ink-soft); max-width:53rem; font-size:1.02rem;}
+  .legend{display:flex; gap:1.1rem; flex-wrap:wrap; margin-top:1rem; font-family:var(--mono); font-size:11px; color:var(--muted);}
+  .legend span{display:inline-flex; align-items:center; gap:.4rem;}
+  .dot{width:13px; height:13px; border-radius:4px; border:2px solid var(--rule); display:inline-block;}
+  .dot.p{background:var(--prog); border-color:var(--prog);}
+  .dot.d{background:var(--done); border-color:var(--done);}
+  .dot.m{background:var(--master); border-color:var(--master);}
+
+  .container{max-width:var(--maxw); margin:0 auto; padding:0 1.3rem;}
+
+  /* ---------- section ---------- */
+  .sec{padding:1.4rem 0 .3rem;}
+  .sec-head{display:flex; align-items:center; gap:.9rem; cursor:pointer; user-select:none;
+    padding:.5rem 0; border-bottom:2px solid var(--ink);}
+  .sec-num{font-family:var(--mono); font-size:1.25rem; font-weight:700; color:#fff; background:var(--deep);
+    width:2.4rem; height:2.4rem; border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .sec-num.tel{background:var(--telecom);} .sec-num.fr{background:var(--frontier);}
+  .sec-num.res{background:var(--signal);} .sec-num.ml{background:var(--amber);}
+  .sec-num.track{background:var(--project);} .sec-num.mod{background:var(--ink-soft);}
+  .sec-titles{flex:1; min-width:0;}
+  .sec-kind{font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted);}
+  .sec-kind.spec{color:var(--project);} .sec-kind.module{color:var(--ink-soft);}
+  .sec-titles h2{font-family:var(--serif); font-weight:600; font-size:clamp(1.3rem,2.7vw,1.75rem); margin:0; line-height:1.12;}
+  .sec-titles .dur{font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted);}
+  .sec-prog{display:flex; align-items:center; gap:.55rem; min-width:120px; flex-shrink:0;}
+  .sbar{width:74px; height:6px; background:var(--paper-2); border-radius:6px; overflow:hidden; border:1px solid var(--rule); position:relative;}
+  .sbar > i{display:block; height:100%; width:0%; background:var(--done); transition:width .35s ease;}
+  .scount{font-family:var(--mono); font-size:11.5px; color:var(--muted); white-space:nowrap;}
+  .chev{font-family:var(--mono); color:var(--muted); transition:transform .2s; font-size:.9rem; flex-shrink:0;}
+  .sec.collapsed .chev{transform:rotate(-90deg);}
+  .sec-body{overflow:hidden;}
+  .sec.collapsed .sec-body{display:none;}
+  .sec-goal{color:var(--ink-soft); margin:.85rem 0 .9rem; max-width:57rem; font-size:.97rem;}
+  .sec-goal strong{font-weight:600;}
+
+  /* ---------- groups & items ---------- */
+  .grp-label{font-family:var(--mono); font-size:10px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); margin:1.15rem 0 .4rem; font-weight:600;}
+  .items{border:1px solid var(--rule); border-radius:10px; overflow:hidden; background:#fff;}
+  .item{border-bottom:1px solid var(--rule);}
+  .item:last-child{border-bottom:0;}
+  .item-row{display:flex; align-items:flex-start; gap:.75rem; padding:.65rem .9rem; cursor:pointer; transition:background .12s;}
+  .item-row:hover{background:var(--paper-2);}
+  .box{flex-shrink:0; width:19px; height:19px; border:2px solid var(--rule); border-radius:5px; margin-top:.12rem;
+    display:flex; align-items:center; justify-content:center; transition:.15s; font-size:11px; font-weight:700; color:#fff; line-height:1;}
+  .box svg{width:12px; height:12px; opacity:0; transition:.15s;}
+  .item.s-done .box{background:var(--done); border-color:var(--done);}
+  .item.s-done .box svg{opacity:1;}
+  .item.s-in_progress .box{background:var(--prog); border-color:var(--prog);}
+  .item.s-in_progress .box::after{content:'·'; font-size:20px; margin-top:-3px;}
+  .item.s-mastered .box{background:var(--master); border-color:var(--master);}
+  .item.s-mastered .box::after{content:'\2605'; font-size:11px;}
+  .item-main{flex:1; min-width:0;}
+  .item .t{font-size:.97rem; line-height:1.4;}
+  .item.s-done .t, .item.s-mastered .t{color:var(--muted);}
+  .item.s-done .t .tt, .item.s-mastered .t .tt{text-decoration:line-through; text-decoration-color:var(--rule);}
+  .item .m{font-size:.85rem; color:var(--muted); font-style:italic; margin-top:.1rem;}
+  .pill{display:inline-block; font-family:var(--mono); font-size:8.5px; letter-spacing:.05em; text-transform:uppercase;
+    padding:.1rem .38rem; border-radius:4px; margin-left:.35rem; vertical-align:middle; font-weight:600;}
+  .pill.seq{background:rgba(59,79,209,.09); color:var(--signal);}
+  .pill.cur{background:var(--paper-2); color:var(--ink-soft);}
+  .pill.cur.FRONTIER{background:rgba(165,53,43,.1); color:var(--frontier);}
+  .pill.cur.CRITIQUE{background:rgba(122,90,166,.12); color:var(--project);}
+  .pill.cur.SYSTEMS{background:rgba(28,122,108,.12); color:var(--telecom);}
+  .pill.verify{background:rgba(198,135,27,.16); color:var(--amber);}
+  .pill.major{background:var(--deep); color:#fff;}
+  .lnk{color:var(--signal); font-family:var(--mono); font-size:.76rem; white-space:nowrap; border:1px solid var(--rule);
+    padding:.05rem .4rem; border-radius:5px; margin-left:.4rem; display:inline-block;}
+  .lnk:hover{background:var(--signal); color:#fff; text-decoration:none; border-color:var(--signal);}
+  .badge{flex-shrink:0; font-family:var(--mono); font-size:8.5px; letter-spacing:.05em; text-transform:uppercase;
+    padding:.15rem .42rem; border-radius:4px; margin-top:.18rem; font-weight:700;}
+  .badge.course{background:rgba(59,79,209,.1); color:var(--signal);}
+  .badge.book{background:rgba(198,135,27,.14); color:var(--amber);}
+  .badge.paper{background:rgba(165,53,43,.1); color:var(--frontier);}
+  .badge.project{background:rgba(122,90,166,.13); color:var(--project);}
+  .badge.milestone{background:rgba(28,122,108,.13); color:var(--telecom);}
+  .badge.std{background:rgba(28,122,108,.13); color:var(--telecom);}
+  .badge.skill{background:rgba(21,23,28,.08); color:var(--ink-soft);}
+  .expander{flex-shrink:0; font-family:var(--mono); font-size:10px; letter-spacing:.05em; color:var(--signal);
+    border:1px solid var(--rule); border-radius:5px; padding:.1rem .4rem; margin-top:.18rem; cursor:pointer; white-space:nowrap;}
+  .expander:hover{background:var(--signal); color:#fff;}
+  .detail{display:none; padding:.2rem 1rem 1rem 3.35rem; background:var(--paper-2); border-top:1px dotted var(--rule); font-size:.9rem;}
+  .item.open .detail{display:block;}
+  .detail h5{font-family:var(--mono); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
+    margin:.9rem 0 .25rem; font-weight:600;}
+  .detail p{margin:.15rem 0;}
+  .detail ul{margin:.2rem 0; padding-left:1.1rem;}
+  .detail li{margin:.15rem 0;}
+  .detail .arte{background:#fff; border-left:3px solid var(--project); border-radius:0 6px 6px 0; padding:.5rem .7rem; margin-top:.35rem;}
+  .item.hide{display:none;}
+
+  .exit{background:var(--paper-2); border-left:3px solid var(--amber); border-radius:0 8px 8px 0; padding:.7rem 1rem; margin-top:1rem; font-size:.92rem;}
+  .exit b{font-family:var(--mono); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--amber); display:block; margin-bottom:.2rem;}
+
+  /* diagnostics panel */
+  .diag{max-width:var(--maxw); margin:1rem auto 0; padding:0 1.3rem; display:none;}
+  .diag.show{display:block;}
+  .diag-inner{background:#fff; border:1px solid var(--rule); border-left:3px solid var(--done); border-radius:0 10px 10px 0; padding:.9rem 1.1rem; font-size:.9rem;}
+  .diag-inner h4{margin:0 0 .4rem; font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase;}
+  .diag-inner .ok{color:var(--done);} .diag-inner .warn{color:var(--frontier);}
+  .diag-inner ul{margin:.3rem 0; padding-left:1.1rem;}
+
+  .empty{display:none; text-align:center; color:var(--muted); padding:2rem; font-style:italic;}
+
+  footer{background:var(--deep); color:var(--muted-deep); margin-top:3rem; padding:2.4rem 1.3rem; border-top:1px solid var(--rule-deep); font-size:.9rem;}
+  footer .container{max-width:var(--maxw);}
+  footer a{color:var(--signal-soft);}
+  footer .dis{font-size:.8rem; color:var(--muted); border-top:1px solid var(--rule-deep); margin-top:1.3rem; padding-top:1rem;}
+  .toast{position:fixed; bottom:1.3rem; left:50%; transform:translateX(-50%) translateY(160%); background:var(--deep); color:#fff;
+    padding:.7rem 1.2rem; border-radius:8px; font-family:var(--mono); font-size:12px; z-index:100; transition:transform .3s; border:1px solid var(--rule-deep); max-width:90vw;}
+  .toast.show{transform:translateX(-50%) translateY(0);}
+  /* modal for import */
+  .modal-bg{position:fixed; inset:0; background:rgba(13,21,36,.6); z-index:200; display:none; align-items:center; justify-content:center; padding:1rem;}
+  .modal-bg.show{display:flex;}
+  .modal{background:var(--paper); border-radius:12px; max-width:440px; width:100%; padding:1.5rem; border:1px solid var(--rule);}
+  .modal h3{font-family:var(--serif); margin:0 0 .5rem;}
+  .modal p{font-size:.92rem; color:var(--ink-soft);}
+  .modal .mbtns{display:flex; gap:.5rem; margin-top:1rem; flex-wrap:wrap;}
+  .modal .mbtns button{font-family:var(--mono); font-size:12px; padding:.5rem .9rem; border-radius:7px; cursor:pointer; border:1px solid var(--rule);}
+  .mbtn-primary{background:var(--signal); color:#fff; border-color:var(--signal)!important;}
+  .mbtn-ghost{background:transparent; color:var(--ink-soft);}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="bar-inner">
+    <div class="bar-top">
+      <div class="bar-title"><b>RS Track</b> · PhD-Level AI / ML / GenAI · Enhanced</div>
+      <div class="overall">
+        <div class="obar"><i id="oFill"></i><b id="oMaster"></b></div>
+        <span class="opct" id="oPct">0%</span>
+        <span class="opct" id="oCount" style="color:var(--muted-deep);">0 / 0</span>
+      </div>
+      <div class="bar-actions">
+        <button class="btn" id="expandBtn" onclick="toggleAllSections()">Expand all</button>
+        <button class="btn" onclick="toggleDiag()">Diagnostics</button>
+        <button class="btn" onclick="triggerImport()">Import</button>
+        <button class="btn" onclick="exportProgress()">Export</button>
+        <button class="btn" onclick="resetAll()">Reset</button>
+        <input type="file" id="importFile" accept="application/json,.json" style="display:none" onchange="handleImportFile(event)">
+      </div>
+    </div>
+    <div class="bar-tools">
+      <label class="search">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8FA0BD" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input id="q" type="text" placeholder="Search courses, books, papers, authors, standards, topics…" oninput="applyFilters()">
+      </label>
+      <div class="chips" id="chips">
+        <button class="chip on" data-f="all" onclick="setFilter('all',this)">All</button>
+        <button class="chip" data-f="course" onclick="setFilter('course',this)">Courses</button>
+        <button class="chip" data-f="book" onclick="setFilter('book',this)">Books</button>
+        <button class="chip" data-f="paper" onclick="setFilter('paper',this)">Papers</button>
+        <button class="chip" data-f="project" onclick="setFilter('project',this)">Projects</button>
+        <button class="chip" data-f="major" onclick="setFilter('major',this)">Major units</button>
+        <button class="chip" data-f="todo" onclick="setFilter('todo',this)">To-do</button>
+      </div>
+    </div>
+    <div class="navjump" id="navjump"></div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="eyebrow">Self-directed doctoral program · 2026 edition · progress saved in this browser</div>
+  <h1>Research-scientist depth in AI, ML &amp; <em>generative models</em>.</h1>
+  <p>Seven-phase core spine plus optional specialization tracks. Every item is checkable with a working link. <strong>Major learning units</strong> expand to show rationale, prerequisites, key topics, mastery checks and a required artifact — and support four states so you can mark real mastery, not just "watched it." Specialization tracks and modules start collapsed to keep the page clean; open what you're working on.</p>
+  <div class="legend">
+    <span><i class="dot"></i> Not started</span>
+    <span><i class="dot p"></i> In progress</span>
+    <span><i class="dot d"></i> Done</span>
+    <span><i class="dot m"></i> Mastered</span>
+    <span style="color:var(--ink-soft)">· click a row to cycle · major units cycle all four states</span>
+  </div>
+</div>
+
+<div class="diag" id="diag"><div class="diag-inner" id="diagInner"></div></div>
+
+<div class="container"><div id="app"></div><div class="empty" id="empty">No items match your search or filter.</div></div>
+
+<footer>
+  <div class="container">
+    <p><strong>Using the tracker:</strong> click any row to advance its state. Simple resources toggle done; major units cycle Not&nbsp;started → In&nbsp;progress → Done → Mastered. The top bar shows overall progress (the lighter overlay is the mastered share); each section shows its own bar. <em>Import</em> restores an exported file (merge or replace, unknown IDs ignored safely); <em>Export</em> backs up; <em>Reset</em> clears. Progress persists in this browser's local storage for this file.</p>
+    <p style="margin-top:.7rem;"><strong>Self-contained:</strong> this file uses a system-font stack and bundles all styles and logic inline — it runs fully offline. The only external references are hyperlinks to educational resources, which open in a new tab when you choose.</p>
+    <p class="dis">Course codes, standards numbers and arXiv identifiers were checked against official sources where possible (3GPP TR 38.843 / TR 37.817, CS336, Tse &amp; Viswanath, s1 = arXiv 2501.19393, etc.). Items marked <span class="pill verify" style="margin:0">⚠ verify</span> could not be fully confirmed — open and check them before citing. Universities re-number and re-offer courses and links move; confirm the current offering on each institution's site. This is a study plan, not academic or career advising.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<div class="modal-bg" id="importModal">
+  <div class="modal">
+    <h3>Import progress</h3>
+    <p id="importSummary">Choose how to apply the imported file.</p>
+    <div class="mbtns">
+      <button class="mbtn-primary" onclick="applyImport('merge')">Merge into current</button>
+      <button class="mbtn-primary" onclick="applyImport('replace')">Replace current</button>
+      <button class="mbtn-ghost" onclick="closeImport()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* =========================================================================
+   SECTIONS  — kind: phase | track | module
+   ========================================================================= */
+const SECTIONS = [
+ {key:'p0', kind:'phase', num:'0', title:'Diagnostic & prerequisite repair', dur:'1–3 months · parallel with Phase 1', open:true,
+  goal:"Find and patch holes before they compound. <strong>Skip what you own; drill what you don't.</strong>",
+  exit:"No red flags on the self-diagnostic; a from-scratch NumPy backprop notebook on GitHub."},
+ {key:'p1', kind:'phase', num:'1', title:'Mathematical & CS foundations', dur:'6–9 months', open:true,
+  goal:"Linear algebra, calculus, probability, mathematical statistics, optimization, information theory, and the core CS ML is built on. <strong>Research scientists are separated from engineers here.</strong>",
+  exit:"Implement PCA + logistic regression + gradient descent from scratch (derive the gradients); solve a KKT problem by hand; read matrix-calculus & measure-free probability notation fluently."},
+ {key:'p2', kind:'phase', num:'2', title:'Classical & statistical machine learning', dur:'4–6 months', open:true,
+  goal:"Bias–variance, kernels, ensembles, latent-variable models. The toolkit you reach for when a transformer is the wrong tool — and the language reviewers speak.",
+  exit:"Beat a strong baseline on real tabular data with gradient boosting + honest validation; derive & implement EM for a GMM."},
+ {key:'p3', kind:'phase', num:'3', title:'Deep learning — core & beyond', dur:'9–12 months', open:true,
+  goal:"Autodiff, optimization dynamics, CNNs, sequence models, the attention/transformer bridge. <strong>Highest-leverage move:</strong> build a neural net, then a GPT, from scratch.",
+  exit:"A tested nanoGPT-class transformer you trained + a written explanation of every component; reproduce ResNet on CIFAR-10 within tolerance."},
+ {key:'p4', kind:'phase', num:'4', title:'Reinforcement learning', dur:'4–6 months', open:true,
+  goal:"A first-class taught path, not a link list: bandits → MDPs → dynamic programming → TD → policy gradients → actor-critic → PPO → offline/model-based RL, with the bridge to RLHF and RL-for-reasoning.",
+  exit:"Implement a value-based (DQN) and a policy-gradient (PPO) agent from scratch that solve control benchmarks; write up what stabilized training and why."},
+ {key:'p5', kind:'phase', num:'5', title:'Foundation models, LLMs & ML systems', dur:'12–18 months', open:true,
+  goal:"The current center of gravity. Two parallel tracks: <strong>the model</strong> (build an LLM end-to-end) and <strong>the system</strong> (train & serve it at scale).",
+  exit:"Pre-train a small LLM end-to-end then post-train with SFT + DPO; 2× a served model's throughput and explain why; reproduce one scaling-law fit."},
+ {key:'p6', kind:'phase', num:'6', title:'Increasingly independent research', dur:'Ongoing · years 3–7', open:true,
+  goal:"The actual PhD: pick a niche, map its literature, reproduce its SOTA, find the gap, publish. Read → Reconstruct → Reproduce → Ablate → Critique → Synthesize → Hypothesize → Design → Write → Defend.",
+  exit:"One reproduction others use; one workshop paper, then a main-conference / top-journal paper; a defensible research opinion."},
+
+ {key:'t-prob', kind:'track', num:'β', title:'Probabilistic & Bayesian ML', dur:'Specialization · parallel', open:false,
+  goal:"Kept distinct from the LLM path: probabilistic modeling, Bayesian inference, graphical models, EM, MCMC, variational inference, and uncertainty."},
+ {key:'t-gen', kind:'track', num:'∿', title:'Generative modeling', dur:'Specialization · parallel', open:false,
+  goal:"The full generative lineage: latent-variable models, VAEs, GANs, autoregressive models, score-based & diffusion models, and flow matching."},
+ {key:'t-rl2', kind:'track', num:'⟳', title:'Advanced RL topics', dur:'Specialization · optional after Phase 4', open:false,
+  goal:"Depth beyond the core RL phase: model-based RL, offline RL, exploration, distributional RL, multi-agent, and RL for reasoning."},
+ {key:'t-graph', kind:'track', num:'◈', title:'Graph machine learning', dur:'Specialization · parallel', open:false,
+  goal:"Message passing, graph convolutions, attention on graphs, and scalable representation learning on relational data."},
+ {key:'t-mm', kind:'track', num:'◐', title:'Multimodal learning', dur:'Specialization · parallel', open:false,
+  goal:"Joint vision–language(–audio) representations, contrastive pretraining, and any-to-any generation."},
+ {key:'t-trust', kind:'track', num:'⚖', title:'Evaluation, robustness, interpretability & safety', dur:'Specialization · increasingly core', open:false,
+  goal:"Trustworthy AI: rigorous evaluation, calibration & uncertainty, distribution shift, mechanistic interpretability, and alignment. A PhD is expected to evaluate and stress-test, not just train."},
+ {key:'t-causal', kind:'track', num:'⇄', title:'Causal inference', dur:'Specialization · parallel', open:false,
+  goal:"Causal graphs, interventions, confounding, backdoor adjustment, potential outcomes, identification, and the limits of observational data."},
+ {key:'t-sys', kind:'track', num:'▤', title:'ML systems deep-dive', dur:'Specialization · parallel with Phase 5', open:false,
+  goal:"Beyond LLM-systems: foundational OS/networks/distributed systems, plus data pipelines, parallelism, kernels, serving, and reliability — measured, not just read."},
+
+ {key:'fr', kind:'module', num:'★', cls:'fr', title:'Frontier module — 2025–2026', dur:'Rolling · revisit every quarter', open:true,
+  goal:"The biggest currency upgrade. Live research fronts as of early 2026 — <strong>staying current is the job.</strong>"},
+ {key:'tel', kind:'module', num:'⌘', cls:'tel', title:'Telecom / wireless-AI vertex', dur:'Specialization · parallel with Phases 5–6', open:false,
+  goal:"Your differentiator, rebuilt as a real research specialization: communications & wireless foundations → AI applications → standards → surveys → a concrete reproduction."},
+ {key:'research', kind:'module', num:'✎', cls:'mod', title:'Research methodology & apprenticeship', dur:'Continuous', open:false,
+  goal:"The apparatus that converts study into contribution: the reading protocol, annotated bibliography, reproduction reports, negative-results log, proposal, talks, and peer review."},
+ {key:'quals', kind:'module', num:'✓', cls:'ml', title:'Qualifying-exam checkpoint', dur:'Self-administered · end of Phase 5', open:false,
+  goal:"Simulate a real PhD gate. For each area, test whether you can derive, prove, implement, analyze, critique and defend — out loud, from memory."},
+ {key:'res', kind:'module', num:'§', cls:'res', title:'Curated resource index', dur:'Reference', open:false,
+  goal:"Deduplicated hubs — every resource you gathered plus what this curriculum adds. Prefer primary sources; finish one per slot before collecting more."},
+ {key:'ml', kind:'module', num:'▲', cls:'ml', title:'The milestone ladder', dur:'Artifacts, not calendar time', open:false,
+  goal:"Move to the next rung when you've produced the artifact. Dates are a realistic part-time pace; the artifacts are what matter."}
+];
+
+/* =========================================================================
+   ITEMS.  type: course|book|paper|project|milestone|std|skill
+   optional: m(meta) u(url) major(bool) seq(pill) cur(curation) verify(bool) detail{}
+   ========================================================================= */
+const ITEMS = [
+ // ---------------- PHASE 0 ----------------
+ {id:'p0-diag-backprop', ph:'p0', type:'project', t:'Derive backprop for a 2-layer MLP by hand, then implement in pure NumPy'},
+ {id:'p0-diag-proofs', ph:'p0', type:'project', t:'Self-check: prove a set is countable; state & apply the spectral theorem'},
+ {id:'p0-diag-conc', ph:'p0', type:'project', t:'Self-check: go from a probability word-problem to the right estimator and its variance'},
+ {id:'p0-6006', ph:'p0', type:'course', t:'MIT 6.006 — Introduction to Algorithms (repair DS&A gaps)', u:'https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/'},
+ {id:'p0-1806', ph:'p0', type:'course', t:'MIT 18.06 — Linear Algebra (Strang)', m:'most leveraged prerequisite', u:'https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/'},
+ {id:'p0-6042', ph:'p0', type:'course', t:'MIT 6.042J — Mathematics for CS (discrete math & proofs)', u:'https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/'},
+ {id:'p0-prove', ph:'p0', type:'book', t:'How to Prove It — Velleman', m:'if proofs feel foreign'},
+
+ // ---------------- PHASE 1 ----------------
+ {id:'p1-la', ph:'p1', type:'course', major:true, t:'Linear algebra', m:'MIT 18.06 (Strang) + MML Ch.2–4', u:'https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/',
+  detail:{why:"Everything downstream — least squares, PCA, backprop, attention, low-rank adaptation — is linear algebra in disguise. Fluency here is the strongest single predictor of comfort with ML theory.",
+   prereq:"High-school algebra; comfort with functions and notation.",
+   topics:["Vector spaces & linear maps","Orthogonality & projections","Eigendecomposition","Singular value decomposition (SVD)","Positive-definite matrices","Low-rank approximation","Numerical stability & conditioning"],
+   mastery:["Derive the normal equations and the SVD-based least-squares solution","Explain PCA as an eigen/SVD problem and implement it from scratch","State the spectral theorem and when a matrix is diagonalizable","Reason about conditioning and why it breaks naive algorithms"],
+   artifact:"A notebook: PCA on a real dataset via SVD, with a written derivation and a numerical-stability note.",
+   resources:[{t:'3Blue1Brown — Essence of Linear Algebra',u:'https://www.3blue1brown.com/topics/linear-algebra'},{t:'Numerical Linear Algebra — Trefethen & Bau'}]}},
+ {id:'p1-calc', ph:'p1', type:'course', t:'MIT 18.02 — Multivariable Calculus', u:'https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/'},
+ {id:'p1-prob', ph:'p1', type:'course', major:true, t:'Probability & statistics', m:'Stanford CS109 / MIT 6.041 + All of Statistics', u:'https://web.stanford.edu/class/cs109/',
+  detail:{why:"ML is applied probability and statistics. Estimation, uncertainty, and honest experimental reasoning are what separate a result you can trust from a lucky seed.",
+   prereq:"Calculus; basic combinatorics.",
+   topics:["Random variables & expectation","Conditional probability & Bayes' rule","Common distributions","Estimation (MLE, MAP, bias/variance)","Hypothesis testing & confidence intervals","Concentration inequalities","Uncertainty & the bootstrap","Experimental design"],
+   mastery:["Derive an MLE and its variance for a simple model","Explain a p-value and a confidence interval without hand-waving","Use a concentration bound to reason about sample size","Design an experiment with proper controls and report uncertainty"],
+   artifact:"A short report: estimate a quantity two ways (analytic + bootstrap), with uncertainty and an experimental-design paragraph.",
+   resources:[{t:'Introduction to Probability — Blitzstein & Hwang',u:'https://projects.iq.harvard.edu/stat110/home'},{t:'All of Statistics — Wasserman',u:'https://link.springer.com/book/10.1007/978-0-387-21736-9'}]}},
+ {id:'p1-opt', ph:'p1', type:'course', major:true, t:'Optimization', m:'Stanford EE364A + Boyd & Vandenberghe', u:'https://web.stanford.edu/class/ee364a/',
+  detail:{why:"Training is optimization. Knowing convexity, duality and stochastic methods lets you diagnose why a model won't train instead of tweaking blindly.",
+   prereq:"Linear algebra; multivariable calculus.",
+   topics:["Convex sets & functions","Gradient & subgradient methods","Constrained optimization","KKT conditions & duality","Stochastic optimization (SGD, momentum, Adam)","Conditioning & convergence reasoning"],
+   mastery:["Solve a constrained problem via Lagrange/KKT by hand","Explain when SGD converges and how the learning rate interacts with curvature","Derive the dual of a simple program and interpret it","Reason about ill-conditioning and preconditioning"],
+   artifact:"Implement GD, momentum and Adam from scratch on a conditioned quadratic; plot and explain convergence differences.",
+   resources:[{t:'Convex Optimization — Boyd & Vandenberghe',u:'https://web.stanford.edu/~boyd/cvxbook/'}]}},
+ {id:'p1-mml', ph:'p1', type:'book', t:'Mathematics for Machine Learning — Deisenroth, Faisal & Ong', m:'free; the ideal spine', u:'https://mml-book.github.io/'},
+ {id:'p1-info', ph:'p1', type:'book', major:true, t:'Information theory', m:'MacKay ITILA + Cover & Thomas', u:'http://www.inference.org.uk/mackay/itila/',
+  detail:{why:"Information theory is the native language of modern ML objectives: cross-entropy is a coding cost, the ELBO and VAEs are bits-back arguments, mutual information underlies representation-learning losses, and the 'compression = learning' view recurs across the field.",
+   prereq:"Probability; basic calculus.",
+   topics:["Entropy, joint & conditional entropy","KL divergence & cross-entropy","Mutual information","Source coding & its link to likelihood","Channel capacity (overview)","Rate–distortion & the compression view of learning"],
+   mastery:["Derive cross-entropy loss as a coding cost and relate it to MLE","Compute and interpret KL divergence and mutual information","Explain the ELBO as a bits-back / free-energy bound","Connect an ML objective (e.g. an InfoNCE or VAE loss) to an information-theoretic quantity"],
+   artifact:"A short notebook + note: estimate entropy/mutual information on real data, and derive one ML loss (cross-entropy or the ELBO) from an information-theoretic starting point.",
+   resources:[{t:'Information Theory, Inference & Learning Algorithms — MacKay (free)',u:'http://www.inference.org.uk/mackay/itila/'},{t:'Elements of Information Theory — Cover & Thomas'}]}},
+ {id:'p1-numla', ph:'p1', type:'book', t:'Numerical Linear Algebra — Trefethen & Bau', m:'conditioning, stability, factorizations'},
+ {id:'p1-algo', ph:'p1', type:'course', major:true, t:'Algorithms & data structures', m:'MIT 6.006 + 6.046', u:'https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/',
+  detail:{why:"Research code must be correct and efficient; interviews and systems work both assume this. It is also where you learn to reason about correctness rigorously.",
+   prereq:"Programming in Python; discrete math.",
+   topics:["Correctness proofs & invariants","Asymptotic complexity","Divide & conquer","Dynamic programming","Greedy methods","Graph algorithms","Randomized algorithms"],
+   mastery:["Prove an algorithm correct via an invariant","Give tight big-O bounds and justify them","Recognize and formulate a DP","Pick the right graph algorithm for a problem"],
+   artifact:"Solve a curated set spanning DP, graphs and randomization, each with a correctness/complexity note."}},
+ {id:'p1-os', ph:'p1', type:'course', major:true, t:'Operating systems & concurrency', m:'OSTEP + MIT 6.1810; not a substitute for ML-systems, its foundation', u:'https://pages.cs.wisc.edu/~remzi/OSTEP/',
+  detail:{why:"Training and serving run on real machines: threads, memory, schedulers and locks. You cannot diagnose a deadlocked data loader, a host-memory stall, or a race in a custom kernel without owning this layer.",
+   prereq:"Algorithms; comfort with C-level reasoning and pointers.",
+   topics:["Processes, threads & scheduling","Virtual memory & the memory hierarchy","Concurrency: races, locks, condition variables","Deadlock & lock-free reasoning","Synchronization primitives & atomics","The syscall boundary, I/O & profiling"],
+   mastery:["Diagnose and fix a data race, and argue the fix is correct","Explain what a context switch and a page fault cost","Reason about cache/memory-hierarchy effects on throughput","Profile a program and locate the true bottleneck (CPU- vs memory- vs I/O-bound)"],
+   artifact:"A correct thread-safe data structure with a stress test that exposes races under contention, plus a short profiling write-up of a real program.",
+   resources:[{t:'Operating Systems: Three Easy Pieces (free)',u:'https://pages.cs.wisc.edu/~remzi/OSTEP/'},{t:'MIT 6.1810 — Operating System Engineering',u:'https://pdos.csail.mit.edu/6.1810/'}]}},
+ {id:'p1-net', ph:'p1', type:'course', major:true, t:'Computer networks & distributed systems', m:'MIT 6.824 + Kurose & Ross; the substrate of ML-at-scale', u:'https://pdos.csail.mit.edu/6.824/',
+  detail:{why:"Distributed training and inference are network problems: gradients cross NICs, all-reduce is a collective over a topology, and serving latency is dominated by RPC and tail effects. Distributed-systems reasoning (consistency, failure, coordination) is what lets you debug a stalled multi-node job.",
+   prereq:"OS & concurrency; algorithms.",
+   topics:["The network stack & encapsulation","RPC & serialization","Bandwidth, latency & tail latency","Consistency, replication & consensus","Failure models & fault tolerance","Collective communication (all-reduce) at a systems level"],
+   mastery:["Trace what happens across the network on an RPC, end to end","Explain a consistency model and when it is needed","Reason about why a distributed job stalls (stragglers, comms, contention)","Explain how all-reduce maps to bandwidth and topology"],
+   artifact:"A small fault-tolerant distributed exercise (e.g. a 6.824-style replicated key/value store, or a working all-reduce) with a note on its consistency and failure assumptions.",
+   resources:[{t:'MIT 6.824 — Distributed Systems',u:'https://pdos.csail.mit.edu/6.824/'},{t:'Computer Networking: A Top-Down Approach — Kurose & Ross'}]}},
+ {id:'p1-proj', ph:'p1', type:'project', t:'From scratch: PCA + linear/logistic regression + gradient descent (derive the gradients)'},
+
+ // ---------------- PHASE 2 ----------------
+ {id:'p2-cs229', ph:'p2', type:'course', t:'Stanford CS229 — Machine Learning (Ng)', m:'canonical rigorous intro', u:'https://cs229.stanford.edu/'},
+ {id:'p2-cs156', ph:'p2', type:'course', t:'Caltech CS156 — Learning From Data (Abu-Mostafa)', m:'best on generalization theory', u:'https://work.caltech.edu/telecourse.html'},
+ {id:'p2-statlearn', ph:'p2', type:'course', t:'Stanford StatLearning — Hastie & Tibshirani', u:'https://www.statlearning.com/'},
+ {id:'p2-nptel', ph:'p2', type:'course', t:'NPTEL / IIT-M — Machine Learning (Ravindran)', u:'https://nptel.ac.in/courses/106106139', verify:true},
+ {id:'p2-bishop', ph:'p2', type:'book', t:'Pattern Recognition and Machine Learning — Bishop', m:'the reference; free PDF', u:'https://www.microsoft.com/en-us/research/publication/pattern-recognition-machine-learning/'},
+ {id:'p2-murphy', ph:'p2', type:'book', t:'Probabilistic Machine Learning v1 & v2 — Murphy', m:'the modern PRML; free', u:'https://probml.github.io/pml-book/'},
+ {id:'p2-esl', ph:'p2', type:'book', t:'The Elements of Statistical Learning — Hastie et al.', m:'free', u:'https://hastie.su.domains/ElemStatLearn/'},
+ {id:'p2-svm', ph:'p2', type:'paper', cur:'FOUNDATIONAL', seq:'stat-learning', t:'A Training Algorithm for Optimal Margin Classifiers (SVM) — Boser, Guyon & Vapnik 1992',
+  detail:{why:"Introduced the max-margin + kernel-trick combination that dominated pre-deep-learning classification and still frames how we reason about margins, generalization, and implicit feature maps.",
+   tech:"The primal→dual transformation, why only support vectors matter, and how the kernel silently replaces an explicit high-dimensional feature map.",
+   after:"Derive the dual from the primal via KKT; implement a kernel SVM and show the decision function depends only on support vectors; compare RBF vs linear kernels on separable and noisy data."}},
+ {id:'p2-rf', ph:'p2', type:'paper', cur:'FOUNDATIONAL', seq:'stat-learning', t:'Random Forests — Breiman 2001'},
+ {id:'p2-gbm', ph:'p2', type:'paper', cur:'METHOD', seq:'stat-learning', t:'Greedy Function Approximation: A Gradient Boosting Machine — Friedman 2001',
+  detail:{why:"The engine behind XGBoost/LightGBM — still the strongest default on tabular data and the baseline every new tabular method must beat.",
+   tech:"Boosting as functional gradient descent in function space; the role of the loss's gradient (and Hessian), the learning rate, and tree depth as regularizers.",
+   after:"Implement gradient boosting for squared and logistic loss from scratch; show it beats a single tree and a linear model on a real tabular set; ablate learning rate × depth."}},
+ {id:'p2-domingos', ph:'p2', type:'paper', cur:'CRITIQUE', t:'A Few Useful Things to Know about Machine Learning — Domingos 2012'},
+ {id:'p2-proj', ph:'p2', type:'project', t:'Beat a strong baseline on real tabular data with gradient boosting + rigorous validation'},
+ {id:'p2-em', ph:'p2', type:'project', t:'Derive & implement EM for a Gaussian Mixture Model'},
+
+ // ---------------- PHASE 3 ----------------
+ {id:'p3-karpathy', ph:'p3', type:'course', t:'Karpathy — Neural Networks: Zero to Hero', m:'micrograd → makemore → nanoGPT, by hand', u:'https://karpathy.ai/zero-to-hero.html'},
+ {id:'p3-dl', ph:'p3', type:'course', major:true, t:'Deep learning core', m:'CS231n + CS224n + Understanding Deep Learning', u:'https://cs231n.stanford.edu/',
+  detail:{why:"This is the machinery of the whole modern field. Every later phase assumes you can reason about gradients, optimization dynamics, and architecture choices — not just call a framework.",
+   prereq:"Linear algebra, probability, optimization; Python.",
+   topics:["Backpropagation & automatic differentiation","Optimization dynamics (lr, momentum, schedules)","Initialization","Normalization (batch/layer)","Regularization (dropout, weight decay, augmentation)","CNNs","Sequence models (RNN/LSTM)","Attention & transformers"],
+   mastery:["Implement autodiff and backprop from scratch and test against PyTorch","Explain why normalization and residual connections help optimization","Diagnose vanishing/exploding gradients and fix them","Derive scaled dot-product attention and multi-head attention"],
+   artifact:"A tested from-scratch autodiff engine + a small transformer trained on real data, with a written explainer.",
+   resources:[{t:'Understanding Deep Learning — Prince (free)',u:'https://udlbook.github.io/udlbook/'},{t:'Dive into Deep Learning (free)',u:'https://d2l.ai/'},{t:'MIT 6.S191',u:'https://introtodeeplearning.com/'}]}},
+ {id:'p3-224n', ph:'p3', type:'course', t:'Stanford CS224n — NLP with Deep Learning', m:'transformer-first', u:'https://web.stanford.edu/class/cs224n/'},
+ {id:'p3-fastai', ph:'p3', type:'course', t:'fast.ai — Practical Deep Learning', m:'top-down complement', u:'https://course.fast.ai/'},
+ {id:'p3-goodfellow', ph:'p3', type:'book', t:'Deep Learning — Goodfellow, Bengio & Courville', m:'free; theory reference', u:'https://www.deeplearningbook.org/'},
+ {id:'p3-backprop', ph:'p3', type:'paper', cur:'FOUNDATIONAL', seq:'nn-foundations', t:'Learning representations by back-propagating errors — Rumelhart et al. 1986',
+  detail:{why:"The paper that made multi-layer networks trainable — the algorithm every framework's autograd still implements.",
+   tech:"Backprop as the chain rule applied over a computation graph, and why it costs one backward pass rather than naive per-parameter differentiation.",
+   after:"Derive backprop for an MLP by hand and implement it in pure NumPy; verify gradients numerically; then reframe the whole thing as reverse-mode autodiff."}},
+ {id:'p3-lstm', ph:'p3', type:'paper', cur:'FOUNDATIONAL', seq:'sequence', t:'Long Short-Term Memory — Hochreiter & Schmidhuber 1997'},
+ {id:'p3-alexnet', ph:'p3', type:'paper', cur:'LANDMARK', seq:'cnn', t:'ImageNet Classification with Deep CNNs (AlexNet) — Krizhevsky et al. 2012',
+  detail:{why:"The empirical shock that started the deep-learning era: a CNN trained on GPUs crushed ImageNet and ended hand-designed vision features.",
+   tech:"ReLU + dropout + GPU training + data augmentation as the combination that made depth trainable at scale — the tricks mattered more than the exact architecture.",
+   after:"Reproduce a scaled-down AlexNet on a small image set; ablate ReLU vs sigmoid and dropout on/off; trace which of its tricks became permanent defaults."}},
+ {id:'p3-resnet', ph:'p3', type:'paper', cur:'LANDMARK', seq:'cnn', t:'Deep Residual Learning (ResNet) — He et al. 2015', u:'https://arxiv.org/abs/1512.03385',
+  detail:{why:"Residual connections removed the depth barrier and now appear in essentially every deep network, including every transformer block.",
+   tech:"Why identity/skip connections ease optimization (gradient flow, the degradation problem) rather than merely adding capacity.",
+   after:"Reproduce ResNet on CIFAR-10 to the reported accuracy; ablate the skip connections and show training collapses at depth without them; compare plain vs residual training curves."}},
+ {id:'p3-bn', ph:'p3', type:'paper', cur:'METHOD', seq:'nn-foundations', t:'Batch Normalization — Ioffe & Szegedy 2015', u:'https://arxiv.org/abs/1502.03167',
+  detail:{why:"Batch norm made deep nets train fast and robustly and reshaped how the field thinks about normalization, now present in some form in every large model.",
+   tech:"The per-mini-batch normalize-then-affine operation, train vs eval statistics, and the ongoing debate over 'internal covariate shift' vs loss-landscape smoothing.",
+   after:"Implement BatchNorm (forward + backward) from scratch; show it enables larger learning rates; compare with LayerNorm and explain why transformers prefer the latter."}},
+ {id:'p3-dropout', ph:'p3', type:'paper', cur:'METHOD', seq:'nn-foundations', t:'Dropout: preventing co-adaptation of feature detectors — Hinton et al. 2012', m:'origin of dropout; the canonical JMLR write-up is Srivastava et al. 2014', u:'https://arxiv.org/abs/1207.0580'},
+ {id:'p3-adam', ph:'p3', type:'paper', cur:'METHOD', seq:'nn-foundations', t:'Adam — Kingma & Ba 2014', u:'https://arxiv.org/abs/1412.6980',
+  detail:{why:"The default optimizer for most deep learning; understanding it is understanding why most training runs converge at all.",
+   tech:"First/second-moment estimates, bias correction, and how the per-parameter adaptive step interacts with curvature and learning-rate schedules.",
+   after:"Implement SGD, momentum and Adam on a conditioned quadratic and a small net; show where Adam helps convergence and where tuned SGD generalizes better."}},
+ {id:'p3-attn', ph:'p3', type:'paper', cur:'LANDMARK', seq:'transformers', t:'Attention Is All You Need — Vaswani et al. 2017', m:'the pivot of the field', u:'https://arxiv.org/abs/1706.03762',
+  detail:{why:"The architecture the entire current field is built on — the single most important paper to understand end to end.",
+   tech:"Scaled dot-product and multi-head attention, positional encodings, and why self-attention parallelizes where RNNs cannot; the role of the 1/√d scaling.",
+   after:"Implement multi-head attention and a full transformer block from scratch; verify shapes and a causal mask; derive attention's compute/memory cost and connect it to FlashAttention's motivation."}},
+ {id:'p3-proj-gpt', ph:'p3', type:'project', t:'Build & train a tested nanoGPT-class transformer from scratch + write up every component'},
+ {id:'p3-proj-resnet', ph:'p3', type:'project', t:'Reproduce ResNet on CIFAR-10; match reported accuracy'},
+
+ // ---------------- PHASE 4 — RL ----------------
+ {id:'p4-rlfound', ph:'p4', type:'course', major:true, t:'RL foundations', m:'Sutton & Barto + Silver / CS234', u:'http://incompleteideas.net/book/the-book.html',
+  detail:{why:"RL is the framework for sequential decision-making and, via RLHF and RL-for-reasoning, now sits at the center of frontier LLM training. Treating it as 'further reading' leaves a research-scientist blind spot.",
+   prereq:"Probability, optimization, deep learning core.",
+   topics:["Multi-armed bandits & exploration","Markov decision processes","Bellman equations & dynamic programming","Monte Carlo methods","Temporal-difference learning","Q-learning & function approximation","Policy gradients","Actor-critic & PPO","Offline & model-based RL (overview)","Evaluation of RL agents"],
+   mastery:["Write the Bellman optimality equation and solve a small MDP by value/policy iteration","Explain the bias–variance tradeoff between MC and TD","Derive the policy-gradient theorem","Explain what PPO's clipped objective fixes over vanilla policy gradients","Reason about why RL evaluation is hard (variance, seeds)"],
+   artifact:"From-scratch DQN and PPO agents solving classic-control benchmarks, with a training-stability write-up.",
+   resources:[{t:'David Silver — RL lectures',u:'https://www.davidsilver.uk/teaching/'},{t:'Stanford CS234',u:'https://web.stanford.edu/class/cs234/'},{t:'Berkeley CS285 — Deep RL',u:'https://rail.eecs.berkeley.edu/deeprlcourse/'},{t:'OpenAI Spinning Up',u:'https://spinningup.openai.com/'}]}},
+ {id:'p4-cs285', ph:'p4', type:'course', t:'Berkeley CS285 — Deep RL (Levine)', m:'the deep-RL spine', u:'https://rail.eecs.berkeley.edu/deeprlcourse/'},
+ {id:'p4-spinup', ph:'p4', type:'course', t:'OpenAI Spinning Up in Deep RL', m:'theory + clean reference implementations', u:'https://spinningup.openai.com/'},
+ {id:'p4-dqn', ph:'p4', type:'paper', cur:'LANDMARK', seq:'rl', t:'Deep Q-Networks (DQN) — Mnih et al. (Atari 2013 / Nature 2015)', m:'linked: 2013 arXiv preprint; the Nature 2015 "Human-level control" paper has no arXiv', u:'https://arxiv.org/abs/1312.5602',
+  detail:{why:"The paper that made deep RL work — value-based control directly from pixels, and the template for stabilizing bootstrapped function approximation.",
+   tech:"Experience replay and a slow-moving target network as the two tricks that tame the 'deadly triad' (bootstrapping + function approximation + off-policy).",
+   after:"Implement DQN from scratch on a classic-control task; ablate replay and the target net and show training destabilizes without them; add Double-DQN and measure overestimation."}},
+ {id:'p4-a3c', ph:'p4', type:'paper', cur:'METHOD', seq:'rl', t:'Asynchronous Methods for Deep RL (A3C) — Mnih et al. 2016', u:'https://arxiv.org/abs/1602.01783'},
+ {id:'p4-ppo', ph:'p4', type:'paper', cur:'METHOD', seq:'rl', t:'Proximal Policy Optimization (PPO) — Schulman et al. 2017', u:'https://arxiv.org/abs/1707.06347',
+  detail:{why:"The workhorse policy-gradient method, and the algorithm at the heart of RLHF for LLMs — indispensable for frontier post-training.",
+   tech:"The clipped surrogate objective as a cheap trust region, the role of GAE for advantage estimation, and why clipping stabilizes updates.",
+   after:"Implement PPO from scratch and solve a control benchmark; ablate the clip range and GAE-λ; write up what actually stabilized training and why."}},
+ {id:'p4-sac', ph:'p4', type:'paper', cur:'METHOD', seq:'rl', t:'Soft Actor-Critic (SAC) — Haarnoja et al. 2018', u:'https://arxiv.org/abs/1801.01290'},
+ {id:'p4-alphazero', ph:'p4', type:'paper', cur:'LANDMARK', seq:'rl', t:'Mastering Go without human knowledge (AlphaGo Zero) — Silver et al. 2017', m:'Nature; no arXiv', verify:true},
+ {id:'p4-proj', ph:'p4', type:'project', t:'Implement DQN and PPO from scratch; solve classic-control benchmarks; ablate what stabilizes training'},
+
+ // ---------------- PHASE 5 — FM/LLM/systems ----------------
+ {id:'p5-cs336', ph:'p5', type:'course', major:true, t:'Stanford CS336 — Language Modeling from Scratch', m:'flagship: tokenizer→MoE→Triton→parallelism→scaling→inference→RLHF', u:'https://stanford-cs336.github.io/spring2025/',
+  detail:{why:"The single most important applied course of the last two years: you build a real LLM end-to-end with minimal scaffolding, touching every layer from tokenization to alignment. It is the fastest route from 'understands DL' to 'operates at the frontier.'",
+   prereq:"Deep learning core; strong Python; the RL phase (for the alignment lectures).",
+   topics:["Tokenization (BPE)","Transformer architecture & hyperparameters","Mixture-of-experts","GPUs, Triton kernels","Data / tensor / pipeline parallelism","Scaling laws","Inference & serving","Evaluation","Data curation","Alignment: SFT, RLHF, RL"],
+   mastery:["Implement a tokenizer, transformer, and training loop from scratch","Explain the parallelism strategy needed for a given model/GPU budget","Fit and interpret a scaling law on your own runs","Post-train a base model with SFT and a preference method"],
+   artifact:"Complete CS336 A1–A5 (or equivalent): a pre-trained small LM you then post-train with SFT + DPO.",
+   resources:[{t:'CS336 lectures on YouTube (Stanford Online)',u:'https://www.youtube.com/@stanfordonline'},{t:'Build a Large Language Model (From Scratch) — Raschka'}]}},
+ {id:'p5-cs324', ph:'p5', type:'course', t:'Stanford CS324 — Large Language Models', u:'https://stanford-cs324.github.io/winter2022/'},
+ {id:'p5-6594', ph:'p5', type:'course', t:'MIT 6.5940 — TinyML & Efficient Deep Learning (Han)', m:'quantization, pruning, efficient inference', u:'https://hanlab.mit.edu/courses/2024-fall-65940', verify:true},
+ {id:'p5-chip', ph:'p5', type:'book', t:'Designing Machine Learning Systems — Chip Huyen'},
+ {id:'p5-mlops', ph:'p5', type:'course', t:'Chip Huyen — MLOps guide', u:'https://huyenchip.com/mlops/'},
+ {id:'p5-gpt3', ph:'p5', type:'paper', cur:'LANDMARK', seq:'scaling', t:'Language Models are Few-Shot Learners (GPT-3) — Brown et al. 2020', u:'https://arxiv.org/abs/2005.14165',
+  detail:{why:"Established in-context / few-shot learning as an emergent capability of scale and set the paradigm the whole LLM era runs on.",
+   tech:"The scaling recipe and the few-shot prompting protocol; what in-context learning is and is not (no weight updates at inference).",
+   after:"Reproduce a few-shot vs zero-shot gap on a small model for one task; probe how prompt format and shot count change results; separate genuine capability from prompt sensitivity."}},
+ {id:'p5-bert', ph:'p5', type:'paper', cur:'LANDMARK', seq:'transformers', t:'BERT — Devlin et al. 2018', u:'https://arxiv.org/abs/1810.04805',
+  detail:{why:"Defined the pretrain-then-finetune encoder paradigm that dominated NLP before decoder-only models and still underlies many embedding/retrieval systems.",
+   tech:"Masked-language-modeling (and next-sentence) objectives, bidirectional context, and why this suits understanding tasks rather than generation.",
+   after:"Fine-tune a small BERT on a classification task; contrast its bidirectional objective with GPT's autoregressive one; argue when you'd choose an encoder vs a decoder."}},
+ {id:'p5-scaling', ph:'p5', type:'paper', cur:'FOUNDATIONAL', seq:'scaling', t:'Scaling Laws for Neural Language Models — Kaplan et al. 2020', u:'https://arxiv.org/abs/2001.08361',
+  detail:{why:"Showed loss follows smooth power laws in compute, data and parameters — turning model design into a predictable extrapolation problem.",
+   tech:"The power-law fits, the notion of compute-optimal allocation, and the (later-corrected) prescription for trading off model size vs data.",
+   after:"Fit a scaling law on your own small runs (loss vs params or tokens); extrapolate and test the prediction; contrast its data/model tradeoff with Chinchilla's correction."}},
+ {id:'p5-chinchilla', ph:'p5', type:'paper', cur:'LANDMARK', seq:'scaling', t:'Training Compute-Optimal LLMs (Chinchilla) — Hoffmann et al. 2022', u:'https://arxiv.org/abs/2203.15556',
+  detail:{why:"Corrected the scaling recipe — most large models were badly under-trained on data — and reset how compute budgets are allocated.",
+   tech:"The compute-optimal result that tokens should scale roughly in proportion to parameters, and the isoFLOP methodology used to derive it.",
+   after:"Re-derive the compute-optimal frontier from isoFLOP curves on small runs; compare the Kaplan vs Chinchilla prescriptions; compute the 'right' data budget for a given parameter count."}},
+ {id:'p5-instructgpt', ph:'p5', type:'paper', cur:'LANDMARK', seq:'post-training', t:'InstructGPT — Ouyang et al. 2022', u:'https://arxiv.org/abs/2203.02155',
+  detail:{why:"The RLHF recipe that turned raw LMs into instruction-followers — the direct ancestor of ChatGPT and modern post-training.",
+   tech:"The three-stage pipeline (SFT → reward model → PPO) and why a learned reward model plus RL beats supervised fine-tuning alone for alignment.",
+   after:"Implement SFT + a reward model on a small preference set; compare against SFT-only; reason about reward hacking and why a KL-to-reference penalty is needed."}},
+ {id:'p5-dpo', ph:'p5', type:'paper', cur:'METHOD', seq:'post-training', t:'Direct Preference Optimization (DPO) — Rafailov et al. 2023', u:'https://arxiv.org/abs/2305.18290',
+  detail:{why:"Collapsed RLHF's reward-model-plus-PPO pipeline into a single supervised loss, now a default for preference tuning.",
+   tech:"The derivation showing the RLHF optimum has a closed form that turns preference learning into a classification-style loss on the policy — no RL loop.",
+   after:"Derive the DPO loss from the RLHF objective; implement it and post-train a small SFT model on preferences; compare to a PPO-RLHF baseline on quality and stability."}},
+ {id:'p5-lora', ph:'p5', type:'paper', cur:'METHOD', seq:'post-training', t:'LoRA — Hu et al. 2021', u:'https://arxiv.org/abs/2106.09685',
+  detail:{why:"Made fine-tuning large models cheap by training small low-rank adapters — the backbone of practical parameter-efficient tuning and most open-model work.",
+   tech:"The low-rank update ΔW = BA added to frozen weights, why it works (adaptation has low intrinsic rank), and the memory/serving implications.",
+   after:"Implement LoRA on a small transformer; sweep the rank r and measure the quality/parameter tradeoff; verify adapters can be merged back into the base weights."}},
+ {id:'p5-flash', ph:'p5', type:'paper', cur:'SYSTEMS', seq:'efficient', t:'FlashAttention — Dao et al. 2022', u:'https://arxiv.org/abs/2205.14135',
+  detail:{why:"Made exact attention IO-aware and fast, unlocking longer contexts — a canonical example of algorithm–hardware co-design.",
+   tech:"Tiling plus recomputation (online softmax) to keep the full attention matrix out of HBM; why the win is memory-bandwidth, not FLOPs.",
+   after:"Work through the tiling and online-softmax math; benchmark memory and speed vs naive attention; explain how it changes the cost model of the transformer you built."}},
+ {id:'p5-zero', ph:'p5', type:'paper', cur:'SYSTEMS', seq:'efficient', t:'ZeRO — Rajbhandari et al. 2019', u:'https://arxiv.org/abs/1910.02054'},
+ {id:'p5-megatron', ph:'p5', type:'paper', cur:'SYSTEMS', seq:'efficient', t:'Megatron-LM — Shoeybi et al. 2019', u:'https://arxiv.org/abs/1909.08053'},
+ {id:'p5-rag', ph:'p5', type:'paper', cur:'METHOD', seq:'retrieval', t:'Retrieval-Augmented Generation — Lewis et al. 2020', u:'https://arxiv.org/abs/2005.11401'},
+ {id:'p5-proj-pretrain', ph:'p5', type:'project', t:'Pre-train a small LLM end-to-end (CS336 A1–A5), then post-train with SFT + DPO'},
+ {id:'p5-proj-serve', ph:'p5', type:'project', t:'Profile & 2× the inference throughput of a served model; explain exactly why'},
+
+ // ---------------- PHASE 6 — research ----------------
+ {id:'p6-map', ph:'p6', type:'project', t:'Build a literature map of one sub-area; know every key paper & open problem'},
+ {id:'p6-repro', ph:'p6', type:'project', t:'Re-implement a SOTA method from scratch; match the reported numbers'},
+ {id:'p6-ablate', ph:'p6', type:'project', t:'Run an ablation — change one thing, measure, explain'},
+ {id:'p6-proposal', ph:'p6', type:'project', t:'Write a 3–5 page research proposal (problem, gap, hypothesis, experiment plan)'},
+ {id:'p6-workshop', ph:'p6', type:'milestone', t:'Publish a workshop paper at a top venue'},
+ {id:'p6-conf', ph:'p6', type:'milestone', t:'Publish a main-conference or top-journal paper'},
+
+ // ---------------- TRACK: Probabilistic & Bayesian ML ----------------
+ {id:'tp-cs228', ph:'t-prob', type:'course', t:'Stanford CS228 — Probabilistic Graphical Models', u:'https://cs228.stanford.edu/'},
+ {id:'tp-murphy', ph:'t-prob', type:'book', t:'Probabilistic Machine Learning — Murphy (Bayesian chapters)', u:'https://probml.github.io/pml-book/'},
+ {id:'tp-topics', ph:'t-prob', type:'skill', t:'Own: latent-variable models, EM, graphical models, MCMC, variational inference, uncertainty'},
+ {id:'tp-vae', ph:'t-prob', type:'paper', cur:'FOUNDATIONAL', seq:'prob-ml', t:'Auto-Encoding Variational Bayes (VAE) — Kingma & Welling 2013', u:'https://arxiv.org/abs/1312.6114'},
+ {id:'tp-proj', ph:'t-prob', type:'project', t:'Implement variational inference for a latent-variable model; compare to MCMC on a small problem'},
+
+ // ---------------- TRACK: Generative modeling ----------------
+ {id:'tg-cs236', ph:'t-gen', type:'course', major:true, t:'Stanford CS236 — Deep Generative Models', m:'VAEs, autoregressive, GANs, diffusion, flows', u:'https://deepgenerativemodels.github.io/',
+  detail:{why:"Generative modeling underlies image/video/audio synthesis, diffusion LMs, and much of AI-for-science. It is a coherent theory (density estimation & sampling) worth learning as a whole, not paper-by-paper.",
+   prereq:"Probability, deep learning core; the probabilistic-ML track helps.",
+   topics:["Latent-variable models & the ELBO","VAEs","GANs & adversarial training","Autoregressive models","Score-based / diffusion models","Normalizing flows & flow matching","Evaluation of generative models"],
+   mastery:["Derive the ELBO and the VAE objective","Explain the diffusion forward/reverse process and the training loss","Contrast likelihood-based vs adversarial vs score-based approaches","Discuss why generative evaluation (FID, likelihood) is subtle"],
+   artifact:"Train a small diffusion model (or VAE) on an image dataset and write up samples + an evaluation caveat."}},
+ {id:'tg-vae', ph:'t-gen', type:'paper', cur:'FOUNDATIONAL', seq:'generative', t:'Auto-Encoding Variational Bayes (VAE) — Kingma & Welling 2013', u:'https://arxiv.org/abs/1312.6114',
+  detail:{why:"Introduced amortized variational inference and the reparameterization trick — foundational for probabilistic deep generative modeling.",
+   tech:"The ELBO decomposition (reconstruction − KL), the reparameterization trick that makes sampling differentiable, and encoder/decoder amortization.",
+   after:"Derive the ELBO and implement a VAE; visualize the latent space and posterior collapse; compare a fixed vs a learned prior."}},
+ {id:'tg-gan', ph:'t-gen', type:'paper', cur:'LANDMARK', seq:'generative', t:'Generative Adversarial Nets — Goodfellow et al. 2014', u:'https://arxiv.org/abs/1406.2661',
+  detail:{why:"Launched adversarial training and implicit generative models, shaping a decade of image synthesis and the likelihood-free modeling mindset.",
+   tech:"The minimax game, the optimal discriminator, why the objective relates to the Jensen–Shannon divergence, and why training is unstable.",
+   after:"Implement a small GAN; reproduce mode collapse and one stabilization fix; contrast likelihood-based (VAE) vs adversarial vs score-based objectives."}},
+ {id:'tg-ddpm', ph:'t-gen', type:'paper', cur:'LANDMARK', seq:'generative', t:'Denoising Diffusion Probabilistic Models — Ho et al. 2020', u:'https://arxiv.org/abs/2006.11239',
+  detail:{why:"Made diffusion models competitive with GANs and became the foundation of modern image/video/audio generation.",
+   tech:"The forward noising process, the reverse denoising parameterization, and the simplified noise-prediction (ε-prediction) training loss.",
+   after:"Derive the training objective from the ELBO; implement DDPM on a small image set; explain the sampling-steps-vs-quality tradeoff and the link to score matching."}},
+ {id:'tg-score', ph:'t-gen', type:'paper', cur:'METHOD', seq:'generative', t:'Score-Based Generative Modeling through SDEs — Song et al. 2020', u:'https://arxiv.org/abs/2011.13456'},
+ {id:'tg-ldm', ph:'t-gen', type:'paper', cur:'METHOD', seq:'generative', t:'High-Resolution Image Synthesis with Latent Diffusion — Rombach et al. 2021', u:'https://arxiv.org/abs/2112.10752'},
+ {id:'tg-flow', ph:'t-gen', type:'paper', cur:'FRONTIER', seq:'generative', t:'Flow Matching for Generative Modeling — Lipman et al. 2022', u:'https://arxiv.org/abs/2210.02747'},
+ {id:'tg-proj', ph:'t-gen', type:'project', t:'Train a diffusion model on an image dataset from scratch; report samples + evaluation'},
+
+ // ---------------- TRACK: Advanced RL ----------------
+ {id:'tr2-offline', ph:'t-rl2', type:'paper', cur:'METHOD', seq:'rl', t:'Offline RL: Tutorial, Review, and Perspectives — Levine et al. 2020', u:'https://arxiv.org/abs/2005.01643'},
+ {id:'tr2-muzero', ph:'t-rl2', type:'paper', cur:'LANDMARK', seq:'rl', t:'Mastering Atari, Go, Chess & Shogi by Planning (MuZero) — Schrittwieser et al. 2019', u:'https://arxiv.org/abs/1911.08265'},
+ {id:'tr2-ddpg', ph:'t-rl2', type:'paper', cur:'METHOD', seq:'rl', t:'Continuous Control with Deep RL (DDPG) — Lillicrap et al. 2015', u:'https://arxiv.org/abs/1509.02971'},
+ {id:'tr2-cleanrl', ph:'t-rl2', type:'course', t:'CleanRL — single-file RL implementations', m:'ideal for reproduction & ablation', u:'https://github.com/vwxyzjn/cleanrl'},
+ {id:'tr2-topics', ph:'t-rl2', type:'skill', t:'Own: exploration, distributional RL, multi-agent RL, and the RL→reasoning bridge (GRPO)'},
+
+ // ---------------- TRACK: Graph ML ----------------
+ {id:'tgr-cs224w', ph:'t-graph', type:'course', t:'Stanford CS224W — Machine Learning with Graphs', u:'https://web.stanford.edu/class/cs224w/'},
+ {id:'tgr-gcn', ph:'t-graph', type:'paper', cur:'LANDMARK', seq:'graph', t:'Semi-Supervised Classification with GCNs — Kipf & Welling 2016', u:'https://arxiv.org/abs/1609.02907',
+  detail:{why:"The canonical graph convolution that made GNNs practical and framed message passing for relational data.",
+   tech:"Spectral motivation reduced to a first-order propagation rule, the normalized adjacency, and why over-smoothing limits useful depth.",
+   after:"Implement a 2-layer GCN for node classification on a citation graph; ablate depth and show over-smoothing; compare mean vs attention aggregation."}},
+ {id:'tgr-sage', ph:'t-graph', type:'paper', cur:'METHOD', seq:'graph', t:'Inductive Representation Learning on Large Graphs (GraphSAGE) — Hamilton et al. 2017', u:'https://arxiv.org/abs/1706.02216'},
+ {id:'tgr-gat', ph:'t-graph', type:'paper', cur:'METHOD', seq:'graph', t:'Graph Attention Networks — Veličković et al. 2017', u:'https://arxiv.org/abs/1710.10903'},
+ {id:'tgr-proj', ph:'t-graph', type:'project', t:'Node classification with a GNN on a citation graph; ablate depth & aggregation'},
+
+ // ---------------- TRACK: Multimodal ----------------
+ {id:'tm-cmu', ph:'t-mm', type:'course', t:'CMU 11-777 — Multimodal Machine Learning', u:'https://cmu-multicomp-lab.github.io/mmml-course/'},
+ {id:'tm-clip', ph:'t-mm', type:'paper', cur:'LANDMARK', seq:'multimodal', t:'CLIP: Learning Transferable Visual Models from NL — Radford et al. 2021', u:'https://arxiv.org/abs/2103.00020',
+  detail:{why:"Showed contrastive image–text pretraining yields strong zero-shot transfer, underpinning modern multimodal and retrieval systems.",
+   tech:"The dual-encoder contrastive (InfoNCE) objective over image–text pairs and how it produces a shared embedding space enabling zero-shot classification via prompts.",
+   after:"Fine-tune or probe a CLIP-style model for retrieval on a small paired set; evaluate zero-shot transfer; connect the InfoNCE loss to mutual-information estimation."}},
+ {id:'tm-vit', ph:'t-mm', type:'paper', cur:'LANDMARK', seq:'multimodal', t:'An Image is Worth 16×16 Words (ViT) — Dosovitskiy et al. 2020', u:'https://arxiv.org/abs/2010.11929',
+  detail:{why:"Showed transformers can replace convolutions for vision given enough data — unifying architectures across modalities.",
+   tech:"Patch embedding as tokenization, the reliance on large-scale pretraining, and the inductive-bias tradeoff vs CNNs (more flexible but data-hungry).",
+   after:"Implement patch embedding + a small ViT; compare against a CNN in low-data and high-data regimes; explain where ViT's weaker inductive bias hurts or helps."}},
+ {id:'tm-flamingo', ph:'t-mm', type:'paper', cur:'METHOD', seq:'multimodal', t:'Flamingo: a Visual Language Model for Few-Shot Learning — Alayrac et al. 2022', u:'https://arxiv.org/abs/2204.14198'},
+ {id:'tm-proj', ph:'t-mm', type:'project', t:'Fine-tune a CLIP-style model for retrieval on a small paired dataset; evaluate zero-shot transfer'},
+
+ // ---------------- TRACK: Trustworthy AI ----------------
+ {id:'tt-helm', ph:'t-trust', type:'paper', cur:'SYSTEMS', seq:'evaluation', t:'Holistic Evaluation of Language Models (HELM) — Liang et al. 2022', u:'https://arxiv.org/abs/2211.09110'},
+ {id:'tt-lmeval', ph:'t-trust', type:'course', t:'EleutherAI lm-evaluation-harness', m:'the standard eval tooling', u:'https://github.com/EleutherAI/lm-evaluation-harness'},
+ {id:'tt-calib', ph:'t-trust', type:'paper', cur:'METHOD', seq:'uncertainty', t:'On Calibration of Modern Neural Networks — Guo et al. 2017', u:'https://arxiv.org/abs/1706.04599'},
+ {id:'tt-ensembles', ph:'t-trust', type:'paper', cur:'METHOD', seq:'uncertainty', t:'Simple and Scalable Predictive Uncertainty (Deep Ensembles) — Lakshminarayanan et al. 2016', u:'https://arxiv.org/abs/1612.01474'},
+ {id:'tt-corrupt', ph:'t-trust', type:'paper', cur:'METHOD', seq:'robustness', t:'Benchmarking NN Robustness to Common Corruptions — Hendrycks & Dietterich 2019', u:'https://arxiv.org/abs/1903.12261'},
+ {id:'tt-wilds', ph:'t-trust', type:'paper', cur:'SYSTEMS', seq:'robustness', t:'WILDS: A Benchmark of in-the-Wild Distribution Shifts — Koh et al. 2020', u:'https://arxiv.org/abs/2012.07421'},
+ {id:'tt-irm', ph:'t-trust', type:'paper', cur:'METHOD', seq:'robustness', t:'Invariant Risk Minimization — Arjovsky et al. 2019', u:'https://arxiv.org/abs/1907.02893'},
+ {id:'tt-shortcut', ph:'t-trust', type:'paper', cur:'CRITIQUE', seq:'robustness', t:'Shortcut Learning in Deep Neural Networks — Geirhos et al. 2020', u:'https://arxiv.org/abs/2004.07780'},
+ {id:'tt-circuits', ph:'t-trust', type:'paper', cur:'FRONTIER', seq:'interpretability', t:'A Mathematical Framework for Transformer Circuits — Elhage et al. 2021', m:'mechanistic interpretability hub', u:'https://transformer-circuits.pub/2021/framework/index.html',
+  detail:{why:"The foundational text of mechanistic interpretability — treats a transformer as reverse-engineerable circuits rather than a black box.",
+   tech:"The residual-stream view, the QK/OV decomposition of attention heads, and induction heads as a concrete discovered mechanism.",
+   after:"Reproduce an induction-head analysis on a small model with TransformerLens; identify a head's function via ablation/activation patching; write up the mechanism you found."}},
+ {id:'tt-nanda', ph:'t-trust', type:'course', t:'Neel Nanda — mechanistic interpretability (TransformerLens + open problems)', u:'https://www.neelnanda.io/mechanistic-interpretability', verify:true},
+ {id:'tt-concrete', ph:'t-trust', type:'paper', cur:'FOUNDATIONAL', seq:'safety', t:'Concrete Problems in AI Safety — Amodei et al. 2016', u:'https://arxiv.org/abs/1606.06565'},
+ {id:'tt-cai', ph:'t-trust', type:'paper', cur:'METHOD', seq:'safety', t:'Constitutional AI: Harmlessness from AI Feedback — Bai et al. 2022', u:'https://arxiv.org/abs/2212.08073'},
+ {id:'tt-cards', ph:'t-trust', type:'paper', cur:'SYSTEMS', seq:'evaluation', t:'Model Cards for Model Reporting — Mitchell et al. 2018', u:'https://arxiv.org/abs/1810.03993'},
+ {id:'tt-proj', ph:'t-trust', type:'project', t:'Build an eval harness for a task; measure accuracy, calibration, and a distribution-shift split'},
+
+ // ---------------- TRACK: Causal inference ----------------
+ {id:'tc-neal', ph:'t-causal', type:'course', major:true, t:'Brady Neal — Introduction to Causal Inference', m:'free course + notes', u:'https://www.bradyneal.com/causal-inference-course',
+  detail:{why:"Correlation-driven ML systematically fails under intervention and shift. Causal reasoning is what lets you claim a mechanism, design an intervention, and avoid confounded conclusions — core research literacy.",
+   prereq:"Probability & statistics; regression.",
+   topics:["Causal graphs (DAGs)","Interventions & the do-operator","Confounding","Backdoor adjustment","Potential outcomes framework","Identification","Causal estimation","Limits of observational data"],
+   mastery:["Read a DAG and identify confounders and colliders","Apply backdoor adjustment to estimate an effect","Translate a question into the potential-outcomes framework","Explain when an effect is (not) identifiable from observational data"],
+   artifact:"A causal case study: state a DAG, identify the estimand, estimate an effect, and discuss threats to validity.",
+   resources:[{t:'Elements of Causal Inference — Peters, Janzing & Schölkopf (free)',u:'https://mitpress.mit.edu/9780262037310/elements-of-causal-inference/'}]}},
+ {id:'tc-book', ph:'t-causal', type:'book', t:'Elements of Causal Inference — Peters, Janzing & Schölkopf', m:'free PDF', u:'https://mitpress.mit.edu/9780262037310/elements-of-causal-inference/'},
+ {id:'tc-proj', ph:'t-causal', type:'project', t:'Causal case study: DAG → identification → estimation → validity discussion on a real dataset'},
+
+ // ---------------- TRACK: ML systems deep-dive ----------------
+ {id:'ts-6824', ph:'t-sys', type:'course', t:'MIT 6.824 — Distributed Systems', m:'foundational; the substrate of ML-at-scale', u:'https://pdos.csail.mit.edu/6.824/'},
+ {id:'ts-6594', ph:'t-sys', type:'course', t:'MIT 6.5940 — Efficient Deep Learning (Han)', u:'https://hanlab.mit.edu/courses/2024-fall-65940', verify:true},
+ {id:'ts-topics', ph:'t-sys', type:'skill', t:'Own: data pipelines, experiment tracking, mixed precision, kernels, batching, KV caching, monitoring'},
+ {id:'ts-flash', ph:'t-sys', type:'paper', cur:'SYSTEMS', seq:'efficient', t:'FlashAttention — Dao et al. 2022', u:'https://arxiv.org/abs/2205.14135'},
+ {id:'ts-zero', ph:'t-sys', type:'paper', cur:'SYSTEMS', seq:'efficient', t:'ZeRO: Memory Optimizations — Rajbhandari et al. 2019', u:'https://arxiv.org/abs/1910.02054'},
+ {id:'ts-gshard', ph:'t-sys', type:'paper', cur:'SYSTEMS', seq:'efficient', t:'GShard: Scaling Giant Models with Conditional Computation — Lepikhin et al. 2020', u:'https://arxiv.org/abs/2006.16668'},
+ {id:'ts-debt', ph:'t-sys', type:'paper', cur:'CRITIQUE', seq:'ml-systems', t:'Hidden Technical Debt in ML Systems — Sculley et al. 2015', m:'NeurIPS; no arXiv', verify:true},
+ {id:'ts-proj', ph:'t-sys', type:'project', t:'Run a real multi-GPU data-parallel training job; measure scaling efficiency and find the bottleneck'},
+
+ // ---------------- MODULE: Frontier 2026 ----------------
+ {id:'fr-r1', ph:'fr', type:'paper', cur:'FRONTIER', seq:'reasoning', t:'DeepSeek-R1 — reasoning via RL (GRPO)', u:'https://arxiv.org/abs/2501.12948',
+  detail:{why:"Showed strong reasoning can emerge from largely pure RL on verifiable rewards, reshaping how frontier reasoning models are trained.",
+   tech:"GRPO as a critic-free, group-normalized policy gradient; the role of verifiable rewards and the reported self-correction ('aha') behavior.",
+   after:"Implement GRPO on a small verifiable task (e.g. arithmetic); compare against PPO; probe whether longer chains actually improve accuracy or just add length."}},
+ {id:'fr-s1', ph:'fr', type:'paper', cur:'FRONTIER', seq:'reasoning', t:'s1: Simple Test-Time Scaling — Muennighoff et al. 2025', u:'https://arxiv.org/abs/2501.19393'},
+ {id:'fr-latent', ph:'fr', type:'paper', cur:'FRONTIER', seq:'reasoning', t:'Scaling Test-Time Compute with Latent Reasoning — Geiping et al. 2025', u:'https://arxiv.org/abs/2502.05171'},
+ {id:'fr-latentsurvey', ph:'fr', type:'paper', cur:'FRONTIER', seq:'reasoning', t:'A Survey on Latent Reasoning — 2025', u:'https://arxiv.org/abs/2507.06203'},
+ {id:'fr-mamba', ph:'fr', type:'paper', cur:'FRONTIER', seq:'architectures', t:'Mamba: Selective State-Space Models — Gu & Dao 2023', u:'https://arxiv.org/abs/2312.00752'},
+ {id:'fr-switch', ph:'fr', type:'paper', cur:'FRONTIER', seq:'architectures', t:'Switch Transformer (MoE at scale) — Fedus et al. 2021', u:'https://arxiv.org/abs/2101.03961'},
+ {id:'fr-react', ph:'fr', type:'paper', cur:'FRONTIER', seq:'agents', t:'ReAct: Reasoning + Acting in LMs — Yao et al. 2022', u:'https://arxiv.org/abs/2210.03629'},
+ {id:'fr-toolformer', ph:'fr', type:'paper', cur:'FRONTIER', seq:'agents', t:'Toolformer — Schick et al. 2023', u:'https://arxiv.org/abs/2302.04761'},
+ {id:'fr-cot', ph:'fr', type:'paper', cur:'FRONTIER', seq:'reasoning', t:'Chain-of-Thought Prompting — Wei et al. 2022', u:'https://arxiv.org/abs/2201.11903',
+  detail:{why:"Showed that prompting for intermediate steps unlocks reasoning in large models — the conceptual root of the entire test-time-reasoning line.",
+   tech:"Why chain-of-thought helps (serial computation carried through tokens), its emergence with scale, and its fragility to prompt format.",
+   after:"Reproduce a CoT vs direct-answer gap on a reasoning benchmark; test self-consistency (sampling + majority vote); probe whether the reasoning is faithful or post-hoc."}},
+ {id:'fr-fno', ph:'fr', type:'paper', cur:'FRONTIER', seq:'ai-for-science', t:'Fourier Neural Operator for PDEs — Li et al. 2020', m:'AI-for-science method-transfer template', u:'https://arxiv.org/abs/2010.08895'},
+ {id:'fr-review', ph:'fr', type:'book', t:'Sebastian Raschka — State of LLMs annual reviews', m:'the quarterly currency habit', u:'https://magazine.sebastianraschka.com/'},
+
+ // ---------------- MODULE: Telecom vertex ----------------
+ {id:'tel-tse', ph:'tel', type:'book', major:true, t:'Fundamentals of Wireless Communication — Tse & Viswanath', m:'free author PDF; the graduate wireless spine', u:'https://web.stanford.edu/~dntse/papers/book121004.pdf',
+  detail:{why:"You cannot do credible AI-for-wireless research without the physical layer. This is the canonical graduate text; owning fading, MIMO, OFDM and capacity is the domain depth almost no ML researcher has.",
+   prereq:"Probability; linear algebra; basic signals.",
+   topics:["Wireless channel & fading","Diversity & MIMO","Capacity of wireless channels","OFDM & multiple access (CDMA)","Opportunistic & multiuser communication","Detection & estimation in noise"],
+   mastery:["Explain fading and the diversity–multiplexing tradeoff","Reason about MIMO capacity","Explain why OFDM is used in modern systems","Connect a channel model to an ML problem (e.g., channel estimation)"],
+   artifact:"A channel-estimation or beam-selection reproduction on simulated data, tying a wireless problem to an ML method."}},
+ {id:'tel-38843', ph:'tel', type:'std', t:'3GPP TR 38.843 — Study on AI/ML for NR air interface (Rel-18)', m:'CSI, beam mgmt, positioning; the LCM framework', u:'https://www.3gpp.org/technologies/ai-ml-nr'},
+ {id:'tel-37817', ph:'tel', type:'std', t:'3GPP TR 37.817 — AI/ML for NG-RAN', m:'energy savings, load balancing, mobility'},
+ {id:'tel-28105', ph:'tel', type:'std', t:'3GPP TS 28.105 — AI/ML management (LCM)'},
+ {id:'tel-23288', ph:'tel', type:'std', t:'3GPP TS 23.288 — Network Data Analytics (NWDAF)'},
+ {id:'tel-oran', ph:'tel', type:'std', t:'O-RAN specifications — architecture, RIC, rApp / xApp', u:'https://www.o-ran.org/specifications'},
+ {id:'tel-airan', ph:'tel', type:'std', t:'AI-RAN Alliance — vision & white papers', u:'https://ai-ran.org/'},
+ {id:'tel-oranpaper', ph:'tel', type:'paper', cur:'SYSTEMS', seq:'telecom', t:'Understanding O-RAN: Architecture, Interfaces, Algorithms, Security — Polese et al. 2022', u:'https://arxiv.org/abs/2202.01032'},
+ {id:'tel-llm', ph:'tel', type:'paper', cur:'FOUNDATIONAL', seq:'telecom', t:'Large Language Models for Telecom — Maatouk et al. 2023', u:'https://arxiv.org/abs/2308.06013'},
+ {id:'tel-roadmap', ph:'tel', type:'paper', cur:'FRONTIER', seq:'telecom', t:'Large-Scale AI in Telecom: Charting the Roadmap — Shahid et al. 2025', u:'https://arxiv.org/abs/2503.04184'},
+ {id:'tel-wlam', ph:'tel', type:'paper', cur:'FRONTIER', seq:'telecom', t:'Wireless Large AI Model: AI-native Future of 6G — 2025', u:'https://arxiv.org/abs/2504.14653'},
+ {id:'tel-sionna', ph:'tel', type:'course', t:'NVIDIA Sionna — differentiable link-level simulator', m:'ideal for AI air-interface reproductions', u:'https://nvlabs.github.io/sionna/', verify:true},
+ {id:'tel-proj', ph:'tel', type:'project', t:'Reproduce a deep-learning wireless result (channel estimation / beam management) on simulated data'},
+ {id:'tel-rq', ph:'tel', type:'skill', t:'Frame a research question at the ML × telecom intersection; target both an ML and a telecom venue'},
+
+ // ---------------- MODULE: Research methodology ----------------
+ {id:'rm-read', ph:'research', type:'skill', major:true, t:'The paper-reading protocol', m:'three-pass method; 500+ papers with notes',
+  detail:{why:"Reproduction and taste are what a PhD certifies. A disciplined reading system is the engine that produces both — most people consume papers without extracting anything durable.",
+   prereq:"None; start now.",
+   topics:["Three-pass reading (Keshav)","One-paragraph summary per paper","Recognizing authors, labs & lineages","Reading cadence: 2–3/wk → 5–10/wk"],
+   mastery:["Summarize any paper's contribution in your own words in a paragraph","Decide quickly which papers earn a deep pass","Place a new paper in its intellectual lineage"],
+   artifact:"A running annotated bibliography (Zotero/Notion) with your own summaries — the asset, not the PDFs."}},
+ {id:'rm-exp', ph:'research', type:'skill', major:true, t:'Experimental design & reproducibility for ML', m:'the methodology that makes a result trustworthy',
+  detail:{why:"Most ML claims that fail to replicate fail on methodology, not ideas: single seeds, an untuned baseline against your tuned method, data leakage, and cherry-picked checkpoints. Designing experiments that could falsify your hypothesis — and reporting them so others can rerun them — is the core research skill a PhD certifies.",
+   prereq:"Probability & statistics; the deep-learning core (so you have real runs to analyze).",
+   topics:["Hypothesis-driven experiment design","Seeds, variance & reporting mean ± CI over runs","Fair baselines & equal tuning budgets","Ablations: change one thing, attribute the effect","Data leakage & train/val/test hygiene","Multiple-comparison & significance pitfalls in ML","Reproducibility: environment, config, seeds & compute logging"],
+   mastery:["Design an experiment whose result could actually falsify your hypothesis","Report a result with uncertainty over seeds rather than a single number","Construct a fair baseline and defend the comparison","Design an ablation that isolates one component's contribution","Spot leakage or an unfair comparison in a paper or your own pipeline"],
+   artifact:"A reproduction/ablation report on a real method: multi-seed results with confidence intervals, an ablation table, a fair-baseline note, and a reproducibility checklist (code, config, seeds, hardware).",
+   resources:[{t:'Pineau et al. — Improving Reproducibility in ML Research (NeurIPS reproducibility program)'},{t:'The ML Reproducibility Checklist'}]}},
+ {id:'rm-annot', ph:'research', type:'project', t:'Maintain an annotated bibliography for your niche (your-words summary per paper)'},
+ {id:'rm-repro', ph:'research', type:'project', t:'Write a reproduction report: setup, results vs paper, discrepancies, and lessons'},
+ {id:'rm-neg', ph:'research', type:'project', t:'Keep a negative-results log — hypotheses that failed and why (where taste forms)'},
+ {id:'rm-review', ph:'research', type:'skill', t:'Practice peer review: write a mock review of a recent paper against a venue rubric'},
+ {id:'rm-talk', ph:'research', type:'milestone', t:'Give a research talk / reading-group presentation on your reproduction'},
+ {id:'rm-public', ph:'research', type:'skill', t:'Build in public: blog reproductions + a clean GitHub (Karpathy / Weng / Huyen as the model)'},
+
+ // ---------------- MODULE: Qualifying exams ----------------
+ {id:'q-math', ph:'quals', type:'milestone', t:'Math quals — derive: SVD/PCA, an MLE + variance, a KKT solution, from memory'},
+ {id:'q-cs', ph:'quals', type:'milestone', t:'CS quals — prove an algorithm correct; reason about a race condition & an RPC'},
+ {id:'q-ml', ph:'quals', type:'milestone', t:'ML/theory quals — bias–variance, kernels, EM, generalization; defend method choices'},
+ {id:'q-dl', ph:'quals', type:'milestone', t:'Deep learning quals — whiteboard backprop, attention, and a diffusion step from memory'},
+ {id:'q-sys', ph:'quals', type:'milestone', t:'Systems quals — design train+serve stack for a 7B model on a fixed GPU budget; justify all'},
+ {id:'q-spec', ph:'quals', type:'milestone', t:'Specialization quals — present & defend a survey of your niche against hard questions'},
+
+ // ---------------- MODULE: Resource index ----------------
+ {id:'res-stanford', ph:'res', type:'course', t:'Stanford Online (YouTube) — CS229/231n/224n/336/234', u:'https://www.youtube.com/@stanfordonline'},
+ {id:'res-mit', ph:'res', type:'course', t:'MIT OpenCourseWare (YouTube) — 18.06 / 6.006 / 6.S191', u:'https://www.youtube.com/@mitocw'},
+ {id:'res-silver', ph:'res', type:'course', t:'DeepMind × UCL — David Silver RL lectures', u:'https://www.davidsilver.uk/teaching/'},
+ {id:'res-hf', ph:'res', type:'course', t:'Hugging Face — free courses (LLM, RL, agents)', u:'https://huggingface.co/learn'},
+ {id:'res-rohit', ph:'res', type:'course', t:'rohitg00/ai-engineering-from-scratch', u:'https://github.com/rohitg00/ai-engineering-from-scratch'},
+ {id:'res-sutton', ph:'res', type:'book', t:'Reinforcement Learning: An Introduction — Sutton & Barto', m:'free', u:'http://incompleteideas.net/book/the-book.html'},
+ {id:'res-isl', ph:'res', type:'book', t:'An Introduction to Statistical Learning — James et al.', m:'free', u:'https://www.statlearning.com/'},
+ {id:'res-chip-curr', ph:'res', type:'book', t:'Chip Huyen — free ML curriculum', u:'https://huyenchip.com/2019/08/05/free-online-machine-learning-curriculum.html'},
+ {id:'res-chip-guide', ph:'res', type:'book', t:'Chip Huyen — guide to AI at Stanford', u:'https://huyenchip.com/2018/03/30/guide-to-Artificial-Intelligence-Stanford.html'},
+ {id:'res-aadi', ph:'res', type:'course', t:'aadi1011/AI-ML-Roadmap-from-scratch', u:'https://github.com/aadi1011/AI-ML-Roadmap-from-scratch'},
+ {id:'res-azmine', ph:'res', type:'course', t:'azminewasi/online-ml-university', u:'https://github.com/azminewasi/online-ml-university'},
+ {id:'res-goodai', ph:'res', type:'course', t:'goodailist.com/repos — curated repo list', u:'https://goodailist.com/repos'},
+ {id:'res-lilog', ph:'res', type:'book', t:"Lilian Weng — Lil'Log (deep technical posts)", u:'https://lilianweng.github.io/'},
+ {id:'res-pwc', ph:'res', type:'book', t:'Papers with Code + Hugging Face Papers (daily currency)', u:'https://paperswithcode.com/'},
+
+ // ---------------- MODULE: Milestone ladder ----------------
+ {id:'ml-m3', ph:'ml', type:'milestone', t:'Month 3 — "I understand backprop." From-scratch NumPy net + derivation, public on GitHub'},
+ {id:'ml-m6', ph:'ml', type:'milestone', t:'Month 6 — "I built a neural net from scratch." micrograd → makemore → small nanoGPT'},
+ {id:'ml-y1', ph:'ml', type:'milestone', t:'Year 1 — "I reproduced a paper." A faithful reproduction that matches numbers, written up'},
+ {id:'ml-y2', ph:'ml', type:'milestone', t:'Year 2 — "I have a research niche." Literature map + reproduced SOTA + first ablation + proposal'},
+ {id:'ml-y3', ph:'ml', type:'milestone', t:'Year 3 — "I published original work." Workshop paper (ideally ML × telecom); first qual defended'},
+ {id:'ml-y45', ph:'ml', type:'milestone', t:'Years 4–5 — "I am a research scientist." Main-conference/journal paper + used public reproductions'},
+ {id:'ml-y57', ph:'ml', type:'milestone', t:'Years 5–7 — Karpathy-adjacent. A recognized voice teaching, building & publishing in public'}
+];
+
+/* =========================================================================
+   STATE + PERSISTENCE
+   state values: true | 'in_progress' | 'done' | 'mastered'
+   ========================================================================= */
+const STORE_KEY = 'rs_track_progress_v2';
+const LEGACY_KEY = 'rs_track_progress_v1';
+let state = {};
+let curFilter = 'all', curQuery = '', sectionOpen = {}, allExpanded = false, pendingImport = null;
+
+const TYPE_LABEL = {course:'Course',book:'Book',paper:'Paper',project:'Project',milestone:'Milestone',std:'Standard',skill:'Skill'};
+const MAJOR_CYCLE = ['in_progress','done','mastered',null];   // from not-started
+const SIMPLE_CYCLE = {undefined:true, true:null};
+
+function isComplete(id){ const s=state[id]; return s===true||s==='done'||s==='mastered'; }
+function isMastered(id){ return state[id]==='mastered'; }
+
+function load(){
+  try{ state = JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }catch(e){ state={}; }
+  if(!Object.keys(state).length){ // migrate legacy v1 (all booleans)
+    try{ const legacy = JSON.parse(localStorage.getItem(LEGACY_KEY)); if(legacy && typeof legacy==='object'){ state = legacy; save(); } }catch(e){}
+  }
+}
+function save(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){} }
+
+/* ---------- rendering ---------- */
+const GROUP_ORDER = ['course','book','paper','std','skill','project','milestone'];
+const GROUP_NAME = {course:'Courses',book:'Books & textbooks',paper:'Papers',std:'Standards',skill:'Capabilities',project:'Projects & practice',milestone:'Milestones'};
+
+function render(){
+  const app = document.getElementById('app'), nav = document.getElementById('navjump');
+  app.innerHTML=''; nav.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!(sec.key in sectionOpen)) sectionOpen[sec.key] = !!sec.open;
+    const secItems = ITEMS.filter(i=>i.ph===sec.key);
+    const a=document.createElement('a'); a.href='#sec-'+sec.key;
+    a.textContent = sec.num+' · '+sec.title.split('—')[0].split('(')[0].trim();
+    nav.appendChild(a);
+
+    const wrap=document.createElement('section');
+    wrap.className='sec'+(sectionOpen[sec.key]?'':' collapsed'); wrap.id='sec-'+sec.key;
+    const numCls = sec.cls || (sec.kind==='track'?'track':(sec.kind==='module'?'mod':''));
+    const kindLabel = sec.kind==='track'?'<div class="sec-kind spec">Specialization track</div>'
+                    : sec.kind==='module'?'<div class="sec-kind module">Module</div>':'';
+    const head=document.createElement('div'); head.className='sec-head';
+    head.innerHTML =
+      '<div class="sec-num '+numCls+'">'+sec.num+'</div>'+
+      '<div class="sec-titles">'+kindLabel+'<h2>'+sec.title+'</h2><div class="dur">'+sec.dur+'</div></div>'+
+      '<div class="sec-prog"><div class="sbar"><i id="sfill-'+sec.key+'"></i></div><span class="scount" id="scount-'+sec.key+'"></span></div>'+
+      '<span class="chev">▾</span>';
+    head.addEventListener('click',()=>toggleSection(sec.key));
+    wrap.appendChild(head);
+
+    const body=document.createElement('div'); body.className='sec-body';
+    const goal=document.createElement('p'); goal.className='sec-goal'; goal.innerHTML=sec.goal; body.appendChild(goal);
+
+    GROUP_ORDER.forEach(tp=>{
+      const g=secItems.filter(i=>i.type===tp); if(!g.length) return;
+      const lbl=document.createElement('div'); lbl.className='grp-label'; lbl.textContent=GROUP_NAME[tp]; body.appendChild(lbl);
+      const box=document.createElement('div'); box.className='items';
+      g.forEach(it=>box.appendChild(itemRow(it))); body.appendChild(box);
+    });
+    if(sec.exit){ const ex=document.createElement('div'); ex.className='exit'; ex.innerHTML='<b>Exit criteria</b>'+sec.exit; body.appendChild(ex); }
+    wrap.appendChild(body); app.appendChild(wrap);
+  });
+  updateProgress(); applyFilters();
+}
+
+function stateClass(id){ const s=state[id]; if(s===true||s==='done') return 's-done'; if(s==='mastered') return 's-mastered'; if(s==='in_progress') return 's-in_progress'; return ''; }
+
+function itemRow(it){
+  const row=document.createElement('div');
+  row.className='item '+stateClass(it.id);
+  row.dataset.id=it.id; row.dataset.type=it.type; row.dataset.major=it.major?'1':'0';
+  row.dataset.text=(it.t+' '+(it.m||'')+' '+(it.seq||'')+' '+(it.cur||'')).toLowerCase();
+
+  const pills=[]
+    .concat(it.major?['<span class="pill major">Major unit</span>']:[])
+    .concat(it.cur?['<span class="pill cur '+it.cur+'">'+it.cur+'</span>']:[])
+    .concat(it.seq?['<span class="pill seq">'+it.seq+'</span>']:[])
+    .concat(it.verify?['<span class="pill verify">⚠ verify</span>']:[]).join('');
+  const link=it.u?'<a class="lnk" href="'+it.u+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">open ↗</a>':'';
+  const meta=it.m?'<div class="m">'+it.m+'</div>':'';
+  const expander=it.detail?'<span class="expander" onclick="toggleDetail(event,this)">details ⌄</span>':'';
+
+  const r=document.createElement('div'); r.className='item-row';
+  r.innerHTML =
+    '<div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>'+
+    '<div class="item-main"><div class="t"><span class="tt">'+it.t+'</span>'+link+' '+pills+'</div>'+meta+'</div>'+
+    expander+
+    '<span class="badge '+it.type+'">'+TYPE_LABEL[it.type]+'</span>';
+  r.addEventListener('click',()=>cycle(it,row));
+  row.appendChild(r);
+
+  if(it.detail){
+    const d=document.createElement('div'); d.className='detail';
+    const dt=it.detail; let html='';
+    if(dt.why){ html+='<h5>Why it matters</h5><p>'+dt.why+'</p>'; }
+    if(dt.tech){ html+='<h5>What to understand technically</h5><p>'+dt.tech+'</p>'; }
+    if(dt.prereq){ html+='<h5>Prerequisites</h5><p>'+dt.prereq+'</p>'; }
+    if(dt.topics&&dt.topics.length){ html+='<h5>Key topics</h5><ul>'+dt.topics.map(x=>'<li>'+x+'</li>').join('')+'</ul>'; }
+    if(dt.mastery&&dt.mastery.length){ html+='<h5>Mastery checks — you can…</h5><ul>'+dt.mastery.map(x=>'<li>'+x+'</li>').join('')+'</ul>'; }
+    if(dt.after){ html+='<h5>Reproduce · derive · critique</h5><p>'+dt.after+'</p>'; }
+    if(dt.artifact){ html+='<h5>Required artifact</h5><div class="arte">'+dt.artifact+'</div>'; }
+    if(dt.resources&&dt.resources.length){ html+='<h5>Recommended resources</h5><ul>'+dt.resources.map(x=>'<li>'+(x.u?'<a href="'+x.u+'" target="_blank" rel="noopener">'+x.t+' ↗</a>':x.t)+'</li>').join('')+'</ul>'; }
+    d.innerHTML=html; row.appendChild(d);
+  }
+  return row;
+}
+
+function cycle(it,row){
+  const id=it.id, cur=state[id];
+  let next;
+  if(it.major){ const idx=[undefined,'in_progress','done','mastered'].indexOf(cur===true?'done':cur); next=MAJOR_CYCLE[Math.max(0,idx)]; }
+  else { next = isComplete(id)?null:true; }
+  if(next===null||next===undefined) delete state[id]; else state[id]=next;
+  row.className='item '+stateClass(id)+(row.classList.contains('open')?' open':'');
+  save(); updateProgress();
+  if(curFilter==='todo') applyFilters();
+}
+
+function toggleDetail(e,el){ e.stopPropagation(); el.closest('.item').classList.toggle('open'); }
+
+function toggleSection(key){ sectionOpen[key]=!sectionOpen[key]; document.getElementById('sec-'+key).classList.toggle('collapsed',!sectionOpen[key]); }
+
+function toggleAllSections(){
+  allExpanded=!allExpanded;
+  SECTIONS.forEach(s=>{ sectionOpen[s.key]=allExpanded; document.getElementById('sec-'+s.key).classList.toggle('collapsed',!allExpanded); });
+  const b=document.getElementById('expandBtn'); if(b) b.textContent = allExpanded?'Collapse all':'Expand all';
+}
+
+function updateProgress(){
+  const total=ITEMS.length;
+  const nDone=ITEMS.filter(i=>isComplete(i.id)).length;
+  const nMaster=ITEMS.filter(i=>isMastered(i.id)).length;
+  const pct=total?Math.round(nDone/total*100):0, mpct=total?Math.round(nMaster/total*100):0;
+  document.getElementById('oFill').style.width=pct+'%';
+  document.getElementById('oMaster').style.width=mpct+'%';
+  document.getElementById('oPct').textContent=pct+'%';
+  document.getElementById('oCount').textContent=nDone+' / '+total;
+  SECTIONS.forEach(sec=>{
+    const items=ITEMS.filter(i=>i.ph===sec.key), d=items.filter(i=>isComplete(i.id)).length;
+    const p=items.length?Math.round(d/items.length*100):0;
+    const f=document.getElementById('sfill-'+sec.key), c=document.getElementById('scount-'+sec.key);
+    if(f) f.style.width=p+'%'; if(c) c.textContent=d+'/'+items.length;
+  });
+}
+
+/* ---------- filters ---------- */
+function setFilter(f,el){ curFilter=f; document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on')); el.classList.add('on'); applyFilters(); }
+function applyFilters(){
+  curQuery=document.getElementById('q').value.trim().toLowerCase();
+  const searching = curQuery.length>0;
+  if(searching){ SECTIONS.forEach(s=>document.getElementById('sec-'+s.key).classList.remove('collapsed')); }
+  else { SECTIONS.forEach(s=>document.getElementById('sec-'+s.key).classList.toggle('collapsed',!sectionOpen[s.key])); }
+  let anyVisible=false;
+  document.querySelectorAll('.item').forEach(row=>{
+    const tp=row.dataset.type, txt=row.dataset.text, id=row.dataset.id, major=row.dataset.major==='1';
+    let ok=true;
+    if(curFilter==='todo') ok=!isComplete(id);
+    else if(curFilter==='major') ok=major;
+    else if(curFilter!=='all') ok=(tp===curFilter);
+    if(ok&&curQuery) ok=txt.indexOf(curQuery)!==-1;
+    row.classList.toggle('hide',!ok); if(ok) anyVisible=true;
+  });
+  document.querySelectorAll('.items').forEach(box=>{
+    const vis=[...box.querySelectorAll('.item')].some(r=>!r.classList.contains('hide'));
+    box.style.display=vis?'':'none';
+    const lbl=box.previousElementSibling; if(lbl&&lbl.classList.contains('grp-label')) lbl.style.display=vis?'':'none';
+  });
+  document.querySelectorAll('.sec').forEach(sec=>{
+    const vis=[...sec.querySelectorAll('.item')].some(r=>!r.classList.contains('hide'));
+    sec.style.display=(vis||(!searching&&curFilter==='all'))?'':'none';
+  });
+  document.getElementById('empty').style.display=anyVisible?'none':'block';
+}
+
+/* ---------- export / import / reset ---------- */
+function exportProgress(){
+  const done=ITEMS.filter(i=>isComplete(i.id));
+  const payload={ schema:'rs-track', version:2, exported:new Date().toISOString(),
+    completed:done.length, total:ITEMS.length,
+    progress: {...state},
+    items: done.map(i=>({id:i.id,title:i.t,type:i.type,state:state[i.id]===true?'done':state[i.id]})) };
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='rs-track-progress.json'; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),0);
+  toast('Exported '+done.length+' completed items');
+}
+function triggerImport(){ document.getElementById('importFile').click(); }
+function handleImportFile(e){
+  const file=e.target.files[0]; e.target.value='';
+  if(!file){ return; }
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    let data; try{ data=JSON.parse(ev.target.result); }catch(err){ toast('Import failed: not valid JSON'); return; }
+    const parsed=parseImport(data);
+    if(!parsed){ toast('Import failed: unrecognized file format'); return; }
+    pendingImport=parsed.map;
+    const known=parsed.known, unknown=parsed.unknown;
+    document.getElementById('importSummary').innerHTML =
+      'Found <b>'+Object.keys(parsed.map).length+'</b> progress entries · <b>'+known+'</b> match this curriculum'+
+      (unknown?' · <b>'+unknown+'</b> unknown IDs will be ignored':'')+'. Merge keeps your current ticks and adds these; Replace overwrites.';
+    document.getElementById('importModal').classList.add('show');
+  };
+  reader.onerror=function(){ toast('Import failed: could not read file'); };
+  reader.readAsText(file);
+}
+function parseImport(data){
+  if(!data||typeof data!=='object') return null;
+  const valid=new Set(ITEMS.map(i=>i.id)); const map={}; let known=0, unknown=0;
+  const ALLOWED=new Set([true,'in_progress','done','mastered']);
+  const ALIAS={'p1-sys':'p1-os'};   // legacy: the compressed "Systems foundations" unit was split
+  function put(id,val){ if(typeof id!=='string') return; id=ALIAS[id]||id; if(!valid.has(id)){ unknown++; return; }
+    let v = (val===true||val==='true')?'done':val;
+    if(!ALLOWED.has(v)) v='done'; map[id]=v; known++; }
+  if(data.progress&&typeof data.progress==='object'){ for(const k in data.progress) put(k,data.progress[k]); }
+  else if(Array.isArray(data.items)){ data.items.forEach(it=>{ if(it&&it.id) put(it.id, it.state||'done'); }); }
+  else { // maybe a bare {id:state} map (legacy)
+    let looksLikeMap=true; for(const k in data){ if(typeof data[k]==='object'){ looksLikeMap=false; break; } }
+    if(looksLikeMap){ for(const k in data) put(k,data[k]); } else return null;
+  }
+  if(known===0&&unknown===0) return null;
+  return {map, known, unknown};
+}
+function applyImport(mode){
+  if(!pendingImport){ closeImport(); return; }
+  if(mode==='replace') state={...pendingImport};
+  else { for(const k in pendingImport){ // merge: keep the stronger state
+    const cur=state[k], inc=pendingImport[k];
+    const rank={undefined:0, true:2, in_progress:1, done:2, mastered:3};
+    if((rank[inc]||0) >= (rank[cur]||0)) state[k]=inc; } }
+  save(); closeImport(); render(); toast('Imported ('+mode+')');
+}
+function closeImport(){ pendingImport=null; document.getElementById('importModal').classList.remove('show'); }
+function resetAll(){
+  if(!confirm('Reset all progress? This clears every mark and cannot be undone.')) return;
+  state={}; save(); render(); toast('Progress reset');
+}
+
+/* ---------- diagnostics / integrity ---------- */
+function runIntegrity(){
+  const issues=[], info=[]; const ids=new Set(), urls={}; const secKeys=new Set(SECTIONS.map(s=>s.key));
+  const VALID_TYPES=new Set(Object.keys(TYPE_LABEL));
+  ITEMS.forEach(it=>{
+    if(ids.has(it.id)) issues.push('Duplicate item id: '+it.id); else ids.add(it.id);
+    if(!secKeys.has(it.ph)) issues.push('Unknown section for '+it.id+': '+it.ph);
+    if(!VALID_TYPES.has(it.type)) issues.push('Bad type on '+it.id+': '+it.type);
+    if(!it.t||!it.t.trim()) issues.push('Missing title: '+it.id);
+    if(it.u&&!/^https?:\/\/.+/.test(it.u)) issues.push('Malformed URL on '+it.id+': '+it.u);
+    if(it.u){ (urls[it.u]=urls[it.u]||[]).push(it.id); }
+  });
+  let xlinks=0; Object.keys(urls).forEach(u=>{ if(urls[u].length>1) xlinks++; });
+  if(xlinks) info.push(xlinks+' resource(s) are intentionally cross-listed (same canonical link used by a phase and a track/index).');
+  SECTIONS.forEach(s=>{ if(!ITEMS.some(i=>i.ph===s.key)) issues.push('Section with no items: '+s.key); });
+  const verify=ITEMS.filter(i=>i.verify).map(i=>i.id);
+  return {issues, info, verify, total:ITEMS.length};
+}
+function toggleDiag(){
+  const el=document.getElementById('diag'); el.classList.toggle('show');
+  if(!el.classList.contains('show')) return;
+  const r=runIntegrity(), inner=document.getElementById('diagInner');
+  let h='<h4>Integrity check — '+r.total+' items</h4>';
+  if(!r.issues.length) h+='<p class="ok">✓ No structural issues: no duplicate IDs, all sections valid & populated, all types known, no malformed URLs.</p>';
+  else h+='<p class="warn">'+r.issues.length+' issue(s):</p><ul>'+r.issues.map(x=>'<li>'+x+'</li>').join('')+'</ul>';
+  if(r.info.length) h+='<p style="color:var(--muted)">'+r.info.map(x=>'· '+x).join('<br>')+'</p>';
+  if(r.verify.length) h+='<p style="color:var(--amber)">⚠ '+r.verify.length+' item(s) flagged for verification (open & confirm before citing): '+r.verify.join(', ')+'</p>';
+  inner.innerHTML=h;
+}
+
+let toastTimer;
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2400); }
+
+/* ---------- boot ---------- */
+(function(){ const r=runIntegrity(); if(r.issues.length) console.warn('[RS Track] integrity issues:',r.issues); else console.log('[RS Track] integrity OK —',r.total,'items,',r.verify.length,'flagged for verification'); })();
+load(); render();
+</script>
+</body>
+</html>
