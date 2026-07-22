@@ -1,4 +1,4 @@
-# PhD-Level AI / ML / GenAI Expertise Tracker (v1)
+# PhD-Level AI / ML / GenAI Expertise Tracker (v1.0.0)
 
 A self-contained, browser-based curriculum tracker for building **research-scientist depth** in AI, machine learning, and generative models.
 
