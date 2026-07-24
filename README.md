@@ -18,6 +18,9 @@ Progress is meant to reflect real mastery, not just “watched it.”
 - **Collapsible sections** — specialization tracks and modules start collapsed
 - **Import / Export / Reset** — back up progress as a file; import merges or replaces safely
 - **Local persistence** — progress is stored in the browser’s `localStorage` for this page
+- **Research Radar** (Frontier tab) — your own structured list of research fronts (topic, why it matters, key papers, status, confidence) with a "review frontier topics" action that surfaces entries you haven't revisited recently — always relative to today, never a fixed year
+- **Knowledge decay tracking** — optional last-practiced / last-demonstrated dates on major-unit competencies; a dimension left untouched for a long time is labeled "Needs refresh" without ever erasing the rating itself
+- **Capability diagnostics** — specific, numbers-based flags (e.g. lots of papers read but few reproductions, no primary specialization chosen, stale competencies) with an actionable recommendation attached to each one
 
 ## Curriculum structure
 
@@ -39,7 +42,7 @@ Three mandatory modules that apply across phases rather than sitting inside one:
 
 ### Specialization tracks & modules
 
-Optional tracks (e.g. advanced RL, probabilistic ML, ML systems, **theoretical machine learning**) and modules such as the **Frontier 2025–2026** rolling list, **telecom / wireless-AI**, research methodology, qualifying-exam checkpoints, a curated resource index, and a **milestone ladder** of artifacts.
+Optional tracks (e.g. advanced RL, probabilistic ML, ML systems, **theoretical machine learning**) and modules such as the **Frontier** rolling reading list (paired with the Research Radar above it on the Frontier tab), **telecom / wireless-AI**, research methodology, qualifying-exam checkpoints, a curated resource index, and a **milestone ladder** of artifacts.
 
 Item types include courses, books, papers, projects, milestones, standards, and skills.
 
