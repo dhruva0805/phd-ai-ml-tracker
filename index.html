@@ -1305,7 +1305,10 @@ function clampLevel(v){ v=Number(v); if(!Number.isFinite(v)) return 0; return Ma
 // Date helpers used throughout Phase D (frontier review cadence, competency freshness).
 // Deliberately relative ("N days ago") everywhere in the UI — never a hardcoded calendar year —
 // so the tracker keeps making sense whenever it's opened, this year or a decade from now.
-function todayISO(){ return new Date().toISOString().slice(0,10); }
+function todayISO(){
+  const d = new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
 function daysSince(dateStr){
   if(!dateStr || typeof dateStr!=='string') return null;
   const t = new Date(dateStr.length<=10 ? dateStr+'T00:00:00' : dateStr).getTime();
@@ -2127,7 +2130,7 @@ function validateImportedState(data){
     logClean[k] = list.filter(e=>e && typeof e==='object' && typeof e.title==='string').map(e=>({
       id: typeof e.id==='string' ? e.id : genId('al'),
       title: String(e.title).slice(0,300),
-      date: typeof e.date==='string' ? e.date : new Date().toISOString().slice(0,10)
+      date: typeof e.date==='string' ? e.date : todayISO()
     }));
   });
   safe.researchActivity = {cadence:cadenceClean, log:logClean};
@@ -2290,7 +2293,7 @@ function runCapabilityDiagnostics(){
   // No recent research activity.
   const allActivityDates=[];
   Object.values(state.researchActivity.log).forEach(list=>{ if(Array.isArray(list)) list.forEach(e=>{ if(e.date) allActivityDates.push(e.date); }); });
-  state.researchQuestions.forEach(q=>{ if(q.updatedAt) allActivityDates.push(q.updatedAt.slice(0,10)); });
+  state.researchQuestions.forEach(q=>{ if(q.updatedAt) allActivityDates.push(q.updatedAt); });
   const activityDays = allActivityDates.map(daysSince).filter(d=>d!==null);
   const mostRecentActivityDays = activityDays.length ? Math.min(...activityDays) : null;
   if(rc.done>=5){
@@ -2321,7 +2324,7 @@ function runCapabilityDiagnostics(){
   const stuckGates = GATES.filter(g=>{
     const gt = getGate(g.key);
     if(gt.status!=='needs_revision' || !gt.updatedAt) return false;
-    const d = daysSince(gt.updatedAt.slice(0,10));
+    const d = daysSince(gt.updatedAt);
     return d!==null && d>45;
   });
   if(stuckGates.length){
@@ -2462,7 +2465,7 @@ function actAdd(catKey){
   const titleEl = document.getElementById('actin-'+catKey);
   const title = ((titleEl&&titleEl.value)||'').trim();
   if(!title){ toast('Add a short title/note first'); return; }
-  addActivityLogEntry(catKey, {id:genId('al'), title:title.slice(0,300), date:new Date().toISOString().slice(0,10)});
+  addActivityLogEntry(catKey, {id:genId('al'), title:title.slice(0,300), date:todayISO()});
   if(titleEl) titleEl.value='';
   renderResearchPage();
   toast('Logged');
