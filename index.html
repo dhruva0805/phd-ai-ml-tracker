@@ -56,6 +56,138 @@
   .navjump a:hover{color:var(--signal-soft); text-decoration:none;}
   @media(max-width:720px){ .navjump{display:none;} }
 
+  /* ---------- capability strip (top-bar aggregate capability scores) ---------- */
+  .capstrip{display:flex; gap:.5rem 1.1rem; flex-wrap:wrap; margin-top:.6rem; padding-top:.55rem; border-top:1px solid var(--rule-deep);}
+  .capchip{display:flex; align-items:center; gap:.4rem; min-width:100px;}
+  .capchip .cc-label{font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted-deep); white-space:nowrap;}
+  .capchip .cc-bar{width:42px; height:5px; background:rgba(255,255,255,.1); border-radius:5px; overflow:hidden; flex-shrink:0;}
+  .capchip .cc-bar>i{display:block; height:100%; background:var(--signal-soft); border-radius:5px;}
+  .capchip.ri .cc-bar>i{background:var(--master);}
+  .capchip .cc-pct{font-family:var(--mono); font-size:10px; color:#fff; font-weight:600; white-space:nowrap;}
+  .capchip.nodata .cc-pct{color:var(--muted-deep); font-weight:400;}
+  @media(max-width:900px){ .capstrip{display:none;} }
+
+  /* ---------- page tabs + page shells ---------- */
+  .pagetabs{display:flex; gap:.35rem; flex-wrap:wrap; margin-top:.6rem;}
+  .pagetab{font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; background:transparent;
+    color:var(--muted-deep); border:1px solid var(--rule-deep); padding:.38rem .8rem; border-radius:7px; cursor:pointer; transition:.15s;}
+  .pagetab:hover{color:#fff; border-color:var(--signal-soft);}
+  .pagetab.on{background:var(--signal); color:#fff; border-color:var(--signal);}
+  .page.hide{display:none;}
+  .pagehead{padding:2.2rem 1.3rem .6rem;}
+  .pagehead .eyebrow{font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--signal);}
+  .pagehead h1{font-family:var(--serif); font-weight:600; font-size:clamp(1.5rem,3.4vw,2.1rem); line-height:1.12; margin:.5rem 0 .4rem;}
+  .pagehead p{color:var(--ink-soft); max-width:56rem; font-size:.97rem;}
+
+  /* ---------- generic dashboard/section building blocks ---------- */
+  .dboard-sec{margin:1.6rem 0;}
+  .dboard-sec h3{font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); border-bottom:2px solid var(--ink); padding-bottom:.4rem; margin:0 0 .8rem;}
+  .dboard-sec .dsub{color:var(--muted); font-size:.85rem; margin:-.4rem 0 .8rem;}
+  .tilegrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:.7rem;}
+  .tile{background:#fff; border:1px solid var(--rule); border-radius:10px; padding:.75rem .9rem;}
+  .tile .tv{font-family:var(--mono); font-size:1.5rem; font-weight:700; color:var(--ink); line-height:1.1;}
+  .tile .tl{font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin-top:.25rem;}
+  .tile.accent .tv{color:var(--signal);}
+  .tile.warn .tv{color:var(--frontier);}
+  .tile.good .tv{color:var(--done);}
+  .barrow{display:flex; align-items:center; gap:.7rem; padding:.4rem 0;}
+  .barrow .brl{width:150px; flex-shrink:0; font-family:var(--mono); font-size:11px; color:var(--ink-soft); font-weight:600;}
+  .barrow .brbar{flex:1; height:9px; background:var(--paper-2); border-radius:6px; overflow:hidden; border:1px solid var(--rule);}
+  .barrow .brbar>i{display:block; height:100%; background:var(--signal); border-radius:6px;}
+  .barrow.ri .brbar>i{background:var(--master);}
+  .barrow .brv{font-family:var(--mono); font-size:11.5px; color:var(--muted); width:70px; text-align:right; flex-shrink:0;}
+
+  /* ---------- research activity ---------- */
+  .actgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.8rem;}
+  .actcard{background:#fff; border:1px solid var(--rule); border-radius:10px; padding:.8rem .9rem;}
+  .actcard .ac-top{display:flex; justify-content:space-between; align-items:baseline; gap:.5rem;}
+  .actcard .ac-count{font-family:var(--mono); font-size:1.7rem; font-weight:700;}
+  .actcard .ac-label{font-family:var(--mono); font-size:10px; letter-spacing:.05em; text-transform:uppercase; color:var(--ink-soft); font-weight:600;}
+  .actcard .ac-pace{font-family:var(--mono); font-size:9.5px; color:var(--muted); margin-top:.2rem;}
+  .actcard .ac-pace.on{color:var(--done);} .actcard .ac-pace.off{color:var(--frontier);}
+  .actcard .ac-recent{margin-top:.5rem; font-size:.8rem; color:var(--muted);}
+  .actcard .ac-recent div{padding:.1rem 0; border-top:1px dotted var(--rule);}
+  .actcard .ac-add{margin-top:.5rem; display:flex; gap:.3rem;}
+  .actcard .ac-add input{flex:1; min-width:0; font-size:.8rem; padding:.3rem .45rem; border:1px solid var(--rule); border-radius:5px; background:var(--paper);}
+  .actcard .ac-add button{font-family:var(--mono); font-size:10px; padding:.3rem .5rem; border-radius:5px; border:1px solid var(--rule); background:var(--signal); color:#fff; cursor:pointer; flex-shrink:0;}
+  .cadence-form{display:flex; flex-wrap:wrap; gap:1rem; background:#fff; border:1px solid var(--rule); border-radius:10px; padding:.8rem 1rem; margin-bottom:1rem;}
+  .cadence-field{display:flex; flex-direction:column; gap:.25rem;}
+  .cadence-field label{font-family:var(--mono); font-size:9.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted);}
+  .cadence-field input{width:70px; padding:.3rem .4rem; border:1px solid var(--rule); border-radius:5px; font-family:var(--mono);}
+
+  /* ---------- research question / hypothesis log ---------- */
+  .rq-toolbar{display:flex; gap:.6rem; flex-wrap:wrap; align-items:center; margin-bottom:.8rem;}
+  .rq-toolbar input[type=text]{flex:1; min-width:200px; padding:.5rem .7rem; border:1px solid var(--rule); border-radius:7px; font-family:var(--sans); background:#fff;}
+  .rq-statfilter{display:flex; gap:.3rem; flex-wrap:wrap;}
+  .rq-card{background:#fff; border:1px solid var(--rule); border-radius:10px; padding:.75rem .95rem; margin-bottom:.6rem;}
+  .rq-card .rq-top{display:flex; align-items:center; gap:.55rem; flex-wrap:wrap; cursor:pointer;}
+  .rq-card .rq-q{font-weight:600; flex:1; min-width:0;}
+  .rq-status{font-family:var(--mono); font-size:8.5px; letter-spacing:.05em; text-transform:uppercase; padding:.18rem .48rem; border-radius:20px; font-weight:700; white-space:nowrap;}
+  .rq-status.st-observation, .rq-status.st-question{background:var(--paper-2); color:var(--ink-soft);}
+  .rq-status.st-hypothesis{background:rgba(198,135,27,.14); color:var(--amber);}
+  .rq-status.st-experiment_designed, .rq-status.st-experiment_running{background:rgba(59,79,209,.1); color:var(--signal);}
+  .rq-status.st-supported{background:rgba(42,125,87,.13); color:var(--done);}
+  .rq-status.st-falsified{background:rgba(165,53,43,.1); color:var(--frontier);}
+  .rq-status.st-inconclusive{background:rgba(122,90,166,.13); color:var(--project);}
+  .rq-status.st-archived{background:var(--paper-2); color:var(--muted);}
+  .rq-date{font-family:var(--mono); font-size:10px; color:var(--muted); white-space:nowrap;}
+  .rq-body{display:none; margin-top:.6rem; padding-top:.6rem; border-top:1px dotted var(--rule);}
+  .rq-card.open .rq-body{display:block;}
+  .rq-field{margin-bottom:.55rem;}
+  .rq-field label{display:block; font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin-bottom:.2rem;}
+  .rq-field textarea, .rq-field input, .rq-field select{width:100%; padding:.4rem .55rem; border:1px solid var(--rule); border-radius:6px; font-family:var(--sans); font-size:.88rem; background:var(--paper);}
+  .rq-field textarea{min-height:48px; resize:vertical;}
+  .rq-2col{display:grid; grid-template-columns:1fr 1fr; gap:.6rem;}
+  @media(max-width:640px){ .rq-2col{grid-template-columns:1fr;} }
+  .rq-actions{display:flex; gap:.5rem; margin-top:.4rem;}
+  .rq-actions button{font-family:var(--mono); font-size:10.5px; padding:.35rem .7rem; border-radius:6px; cursor:pointer; border:1px solid var(--rule);}
+  .rq-del{background:transparent; color:var(--frontier); border-color:var(--rule);}
+
+  /* ---------- research gates ---------- */
+  .gate-card{background:#fff; border:1px solid var(--rule); border-radius:10px; padding:1rem 1.1rem; margin-bottom:.9rem;}
+  .gate-card .gc-top{display:flex; align-items:center; justify-content:space-between; gap:.7rem; flex-wrap:wrap;}
+  .gate-card h4{font-family:var(--serif); margin:0; font-size:1.15rem;}
+  .gate-num{font-family:var(--mono); font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em;}
+  .gate-status-select{font-family:var(--mono); font-size:11px; padding:.35rem .5rem; border-radius:6px; border:1px solid var(--rule); background:var(--paper);}
+  .gate-status-select.gs-external_pass{border-color:var(--master); color:var(--master); font-weight:700;}
+  .gate-status-select.gs-self_assessed_pass{border-color:var(--telecom); color:var(--telecom); font-weight:700;}
+  .gate-status-select.gs-needs_revision{border-color:var(--frontier); color:var(--frontier); font-weight:700;}
+  .gate-reqs{margin:.6rem 0; padding-left:1.1rem; font-size:.9rem; color:var(--ink-soft);}
+  .gate-reqs li{margin:.15rem 0;}
+  .gate-card textarea{width:100%; min-height:60px; margin-top:.4rem; padding:.5rem .6rem; border:1px solid var(--rule); border-radius:7px; font-family:var(--sans); font-size:.88rem; background:var(--paper); resize:vertical;}
+  .gate-links{margin-top:.5rem;}
+  .gate-link-row{display:flex; gap:.4rem; align-items:center; margin-bottom:.3rem; font-size:.85rem;}
+  .gate-link-row a{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis;}
+  .gate-addlink{display:flex; gap:.4rem; margin-top:.4rem;}
+  .gate-addlink input{flex:1; min-width:0; padding:.35rem .5rem; border:1px solid var(--rule); border-radius:6px; font-size:.85rem;}
+  .gate-addlink button{font-family:var(--mono); font-size:10px; padding:.35rem .6rem; border-radius:6px; border:1px solid var(--rule); cursor:pointer; background:var(--signal); color:#fff;}
+
+  /* ---------- expertise shape / roles ---------- */
+  .role-select-wrap{margin-left:auto;}
+  .role-select{font-family:var(--mono); font-size:9.5px; text-transform:uppercase; letter-spacing:.03em; padding:.25rem .4rem; border-radius:5px; border:1px solid var(--rule); background:#fff; color:var(--ink-soft); cursor:pointer;}
+  .role-select.role-primary{border-color:var(--master); color:var(--master); font-weight:700;}
+  .role-select.role-secondary{border-color:var(--signal); color:var(--signal); font-weight:700;}
+  .role-select.role-reading{border-color:var(--amber); color:var(--amber); font-weight:700;}
+  .role-select.role-not_pursuing{color:var(--muted);}
+  .shape-col{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem;}
+  .shape-group h4{font-family:var(--mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 .4rem;}
+  .shape-group ul{margin:0; padding-left:1.05rem; font-size:.88rem; color:var(--ink-soft);}
+  .shape-group.empty ul{color:var(--muted); font-style:italic;}
+
+  /* ---------- capability-based milestone ladder ---------- */
+  .ladder{display:flex; flex-direction:column; gap:.4rem;}
+  .rung{display:flex; align-items:flex-start; gap:.8rem; padding:.6rem .8rem; border-radius:8px; border:1px solid var(--rule); background:#fff;}
+  .rung.done{opacity:.6;}
+  .rung.current{border-color:var(--signal); border-width:2px; background:rgba(59,79,209,.04);}
+  .rung .rung-n{font-family:var(--mono); font-weight:700; width:26px; height:26px; border-radius:50%; background:var(--paper-2); color:var(--ink-soft); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:.85rem;}
+  .rung.done .rung-n{background:var(--done); color:#fff;}
+  .rung.current .rung-n{background:var(--signal); color:#fff;}
+  .rung-body{flex:1; min-width:0;}
+  .rung-title{font-weight:700; font-size:.97rem;}
+  .rung-exit{color:var(--ink-soft); font-size:.87rem; margin-top:.1rem;}
+  .rung-gap{color:var(--frontier); font-size:.82rem; margin-top:.25rem; font-style:italic;}
+  .gate-callout{background:var(--paper-2); border-left:3px solid var(--signal); border-radius:0 8px 8px 0; padding:.6rem .9rem; margin:.6rem 0 1rem; font-size:.9rem;}
+
   /* ---------- hero ---------- */
   .hero{max-width:var(--maxw); margin:0 auto; padding:2.4rem 1.3rem .8rem;}
   .eyebrow{font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--signal);}
@@ -89,6 +221,7 @@
   .sbar{width:74px; height:6px; background:var(--paper-2); border-radius:6px; overflow:hidden; border:1px solid var(--rule); position:relative;}
   .sbar > i{display:block; height:100%; width:0%; background:var(--done); transition:width .35s ease;}
   .scount{font-family:var(--mono); font-size:11.5px; color:var(--muted); white-space:nowrap;}
+  .scomp{font-family:var(--mono); font-size:10px; color:var(--project); white-space:nowrap; border:1px solid var(--rule); border-radius:5px; padding:.05rem .35rem;}
   .chev{font-family:var(--mono); color:var(--muted); transition:transform .2s; font-size:.9rem; flex-shrink:0;}
   .sec.collapsed .chev{transform:rotate(-90deg);}
   .sec-body{overflow:hidden;}
@@ -151,6 +284,50 @@
   .detail .arte{background:#fff; border-left:3px solid var(--project); border-radius:0 6px 6px 0; padding:.5rem .7rem; margin-top:.35rem;}
   .item.hide{display:none;}
 
+  /* ---------- competency matrix (compact + expanded) ---------- */
+  .comp-mini{display:flex; gap:3px; margin-top:.35rem;}
+  .comp-tick{width:9px; height:9px; border-radius:2px; background:var(--paper-2); border:1.5px solid var(--rule); display:inline-block;}
+  .comp-tick.lvl-1{background:#CBD8F7; border-color:#CBD8F7;}
+  .comp-tick.lvl-2{background:var(--signal-soft); border-color:var(--signal-soft);}
+  .comp-tick.lvl-3{background:var(--signal); border-color:var(--signal);}
+  .comp-tick.lvl-4{background:var(--master); border-color:var(--master);}
+  .comp-tick.src-external{box-shadow:0 0 0 2px rgba(43,87,198,.3);}
+  .comp-wrap{margin:.2rem 0 .7rem;}
+  .comp-note{color:var(--muted); font-size:.83rem; margin:.15rem 0 .5rem;}
+  .comp-row{display:flex; align-items:center; gap:.55rem; padding:.22rem 0; flex-wrap:wrap;}
+  .comp-row-label{width:82px; flex-shrink:0; font-family:var(--mono); font-size:10.5px; color:var(--ink-soft); font-weight:700; text-transform:uppercase; letter-spacing:.03em;}
+  .comp-btns{display:flex; gap:.25rem;}
+  .comp-btn{width:23px; height:23px; border-radius:5px; border:1px solid var(--rule); background:#fff; font-family:var(--mono); font-size:10.5px; color:var(--muted); cursor:pointer; transition:.12s;}
+  .comp-btn:hover{border-color:var(--signal-soft); color:var(--signal);}
+  .comp-btn.active{background:var(--signal); border-color:var(--signal); color:#fff; font-weight:700;}
+  .src-tag{font-family:var(--mono); font-size:8.5px; letter-spacing:.05em; text-transform:uppercase; padding:.15rem .42rem; border-radius:4px; font-weight:700; white-space:nowrap;}
+  .src-tag.src-self{background:rgba(198,135,27,.14); color:var(--amber);}
+  .src-tag.src-evidence{background:rgba(28,122,108,.13); color:var(--telecom);}
+  .src-tag.src-external{background:rgba(43,87,198,.12); color:var(--master);}
+
+  /* ---------- evidence records ---------- */
+  .evid-wrap{margin:.2rem 0 .3rem;}
+  .evid-list{margin:.2rem 0;}
+  .evid-item{background:#fff; border:1px solid var(--rule); border-radius:8px; padding:.5rem .65rem; margin-bottom:.4rem;}
+  .evid-item.ext{border-left:3px solid var(--master);}
+  .evid-top{display:flex; align-items:center; gap:.4rem; flex-wrap:wrap;}
+  .evid-type{font-family:var(--mono); font-size:8.5px; text-transform:uppercase; letter-spacing:.05em; background:var(--paper-2); color:var(--ink-soft); padding:.12rem .4rem; border-radius:4px; font-weight:700; white-space:nowrap;}
+  .evid-title{font-weight:600; font-size:.9rem; flex:1; min-width:120px;}
+  .evid-date{font-family:var(--mono); font-size:10px; color:var(--muted); white-space:nowrap;}
+  .evid-del{margin-left:auto; background:transparent; border:0; color:var(--muted); cursor:pointer; font-size:13px; line-height:1; padding:.1rem;}
+  .evid-del:hover{color:var(--frontier);}
+  .evid-notes{font-size:.85rem; color:var(--ink-soft); margin:.3rem 0 0;}
+  .evid-dims{margin-top:.35rem; display:flex; gap:.3rem; flex-wrap:wrap;}
+  .evid-empty{color:var(--muted); font-style:italic; font-size:.88rem; margin:.2rem 0;}
+  .evid-add-form{display:none; flex-direction:column; gap:.4rem; background:#fff; border:1px dashed var(--rule); border-radius:8px; padding:.65rem; margin-top:.45rem; max-width:440px;}
+  .evid-add-form.show{display:flex;}
+  .evid-add-form input, .evid-add-form select, .evid-add-form textarea{font-family:var(--sans); font-size:.85rem; padding:.35rem .55rem; border:1px solid var(--rule); border-radius:6px; background:var(--paper); width:100%;}
+  .evid-add-form textarea{min-height:52px; resize:vertical;}
+  .evid-dimcheck{display:flex; flex-wrap:wrap; gap:.5rem .8rem; font-size:.8rem; color:var(--ink-soft);}
+  .evid-dimcheck label{display:flex; align-items:center; gap:.28rem; cursor:pointer;}
+  .evid-form-btns{display:flex; gap:.5rem;}
+  .evid-form-btns button{font-family:var(--mono); font-size:11px; padding:.42rem .75rem; border-radius:6px; cursor:pointer; border:1px solid var(--rule);}
+
   .exit{background:var(--paper-2); border-left:3px solid var(--amber); border-radius:0 8px 8px 0; padding:.7rem 1rem; margin-top:1rem; font-size:.92rem;}
   .exit b{font-family:var(--mono); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--amber); display:block; margin-bottom:.2rem;}
 
@@ -189,7 +366,7 @@
   <div class="bar-inner">
     <div class="bar-top">
       <div class="bar-title"><b>RS Track</b> · PhD-Level AI / ML / GenAI</div>
-      <div class="overall">
+      <div class="overall" title="Resource completion — courses/books/papers/projects marked done or mastered. See the capability strip below for evidence-weighted competency scores.">
         <div class="obar"><i id="oFill"></i><b id="oMaster"></b></div>
         <span class="opct" id="oPct">0%</span>
         <span class="opct" id="oCount" style="color:var(--muted-deep);">0 / 0</span>
@@ -219,13 +396,22 @@
       </div>
     </div>
     <div class="navjump" id="navjump"></div>
+    <div class="capstrip" id="capstrip" title="Aggregate capability profile — computed from evidence-weighted competency scores, not resource completion"></div>
+    <nav class="pagetabs" id="pagetabs">
+      <button class="pagetab on" data-view="curriculum" onclick="switchView('curriculum')">Curriculum</button>
+      <button class="pagetab" data-view="research" onclick="switchView('research')">Research</button>
+      <button class="pagetab" data-view="dashboard" onclick="switchView('dashboard')">Dashboard</button>
+      <button class="pagetab" data-view="gates" onclick="switchView('gates')">Gates</button>
+      <button class="pagetab" data-view="frontier" onclick="switchView('frontier')">Frontier</button>
+    </nav>
   </div>
 </div>
 
+<div class="page" id="page-curriculum">
 <div class="hero">
   <div class="eyebrow">Self-directed doctoral program · 2026 edition · progress saved in this browser</div>
   <h1>Research-scientist depth in AI, ML &amp; <em>generative models</em>.</h1>
-  <p>Seven-phase core spine plus optional specialization tracks. Every item is checkable with a working link. <strong>Major learning units</strong> expand to show rationale, prerequisites, key topics, mastery checks and a required artifact — and support four states so you can mark real mastery, not just "watched it." Specialization tracks and modules start collapsed to keep the page clean; open what you're working on.</p>
+  <p>Seven-phase core spine plus optional specialization tracks. Every item is checkable with a working link. <strong>Major learning units</strong> expand to show rationale, prerequisites, key topics, mastery checks and a required artifact — and support four states so you can mark real mastery, not just "watched it." Beyond that, major units now track <strong>six independent competency dimensions</strong> (Understand → Derive → Implement → Experiment → Critique → Research) that you back with <strong>evidence records</strong>, not just self-rating — because completing a course is not the same as being research-ready. Specialization tracks and modules start collapsed to keep the page clean; open what you're working on. Mark each specialization track's role — Primary / Secondary / Reading literacy / Not pursuing — from its section header; the <strong>Research</strong>, <strong>Dashboard</strong> and <strong>Gates</strong> tabs above turn that plus your evidence into a hypothesis log, a decomposed progress dashboard, and five defended research checkpoints.</p>
   <div class="legend">
     <span><i class="dot"></i> Not started</span>
     <span><i class="dot p"></i> In progress</span>
@@ -233,15 +419,60 @@
     <span><i class="dot m"></i> Mastered</span>
     <span style="color:var(--ink-soft)">· click a row to cycle · major units cycle all four states</span>
   </div>
+  <div class="legend" style="margin-top:.5rem;">
+    <span><span class="src-tag src-self">Self-assessed</span></span>
+    <span><span class="src-tag src-evidence">Evidence-backed</span></span>
+    <span><span class="src-tag src-external">Externally validated</span></span>
+    <span style="color:var(--ink-soft)">· competency dimensions are labeled by how well-supported they are</span>
+  </div>
 </div>
 
 <div class="diag" id="diag"><div class="diag-inner" id="diagInner"></div></div>
 
 <div class="container"><div id="app"></div><div class="empty" id="empty">No items match your search or filter.</div></div>
+</div><!-- /page-curriculum -->
+
+<div class="page hide" id="page-research">
+  <div class="container pagehead">
+    <div class="eyebrow">Research</div>
+    <h1>The apparatus that turns study into contribution.</h1>
+    <p>Recurring research activity, logged explicitly — and a running Observation → Question → Hypothesis → Experiment → Result log. Nothing here is inferred from ticking a paper "done."</p>
+  </div>
+  <div class="container" id="researchPageBody"></div>
+</div>
+
+<div class="page hide" id="page-dashboard">
+  <div class="container pagehead">
+    <div class="eyebrow">Dashboard</div>
+    <h1>Decomposed progress — never one misleading percentage.</h1>
+    <p>Resource completion, competency development, evidence strength and research independence are tracked and shown separately, on purpose.</p>
+  </div>
+  <div class="container" id="dashboardPageBody"></div>
+</div>
+
+<div class="page hide" id="page-gates">
+  <div class="container pagehead">
+    <div class="eyebrow">Gates</div>
+    <h1>Research gates — defended, not checked off.</h1>
+    <p>Five explicit checkpoints. Each supports a real status (not attempted / self-assessed pass / external pass / needs revision), notes, and evidence links.</p>
+  </div>
+  <div class="container" id="gatesPageBody"></div>
+</div>
+
+<div class="page hide" id="page-frontier">
+  <div class="container pagehead">
+    <div class="eyebrow">Frontier</div>
+    <h1>Live research fronts.</h1>
+    <p>The Frontier module from the curriculum, standalone. <em>A full research-radar with status tracking and "review due" reminders is planned for a later phase — for now this mirrors the curriculum section.</em></p>
+  </div>
+  <div class="container" id="frontierPageBody"></div>
+</div>
 
 <footer>
   <div class="container">
-    <p><strong>Using the tracker:</strong> click any row to advance its state. Simple resources toggle done; major units cycle Not&nbsp;started → In&nbsp;progress → Done → Mastered. The top bar shows overall progress (the lighter overlay is the mastered share); each section shows its own bar. <em>Import</em> restores an exported file (merge or replace, unknown IDs ignored safely); <em>Export</em> backs up; <em>Reset</em> clears. Progress persists in this browser's local storage for this file.</p>
+    <p><strong>Using the tracker:</strong> click any row to advance its state. Simple resources toggle done; major units cycle Not&nbsp;started → In&nbsp;progress → Done → Mastered. The top bar shows resource-completion progress (the lighter overlay is the mastered share) plus a capability-profile strip; each section shows its own bar. <em>Import</em> restores an exported file (merge or replace, unknown IDs ignored safely); <em>Export</em> backs up everything including competencies, evidence, research questions, activity log and gate status; <em>Reset</em> clears all of it. Progress persists in this browser's local storage for this file.</p>
+    <p style="margin-top:.7rem;"><strong>Competency ≠ completion:</strong> expand a major unit to independently rate its six competency dimensions and attach evidence (a derivation, a reproduction, an ablation, a peer review, …). A dimension you only self-rate stays labeled <span class="src-tag src-self" style="vertical-align:middle;">Self-assessed</span>; only evidence moves it to <span class="src-tag src-evidence" style="vertical-align:middle;">Evidence-backed</span> or <span class="src-tag src-external" style="vertical-align:middle;">Externally validated</span>. Research Independence in the top strip is deliberately hard to raise by completing courses alone — it also factors in the <em>Research</em> tab's logged activity and the <em>Gates</em> tab's passed checkpoints; see <em>Diagnostics</em> for specific flags.</p>
+    <p style="margin-top:.7rem;"><strong>Research, Dashboard, Gates, Frontier:</strong> the <em>Research</em> tab holds an Observation → Question → Hypothesis → Experiment → Result log (nothing here is inferred from ticking a resource "done") plus a research-activity counter with configurable cadence targets. <em>Dashboard</em> rolls all of it up: capability profile, research output, research pipeline, evidence quality, your T-shaped expertise shape, gate status, and a nine-rung capability-based milestone ladder computed from competencies/evidence/activity/gates — never from checkbox counts. <em>Gates</em> holds five research checkpoints (Reproduction Defense through Independent Research Proposal), each with a real status, notes and evidence links.</p>
     <p style="margin-top:.7rem;"><strong>Self-contained:</strong> this file uses a system-font stack and bundles all styles and logic inline — it runs fully offline. The only external references are hyperlinks to educational resources, which open in a new tab when you choose.</p>
     <p class="dis">Course codes, standards numbers and arXiv identifiers were checked against official sources where possible (3GPP TR 38.843 / TR 37.817, CS336, Tse &amp; Viswanath, s1 = arXiv 2501.19393, etc.). Items marked <span class="pill verify" style="margin:0">⚠ verify</span> could not be fully confirmed — open and check them before citing. Universities re-number and re-offer courses and links move; confirm the current offering on each institution's site. This is a study plan, not academic or career advising.</p>
   </div>
@@ -727,28 +958,470 @@ const ITEMS = [
 ];
 
 /* =========================================================================
-   STATE + PERSISTENCE
-   state values: true | 'in_progress' | 'done' | 'mastered'
+   CONFIG — competency model, evidence types, capability categories
    ========================================================================= */
-const STORE_KEY = 'rs_track_progress_v2';
-const LEGACY_KEY = 'rs_track_progress_v1';
-let state = {};
-let curFilter = 'all', curQuery = '', sectionOpen = {}, allExpanded = false, pendingImport = null;
-
 const TYPE_LABEL = {course:'Course',book:'Book',paper:'Paper',project:'Project',milestone:'Milestone',std:'Standard',skill:'Skill'};
 const MAJOR_CYCLE = ['in_progress','done','mastered',null];   // from not-started
-const SIMPLE_CYCLE = {undefined:true, true:null};
 
-function isComplete(id){ const s=state[id]; return s===true||s==='done'||s==='mastered'; }
-function isMastered(id){ return state[id]==='mastered'; }
+// Six independently trackable competency dimensions (request: Understand -> Derive ->
+// Implement -> Experiment -> Critique -> Research). Applies only to major:true units.
+const COMPETENCY_DIMS = ['understand','derive','implement','experiment','critique','research'];
+const COMPETENCY_LABELS = {understand:'Understand',derive:'Derive',implement:'Implement',experiment:'Experiment',critique:'Critique',research:'Research'};
+const COMPETENCY_LEVELS = ['Not assessed','Developing','Competent','Strong','Research-ready'];
 
-function load(){
-  try{ state = JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }catch(e){ state={}; }
-  if(!Object.keys(state).length){ // migrate legacy v1 (all booleans)
-    try{ const legacy = JSON.parse(localStorage.getItem(LEGACY_KEY)); if(legacy && typeof legacy==='object'){ state = legacy; save(); } }catch(e){}
-  }
+const EVIDENCE_TYPES = ['Derivation','Implementation','Experiment','Reproduction','Ablation','Research memo','Paper','Peer review','Presentation','External validation'];
+// Evidence types strong enough to count as EXTERNALLY VALIDATED rather than merely EVIDENCE-BACKED.
+const EXTERNAL_EVIDENCE_TYPES = new Set(['Peer review','External validation']);
+
+// Top-level dashboard capability categories.
+const CAPABILITY_CATEGORIES = ['theory','implementation','experimentation','evaluation','systems','research_independence'];
+const CAPABILITY_LABELS = {theory:'Theory',implementation:'Implementation',experimentation:'Experimentation',evaluation:'Evaluation',systems:'Systems',research_independence:'Research Independence'};
+// Which competency dimension(s) roll up into each tag-based category.
+const CATEGORY_DIMENSIONS = {theory:['understand','derive'], implementation:['implement'], experimentation:['experiment'], systems:['implement','experiment'], evaluation:['understand','experiment','critique']};
+// Which major units count toward which categories. (Evaluation gets no units until the
+// Phase C core Evaluation module ships — the dashboard shows "no data" rather than faking a score.)
+const CAPABILITY_TAGS = {
+  'p1-la':['theory'], 'p1-prob':['theory'], 'p1-opt':['theory'], 'p1-info':['theory'],
+  'p1-algo':['implementation','systems'], 'p1-os':['systems'], 'p1-net':['systems'],
+  'p3-dl':['implementation','theory'], 'p4-rlfound':['implementation','theory'],
+  'p5-cs336':['implementation','systems'], 'tg-cs236':['theory','implementation'],
+  'tc-neal':['theory'], 'tel-tse':['theory'], 'rm-exp':['experimentation']
+};
+// Evidence-tier weighting: a self-assessed level counts for less than an evidence-backed
+// or externally-validated one when rolling up into aggregate scores. This is the mechanism
+// that stops manual self-rating alone from inflating capability numbers.
+const EVIDENCE_TIER_WEIGHT = {self:0.5, evidence:0.85, external:1.0};
+// Research Independence uses a stricter weighting: self-assessment barely moves it at all,
+// by design (request #14/#24 — resource consumption and self-rating must not read as
+// research-readiness). Phase B adds research-activity and gate terms on top of this base.
+const RESEARCH_INDEPENDENCE_WEIGHT = {self:0.15, evidence:0.75, external:1.0};
+
+/* =========================================================================
+   CONFIG — Phase B: research questions, activity log, gates, roles, milestones
+   ========================================================================= */
+const RQ_STATUSES = ['observation','question','hypothesis','experiment_designed','experiment_running','supported','falsified','inconclusive','archived'];
+const RQ_STATUS_LABELS = {observation:'Observation', question:'Question', hypothesis:'Hypothesis', experiment_designed:'Experiment designed',
+  experiment_running:'Experiment running', supported:'Supported', falsified:'Falsified', inconclusive:'Inconclusive', archived:'Archived'};
+const RQ_FIELDS = [
+  {key:'observation', label:'Observation'}, {key:'question', label:'Research question'}, {key:'hypothesis', label:'Hypothesis'},
+  {key:'motivation', label:'Motivation'}, {key:'cheapestExperiment', label:'Cheapest falsifying experiment'},
+  {key:'experimentalDesign', label:'Experimental design'}, {key:'result', label:'Result'},
+  {key:'updatedBelief', label:'Updated belief'}, {key:'nextQuestion', label:'Next question'}
+];
+const RQ_RESOLVED_STATUSES = new Set(['supported','falsified','inconclusive']);
+
+// Research activity log categories. Deliberately manual/explicit (request #4: "do not count
+// a simple paper-completed checkbox as a deep paper read automatically"). "Hypotheses tested"
+// is intentionally NOT a manual log here — it is derived from the Hypothesis Log's resolved
+// entries (calculateResearchQuestionStats) so the same event isn't recorded in two places.
+const RESEARCH_ACTIVITY_CATEGORIES = [
+  {key:'papersDeepRead', label:'Papers deeply read', cadenceKey:'paperPerWeek', cadenceUnit:'week', cadenceDays:7},
+  {key:'reconstructions', label:'Paper reconstructions', cadenceKey:'reconstructionPerMonth', cadenceUnit:'month', cadenceDays:30},
+  {key:'reproductions', label:'Reproductions completed', cadenceKey:'reproductionPerQuarter', cadenceUnit:'quarter', cadenceDays:91},
+  {key:'memos', label:'Research memos written', cadenceKey:'memoPerQuarter', cadenceUnit:'quarter', cadenceDays:91},
+  {key:'ablations', label:'Ablations completed'},
+  {key:'failedExperiments', label:'Failed experiments recorded'},
+  {key:'peerReviews', label:'Peer reviews completed'},
+  {key:'talks', label:'Talks delivered'},
+  {key:'externalValidations', label:'External validations'},
+  {key:'publications', label:'Publications'}
+];
+
+const GATES = [
+  {key:'gate1', title:'Reproduction Defense', requirements:['Reproduce a published result','Explain discrepancies','Defend methodology']},
+  {key:'gate2', title:'Experimental Design Defense', requirements:['Propose a hypothesis','Design falsifying experiments','Identify confounders','Define evaluation before seeing results']},
+  {key:'gate3', title:'Research Critique', requirements:['Critique a strong recent paper','Identify its strongest claim','Identify its weakest assumption','Propose the most decisive follow-up experiment']},
+  {key:'gate4', title:'Specialization Qualifying Exam', requirements:['Produce a literature map','Present the field','Defend technical questions','Identify open problems']},
+  {key:'gate5', title:'Independent Research Proposal', requirements:['Research question','Literature gap','Hypotheses','Experimental plan','Risks','Compute requirements','Evaluation strategy','Expected contribution']}
+];
+const GATE_STATUSES = ['not_attempted','self_assessed_pass','external_pass','needs_revision'];
+const GATE_STATUS_LABELS = {not_attempted:'Not attempted', self_assessed_pass:'Self-assessed pass', external_pass:'External pass', needs_revision:'Needs revision'};
+function gateStatus(key){ return (state.researchGates[key] && state.researchGates[key].status) || 'not_attempted'; }
+function gatePassed(key){ const s=gateStatus(key); return s==='self_assessed_pass'||s==='external_pass'; }
+
+const SPEC_ROLES = ['primary','secondary','reading','not_pursuing'];
+const SPEC_ROLE_LABELS = {primary:'Primary', secondary:'Secondary', reading:'Reading literacy', not_pursuing:'Not pursuing'};
+const SPEC_ROLE_TARGETS = {primary:'Target: research-frontier depth.', secondary:'Target: collaboration-level depth.', reading:'Target: understand papers and communicate with specialists.', not_pursuing:'Intentionally not being pursued right now — this is not a penalty.'};
+
+// Capability-based milestone ladder. Each level's `check(sig)` reads only from computed
+// signals (competencies+evidence+research activity+gates) — never from raw resource/checkbox
+// completion — and returns {pass, gap} so the UI can show exactly what's missing next.
+const MILESTONE_LEVELS = [
+  {n:1, key:'apprentice', title:'Apprentice', exit:'Can understand and implement established methods with guidance.',
+    check:sig=>({pass: sig.anyAssessed, gap:'Rate at least one competency dimension on a major unit to establish a baseline.'})},
+  {n:2, key:'implementer', title:'Implementer', exit:'Can independently implement established methods without guidance.',
+    check:sig=>({pass: sig.implementBreadth>=3, gap:'Implement competency at Competent+ on '+sig.implementBreadth+' of 3 needed major units.'})},
+  {n:3, key:'reproducer', title:'Reproducer', exit:'Can independently reproduce a published claim and explain discrepancies.',
+    check:sig=>({pass: sig.reproductionSignals>=1, gap:'No reproduction evidence or logged reproduction yet — reproduce one published result end to end.'})},
+  {n:4, key:'experimentalist', title:'Experimentalist', exit:'Can design controlled experiments, ablations, and uncertainty analysis.',
+    check:sig=>({pass: sig.ablationSignals>=1 && sig.experimentEvidenceBacked, gap:'Needs an ablation (logged or evidenced) plus evidence-backed Experiment competency (currently '+(sig.experimentEvidenceBacked?'ok':'missing')+', '+sig.ablationSignals+' ablation signal(s)).'})},
+  {n:5, key:'critic', title:'Critic', exit:'Can identify methodological weaknesses and propose decisive experiments.',
+    check:sig=>({pass: sig.critiqueEvidenceBacked || gatePassed('gate3'), gap:'Needs evidence-backed Critique competency (Strong+) or a passed Research Critique gate.'})},
+  {n:6, key:'synthesizer', title:'Synthesizer', exit:'Can connect multiple research threads into a coherent research landscape.',
+    check:sig=>({pass: sig.literatureMapSignal, gap:'Needs a literature-map/qualifying-exam signal — pass Gate 4 or log 2+ research memos.'})},
+  {n:7, key:'researcher', title:'Researcher', exit:'Can formulate and test a genuinely novel hypothesis.',
+    check:sig=>({pass: sig.resolvedHypotheses>=1, gap:'No hypothesis in the Research Question Log has reached Supported/Falsified/Inconclusive yet.'})},
+  {n:8, key:'independent_researcher', title:'Independent Researcher', exit:'Can establish and defend a coherent research agenda.',
+    check:sig=>({pass: gatePassed('gate5'), gap:'Independent Research Proposal (Gate 5) has not been passed yet.'})},
+  {n:9, key:'research_leader', title:'Research Leader', exit:'Can identify important problems and guide other researchers.',
+    check:sig=>({pass: gateStatus('gate5')==='external_pass' && sig.publications>=1 && sig.externalValidations>=1 && sig.talks>=1,
+      gap:'Needs an externally-passed Gate 5, at least one publication, one external validation, and one talk delivered.'})}
+];
+
+function escapeHtml(str){
+  return String(str==null?'':str).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
-function save(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){} }
+function genId(prefix){ return prefix+'-'+Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
+function clampLevel(v){ v=Number(v); if(!Number.isFinite(v)) return 0; return Math.max(0,Math.min(4,Math.round(v))); }
+
+/* =========================================================================
+   STATE MODEL + PERSISTENCE  (versioned schema — see plan doc for full shape)
+   itemProgress values: 'in_progress' | 'done' | 'mastered'
+   ========================================================================= */
+const STORE_KEY_V3 = 'rs_track_state_v3';
+const STORE_KEY_V2 = 'rs_track_progress_v2';   // legacy flat map — read-only, never deleted
+const STORE_KEY_V1 = 'rs_track_progress_v1';   // legacy flat map — read-only, never deleted
+
+let state = null;
+let curFilter = 'all', curQuery = '', sectionOpen = {}, allExpanded = false, pendingImport = null;
+let currentView = 'curriculum';
+let rqFilter = 'all', rqQuery = '', rqOpenId = null;
+
+function defaultState(){
+  return {
+    version: 3,
+    itemProgress: {},
+    competencies: {},
+    evidence: {},
+    researchActivity: {
+      cadence: {paperPerWeek:1, reconstructionPerMonth:1, reproductionPerQuarter:1, memoPerQuarter:1},
+      log: {papersDeepRead:[],reconstructions:[],reproductions:[],ablations:[],hypothesesTested:[],
+            failedExperiments:[],memos:[],peerReviews:[],talks:[],externalValidations:[],publications:[]}
+    },
+    researchQuestions: [],
+    specializationRoles: {},
+    researchGates: {},
+    frontierTopics: [],
+    settings: {}
+  };
+}
+
+// Wrap a legacy flat {id: true|'in_progress'|'done'|'mastered'} map (v1 or v2) into a fresh v3 state.
+function migrateFlatProgress(flatMap){
+  const s = defaultState();
+  if(flatMap && typeof flatMap==='object'){
+    Object.keys(flatMap).forEach(id=>{
+      let v = flatMap[id];
+      if(v===true) v='done';
+      if(v==='in_progress'||v==='done'||v==='mastered') s.itemProgress[id]=v;
+    });
+  }
+  return s;
+}
+
+function sanitizeResearchActivity(ra){
+  const d = defaultState().researchActivity;
+  if(!ra||typeof ra!=='object') return d;
+  const cadence = Object.assign({}, d.cadence, (ra.cadence&&typeof ra.cadence==='object')?ra.cadence:{});
+  const log = {};
+  Object.keys(d.log).forEach(k=>{ log[k] = Array.isArray(ra.log&&ra.log[k]) ? ra.log[k] : []; });
+  return {cadence, log};
+}
+
+// Explicit, versioned migration for anything already shaped like a v3 (or partial/future) state object.
+// Always returns a fully-shaped, defensively-sanitized state so a corrupt/partial blob can never crash render().
+function migrateState(raw){
+  if(!raw || typeof raw!=='object') return defaultState();
+  const s = raw;
+  return {
+    version: 3,
+    itemProgress: (s.itemProgress && typeof s.itemProgress==='object') ? s.itemProgress : {},
+    competencies: (s.competencies && typeof s.competencies==='object') ? s.competencies : {},
+    evidence: (s.evidence && typeof s.evidence==='object') ? s.evidence : {},
+    researchActivity: sanitizeResearchActivity(s.researchActivity),
+    researchQuestions: Array.isArray(s.researchQuestions) ? s.researchQuestions : [],
+    specializationRoles: (s.specializationRoles && typeof s.specializationRoles==='object') ? s.specializationRoles : {},
+    researchGates: (s.researchGates && typeof s.researchGates==='object') ? s.researchGates : {},
+    frontierTopics: Array.isArray(s.frontierTopics) ? s.frontierTopics : [],
+    settings: (s.settings && typeof s.settings==='object') ? s.settings : {}
+  };
+}
+
+function isComplete(id){ const s=state.itemProgress[id]; return s==='done'||s==='mastered'; }
+function isMastered(id){ return state.itemProgress[id]==='mastered'; }
+
+// loadState(): v3 key first; falls back to legacy v2/v1 flat maps; never deletes legacy keys
+// (so a bug found after migration can never lose data — the old keys are always still there).
+function loadState(){
+  try{
+    const rawV3 = localStorage.getItem(STORE_KEY_V3);
+    if(rawV3) return migrateState(JSON.parse(rawV3));
+  }catch(e){}
+  try{
+    const rawV2 = localStorage.getItem(STORE_KEY_V2);
+    if(rawV2) return migrateFlatProgress(JSON.parse(rawV2));
+  }catch(e){}
+  try{
+    const rawV1 = localStorage.getItem(STORE_KEY_V1);
+    if(rawV1) return migrateFlatProgress(JSON.parse(rawV1));
+  }catch(e){}
+  return defaultState();
+}
+function saveState(){ try{ localStorage.setItem(STORE_KEY_V3, JSON.stringify(state)); }catch(e){} }
+
+/* ---------- competency + evidence data helpers ---------- */
+function getUnitCompetency(unitId){
+  const c = state.competencies[unitId];
+  const out = {};
+  COMPETENCY_DIMS.forEach(dim=>{
+    const existing = c && c[dim];
+    out[dim] = (existing && typeof existing==='object')
+      ? {level:clampLevel(existing.level), lastPracticed:existing.lastPracticed||null, lastDemonstrated:existing.lastDemonstrated||null}
+      : {level:0, lastPracticed:null, lastDemonstrated:null};
+  });
+  return out;
+}
+function setUnitCompetencyLevel(unitId,dim,level){
+  if(!COMPETENCY_DIMS.includes(dim)) return;
+  if(!state.competencies[unitId]) state.competencies[unitId]={};
+  if(!state.competencies[unitId][dim]) state.competencies[unitId][dim]={level:0,lastPracticed:null,lastDemonstrated:null};
+  state.competencies[unitId][dim].level = clampLevel(level);
+  saveState();
+}
+function getUnitEvidence(unitId){ return Array.isArray(state.evidence[unitId]) ? state.evidence[unitId] : []; }
+function addEvidence(unitId, record){
+  if(!state.evidence[unitId]) state.evidence[unitId]=[];
+  state.evidence[unitId].push(record);
+  saveState();
+}
+function removeEvidence(unitId, evidenceId){
+  if(!Array.isArray(state.evidence[unitId])) return;
+  state.evidence[unitId] = state.evidence[unitId].filter(e=>e.id!==evidenceId);
+  saveState();
+}
+// Derived (never stored) classification of a single competency dimension on a unit.
+function getDimensionSource(unitId, dim){
+  const list = getUnitEvidence(unitId).filter(e=>Array.isArray(e.competencies)&&e.competencies.includes(dim));
+  if(!list.length) return 'self';
+  return list.some(e=>EXTERNAL_EVIDENCE_TYPES.has(e.type)) ? 'external' : 'evidence';
+}
+function sourceLabel(src){ return src==='external'?'Externally validated':src==='evidence'?'Evidence-backed':'Self-assessed'; }
+// A dimension's level discounted by how well-supported it is — the core anti-gaming mechanism.
+function effectiveLevel(unitId, dim, weights){
+  weights = weights || EVIDENCE_TIER_WEIGHT;
+  const level = getUnitCompetency(unitId)[dim].level;
+  const src = getDimensionSource(unitId, dim);
+  return level * (weights[src]!==undefined ? weights[src] : 1);
+}
+// T-shaped roles (request #12): a specialization track explicitly marked "not pursuing" is
+// excluded from every aggregate rollup below, so choosing not to go deep on a track never
+// reads as a deficiency. Tracks left unset, or marked secondary/reading/primary, count normally.
+function unitExcludedByRole(unitId){
+  const it = ITEMS.find(i=>i.id===unitId);
+  if(!it) return false;
+  const sec = SECTIONS.find(s=>s.key===it.ph);
+  if(!sec || sec.kind!=='track') return false;
+  return state.specializationRoles[sec.key]==='not_pursuing';
+}
+function activeMajorUnits(){ return ITEMS.filter(i=>i.major && !unitExcludedByRole(i.id)); }
+
+/* ---------- research questions / activity / gates data helpers ---------- */
+function getResearchQuestions(){ return state.researchQuestions; }
+function addResearchQuestion(q){ state.researchQuestions.unshift(q); saveState(); }
+function updateResearchQuestion(id, patch){
+  const q = state.researchQuestions.find(x=>x.id===id); if(!q) return;
+  Object.assign(q, patch); q.updatedAt = new Date().toISOString(); saveState();
+}
+function deleteResearchQuestion(id){ state.researchQuestions = state.researchQuestions.filter(x=>x.id!==id); saveState(); }
+
+function addActivityLogEntry(catKey, entry){
+  if(!state.researchActivity.log[catKey]) state.researchActivity.log[catKey]=[];
+  state.researchActivity.log[catKey].unshift(entry); saveState();
+}
+function removeActivityLogEntry(catKey, entryId){
+  if(!Array.isArray(state.researchActivity.log[catKey])) return;
+  state.researchActivity.log[catKey] = state.researchActivity.log[catKey].filter(e=>e.id!==entryId); saveState();
+}
+function setCadence(cadenceKey, value){
+  const v = Math.max(0, parseInt(value,10)||0);
+  state.researchActivity.cadence[cadenceKey] = v; saveState();
+}
+
+function getGate(key){
+  if(!state.researchGates[key]) state.researchGates[key] = {status:'not_attempted', notes:'', links:[], updatedAt:null};
+  const g = state.researchGates[key];
+  if(!Array.isArray(g.links)) g.links=[];
+  return g;
+}
+function setGateStatus(key, status){
+  if(!GATE_STATUSES.includes(status)) return;
+  const g = getGate(key); g.status = status; g.updatedAt = new Date().toISOString(); saveState();
+}
+function setGateNotes(key, notes){ const g=getGate(key); g.notes = String(notes||''); g.updatedAt = new Date().toISOString(); saveState(); }
+function addGateLink(key, title, url){
+  if(!url) return;
+  const g = getGate(key); g.links.push({id:genId('gl'), title:title||url, url}); saveState();
+}
+function removeGateLink(key, linkId){ const g=getGate(key); g.links = g.links.filter(l=>l.id!==linkId); saveState(); }
+
+function setSpecializationRole(sectionKey, role){
+  if(role==='' || role==null){ delete state.specializationRoles[sectionKey]; } 
+  else if(SPEC_ROLES.includes(role)){ state.specializationRoles[sectionKey]=role; }
+  saveState();
+}
+function getSpecializationRole(sectionKey){ return state.specializationRoles[sectionKey] || ''; }
+
+/* =========================================================================
+   CALCULATIONS — decomposed progress metrics (never collapse these into one %)
+   ========================================================================= */
+function calculateResourceCompletion(){
+  const total=ITEMS.length;
+  const done=ITEMS.filter(i=>isComplete(i.id)).length;
+  const mastered=ITEMS.filter(i=>isMastered(i.id)).length;
+  return {total, done, mastered, pct: total?Math.round(done/total*100):0, masterPct: total?Math.round(mastered/total*100):0};
+}
+function calculateGroupCompetency(unitIds){
+  let sum=0,n=0;
+  unitIds.forEach(id=>COMPETENCY_DIMS.forEach(dim=>{ sum+=effectiveLevel(id,dim); n++; }));
+  return n ? sum/n : null;
+}
+function calculateCompetencyDevelopment(){
+  const majorUnits = activeMajorUnits();
+  let sum=0, n=0, assessedDims=0, totalDims=0;
+  majorUnits.forEach(u=>{
+    const comp=getUnitCompetency(u.id);
+    COMPETENCY_DIMS.forEach(dim=>{
+      totalDims++;
+      if(comp[dim].level>0) assessedDims++;
+      sum += effectiveLevel(u.id,dim); n++;
+    });
+  });
+  return {pct: n?Math.round(sum/n/4*100):0, assessedDims, totalDims, unitCount:majorUnits.length};
+}
+function calculateEvidenceStrength(){
+  const majorUnits = activeMajorUnits();
+  let selfN=0, evidN=0, extN=0, assessed=0;
+  majorUnits.forEach(u=>{
+    const comp=getUnitCompetency(u.id);
+    COMPETENCY_DIMS.forEach(dim=>{
+      if(comp[dim].level>0){
+        assessed++;
+        const src=getDimensionSource(u.id,dim);
+        if(src==='external') extN++; else if(src==='evidence') evidN++; else selfN++;
+      }
+    });
+  });
+  let totalEvidenceRecords=0; Object.values(state.evidence).forEach(l=>{ if(Array.isArray(l)) totalEvidenceRecords+=l.length; });
+  return {assessed, self:selfN, evidenceBacked:evidN, externallyValidated:extN, totalEvidenceRecords,
+    pct: assessed?Math.round((evidN+extN)/assessed*100):0};
+}
+function calculateCapabilityProfile(){
+  const majorUnits = activeMajorUnits();
+  const profile = {};
+  ['theory','implementation','experimentation','evaluation','systems'].forEach(cat=>{
+    const units = majorUnits.filter(u=>(CAPABILITY_TAGS[u.id]||[]).includes(cat));
+    if(!units.length){ profile[cat]={pct:null,count:0}; return; }
+    const dims = CATEGORY_DIMENSIONS[cat];
+    let sum=0,n=0;
+    units.forEach(u=>dims.forEach(dim=>{ sum+=effectiveLevel(u.id,dim); n++; }));
+    profile[cat] = {pct: n?Math.round(sum/n/4*100):0, count:units.length};
+  });
+  // Research Independence is cross-cutting: it looks at research+critique across ALL major
+  // units (not just tagged ones) using a much stricter self-assessment discount, so it can
+  // never be driven up by simply marking courses/books "mastered". Phase B adds explicit
+  // research-activity and research-gate terms on top: recurring research behavior (logged
+  // reproductions/ablations/resolved hypotheses/external validations/publications) and passed
+  // research gates — both of which are impossible to raise by resource completion alone.
+  const riDims=['research','critique'];
+  let riSum=0, riN=0;
+  majorUnits.forEach(u=>riDims.forEach(dim=>{ riSum+=effectiveLevel(u.id,dim,RESEARCH_INDEPENDENCE_WEIGHT); riN++; }));
+  const act = calculateResearchActivityCounts();
+  const researchActivityTerm = Math.min(20,
+    Math.min(act.reproductions,3)*2 + Math.min(act.ablations,3)*1.5 +
+    Math.min(act.hypothesesTested,5)*1.5 + Math.min(act.externalValidations,3)*3 +
+    Math.min(act.publications,3)*4);
+  const gatesPassedCount = GATES.filter(g=>gatePassed(g.key)).length;
+  const researchGateTerm = gatesPassedCount*4;
+  const riBase = riN ? (riSum/riN/4*100) : 0;
+  profile.research_independence = {pct: Math.round(Math.min(100, riBase+researchActivityTerm+researchGateTerm)), count: majorUnits.length,
+    basisBase: Math.round(riBase), activityTerm: Math.round(researchActivityTerm), gateTerm: researchGateTerm};
+  return profile;
+}
+function calculateResearchIndependence(){
+  const profile = calculateCapabilityProfile();
+  return {pct: profile.research_independence.pct,
+    basis:'Evidence-weighted research & critique competency across all major units, plus recurring research-activity and passed-gate terms. Cannot be raised by resource completion or self-rating alone.'};
+}
+
+/* ---------- Phase B: research questions, activity counts, milestone ladder ---------- */
+function calculateResearchQuestionStats(){
+  const qs = state.researchQuestions;
+  const byStatus = {}; RQ_STATUSES.forEach(s=>byStatus[s]=0);
+  qs.forEach(q=>{ if(byStatus[q.status]!==undefined) byStatus[q.status]++; });
+  const resolved = byStatus.supported+byStatus.falsified+byStatus.inconclusive;
+  const active = byStatus.hypothesis+byStatus.experiment_designed+byStatus.experiment_running;
+  const open = byStatus.observation+byStatus.question;
+  return {total:qs.length, byStatus, resolved, active, open,
+    falsificationRate: resolved?Math.round(byStatus.falsified/resolved*100):0,
+    inconclusiveRate: resolved?Math.round(byStatus.inconclusive/resolved*100):0,
+    supportedRate: resolved?Math.round(byStatus.supported/resolved*100):0};
+}
+function calculateResearchActivityCounts(){
+  const log = state.researchActivity.log;
+  const counts = {};
+  RESEARCH_ACTIVITY_CATEGORIES.forEach(c=>{ counts[c.key] = Array.isArray(log[c.key]) ? log[c.key].length : 0; });
+  counts.hypothesesTested = calculateResearchQuestionStats().resolved;
+  return counts;
+}
+// "On pace" check for cadence-tracked categories: were enough entries logged within the
+// most recent cadence window (week/month/quarter) to meet the configured target?
+function calculateCadencePace(catKey){
+  const cat = RESEARCH_ACTIVITY_CATEGORIES.find(c=>c.key===catKey);
+  if(!cat || !cat.cadenceKey) return null;
+  const target = state.researchActivity.cadence[cat.cadenceKey] || 0;
+  const log = state.researchActivity.log[catKey] || [];
+  const cutoff = Date.now() - cat.cadenceDays*24*60*60*1000;
+  const recent = log.filter(e=>e.date && new Date(e.date).getTime()>=cutoff).length;
+  return {target, recent, onPace: target<=0 ? null : recent>=target, unit:cat.cadenceUnit};
+}
+function calculateMilestoneSignals(){
+  const majorUnits = activeMajorUnits();
+  let anyAssessed=false, implementBreadth=0, experimentEvidenceBacked=false, critiqueEvidenceBacked=false;
+  majorUnits.forEach(u=>{
+    const comp=getUnitCompetency(u.id);
+    COMPETENCY_DIMS.forEach(dim=>{ if(comp[dim].level>0) anyAssessed=true; });
+    if(comp.implement.level>=2) implementBreadth++;
+    if(comp.experiment.level>=2 && getDimensionSource(u.id,'experiment')!=='self') experimentEvidenceBacked=true;
+    if(comp.critique.level>=3 && getDimensionSource(u.id,'critique')!=='self') critiqueEvidenceBacked=true;
+  });
+  const act = calculateResearchActivityCounts();
+  let reproductionEvidenceRecords=0, ablationEvidenceRecords=0;
+  Object.values(state.evidence).forEach(list=>{ if(!Array.isArray(list)) return; list.forEach(e=>{
+    if(e.type==='Reproduction') reproductionEvidenceRecords++;
+    if(e.type==='Ablation') ablationEvidenceRecords++;
+  });});
+  const qstats = calculateResearchQuestionStats();
+  return {
+    anyAssessed, implementBreadth,
+    reproductionSignals: act.reproductions + reproductionEvidenceRecords,
+    ablationSignals: act.ablations + ablationEvidenceRecords,
+    experimentEvidenceBacked, critiqueEvidenceBacked,
+    literatureMapSignal: gatePassed('gate4') || act.memos>=2,
+    resolvedHypotheses: qstats.resolved,
+    publications: act.publications, externalValidations: act.externalValidations, talks: act.talks
+  };
+}
+// Current stage = highest contiguous level (from 1) whose check passes. Never derived from
+// raw resource/checkbox completion — only from competencies+evidence+activity+gates.
+function calculateMilestoneStage(){
+  const sig = calculateMilestoneSignals();
+  const results = MILESTONE_LEVELS.map(lvl=>{ const r=lvl.check(sig); return {level:lvl, pass:!!r.pass, gap:r.gap}; });
+  let stage=0;
+  for(let i=0;i<results.length;i++){ if(results[i].pass) stage=results[i].level.n; else break; }
+  const next = MILESTONE_LEVELS.find(l=>l.n===stage+1);
+  const nextResult = next ? results.find(r=>r.level.n===next.n) : null;
+  return {stage, results, next, nextGap: nextResult?nextResult.gap:null, signals:sig};
+}
 
 /* ---------- rendering ---------- */
 const GROUP_ORDER = ['course','book','paper','std','skill','project','milestone'];
@@ -769,11 +1442,18 @@ function render(){
     const numCls = sec.cls || (sec.kind==='track'?'track':(sec.kind==='module'?'mod':''));
     const kindLabel = sec.kind==='track'?'<div class="sec-kind spec">Specialization track</div>'
                     : sec.kind==='module'?'<div class="sec-kind module">Module</div>':'';
+    const roleSelector = sec.kind==='track' ? (()=>{
+      const cur = getSpecializationRole(sec.key);
+      const opts = [['','— set role —']].concat(SPEC_ROLES.map(r=>[r,SPEC_ROLE_LABELS[r]]))
+        .map(([v,l])=>'<option value="'+v+'"'+(cur===v?' selected':'')+'>'+l+'</option>').join('');
+      return '<div class="role-select-wrap" onclick="event.stopPropagation()" title="T-shaped expertise: mark this track Primary/Secondary/Reading literacy, or Not pursuing (never penalized)."><select class="role-select'+(cur?' role-'+cur:'')+'" onclick="event.stopPropagation()" onchange="event.stopPropagation(); setSpecializationRole(\''+sec.key+'\',this.value); render();">'+opts+'</select></div>';
+    })() : '';
     const head=document.createElement('div'); head.className='sec-head';
     head.innerHTML =
       '<div class="sec-num '+numCls+'">'+sec.num+'</div>'+
       '<div class="sec-titles">'+kindLabel+'<h2>'+sec.title+'</h2><div class="dur">'+sec.dur+'</div></div>'+
-      '<div class="sec-prog"><div class="sbar"><i id="sfill-'+sec.key+'"></i></div><span class="scount" id="scount-'+sec.key+'"></span></div>'+
+      roleSelector+
+      '<div class="sec-prog"><div class="sbar"><i id="sfill-'+sec.key+'"></i></div><span class="scount" id="scount-'+sec.key+'"></span><span class="scomp mono" id="scomp-'+sec.key+'" style="display:none" title="Average evidence-weighted competency (0-4) across this section\'s major units"></span></div>'+
       '<span class="chev">▾</span>';
     head.addEventListener('click',()=>toggleSection(sec.key));
     wrap.appendChild(head);
@@ -790,10 +1470,19 @@ function render(){
     if(sec.exit){ const ex=document.createElement('div'); ex.className='exit'; ex.innerHTML='<b>Exit criteria</b>'+sec.exit; body.appendChild(ex); }
     wrap.appendChild(body); app.appendChild(wrap);
   });
-  updateProgress(); applyFilters();
+  updateAllMetrics(); applyFilters();
 }
 
-function stateClass(id){ const s=state[id]; if(s===true||s==='done') return 's-done'; if(s==='mastered') return 's-mastered'; if(s==='in_progress') return 's-in_progress'; return ''; }
+function stateClass(id){ const s=state.itemProgress[id]; if(s==='done') return 's-done'; if(s==='mastered') return 's-mastered'; if(s==='in_progress') return 's-in_progress'; return ''; }
+
+// Compact 6-tick competency visualization shown on every major-unit row (collapsed view).
+function renderCompMini(unitId){
+  const comp = getUnitCompetency(unitId);
+  return COMPETENCY_DIMS.map(dim=>{
+    const level = comp[dim].level, src = getDimensionSource(unitId,dim);
+    return '<span class="comp-tick lvl-'+level+' src-'+src+'" title="'+escapeHtml(COMPETENCY_LABELS[dim]+': '+COMPETENCY_LEVELS[level]+' ('+sourceLabel(src).toLowerCase()+')')+'"></span>';
+  }).join('');
+}
 
 function itemRow(it){
   const row=document.createElement('div');
@@ -808,20 +1497,21 @@ function itemRow(it){
     .concat(it.verify?['<span class="pill verify">⚠ verify</span>']:[]).join('');
   const link=it.u?'<a class="lnk" href="'+it.u+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">open ↗</a>':'';
   const meta=it.m?'<div class="m">'+it.m+'</div>':'';
-  const expander=it.detail?'<span class="expander" onclick="toggleDetail(event,this)">details ⌄</span>':'';
+  const compMini=it.major?'<div class="comp-mini">'+renderCompMini(it.id)+'</div>':'';
+  const expander=(it.detail||it.major)?'<span class="expander" onclick="toggleDetail(event,this)">details ⌄</span>':'';
 
   const r=document.createElement('div'); r.className='item-row';
   r.innerHTML =
     '<div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>'+
-    '<div class="item-main"><div class="t"><span class="tt">'+it.t+'</span>'+link+' '+pills+'</div>'+meta+'</div>'+
+    '<div class="item-main"><div class="t"><span class="tt">'+it.t+'</span>'+link+' '+pills+'</div>'+meta+compMini+'</div>'+
     expander+
     '<span class="badge '+it.type+'">'+TYPE_LABEL[it.type]+'</span>';
   r.addEventListener('click',()=>cycle(it,row));
   row.appendChild(r);
 
-  if(it.detail){
+  if(it.detail || it.major){
     const d=document.createElement('div'); d.className='detail';
-    const dt=it.detail; let html='';
+    const dt=it.detail||{}; let html='';
     if(dt.why){ html+='<h5>Why it matters</h5><p>'+dt.why+'</p>'; }
     if(dt.tech){ html+='<h5>What to understand technically</h5><p>'+dt.tech+'</p>'; }
     if(dt.prereq){ html+='<h5>Prerequisites</h5><p>'+dt.prereq+'</p>'; }
@@ -830,19 +1520,26 @@ function itemRow(it){
     if(dt.after){ html+='<h5>Reproduce · derive · critique</h5><p>'+dt.after+'</p>'; }
     if(dt.artifact){ html+='<h5>Required artifact</h5><div class="arte">'+dt.artifact+'</div>'; }
     if(dt.resources&&dt.resources.length){ html+='<h5>Recommended resources</h5><ul>'+dt.resources.map(x=>'<li>'+(x.u?'<a href="'+x.u+'" target="_blank" rel="noopener">'+x.t+' ↗</a>':x.t)+'</li>').join('')+'</ul>'; }
+    if(it.major){
+      html+='<h5>Competency <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted)">— six independent dimensions</span></h5>';
+      html+='<p class="comp-note">0 = not assessed · 1 = developing · 2 = competent · 3 = strong · 4 = research-ready. Each dimension is tagged self-assessed, evidence-backed, or externally validated based on the evidence you attach below.</p>';
+      html+='<div class="comp-wrap">'+competencySectionInner(it)+'</div>';
+      html+='<h5>Evidence</h5>';
+      html+='<div class="evid-wrap">'+evidenceSectionInner(it)+'</div>';
+    }
     d.innerHTML=html; row.appendChild(d);
   }
   return row;
 }
 
 function cycle(it,row){
-  const id=it.id, cur=state[id];
+  const id=it.id, cur=state.itemProgress[id];
   let next;
-  if(it.major){ const idx=[undefined,'in_progress','done','mastered'].indexOf(cur===true?'done':cur); next=MAJOR_CYCLE[Math.max(0,idx)]; }
-  else { next = isComplete(id)?null:true; }
-  if(next===null||next===undefined) delete state[id]; else state[id]=next;
+  if(it.major){ const idx=[undefined,'in_progress','done','mastered'].indexOf(cur); next=MAJOR_CYCLE[Math.max(0,idx)]; }
+  else { next = isComplete(id)?null:'done'; }
+  if(next===null||next===undefined) delete state.itemProgress[id]; else state.itemProgress[id]=next;
   row.className='item '+stateClass(id)+(row.classList.contains('open')?' open':'');
-  save(); updateProgress();
+  saveState(); updateAllMetrics();
   if(curFilter==='todo') applyFilters();
 }
 
@@ -856,21 +1553,139 @@ function toggleAllSections(){
   const b=document.getElementById('expandBtn'); if(b) b.textContent = allExpanded?'Collapse all':'Expand all';
 }
 
+/* ---------- competency + evidence UI (rendered inside major-unit detail panels) ---------- */
+function competencySectionInner(it){
+  const comp = getUnitCompetency(it.id);
+  let html='';
+  COMPETENCY_DIMS.forEach(dim=>{
+    const level = comp[dim].level, src = getDimensionSource(it.id,dim);
+    let btns='';
+    for(let l=0;l<=4;l++){
+      btns += '<button type="button" class="comp-btn'+(level===l?' active':'')+'" onclick="setCompetency(\''+it.id+'\',\''+dim+'\','+l+')" title="'+escapeHtml(COMPETENCY_LEVELS[l])+'">'+l+'</button>';
+    }
+    html += '<div class="comp-row"><div class="comp-row-label">'+COMPETENCY_LABELS[dim]+'</div>'+
+            '<div class="comp-btns">'+btns+'</div>'+
+            '<span class="src-tag src-'+src+'">'+sourceLabel(src)+'</span></div>';
+  });
+  return html;
+}
+function evidenceSectionInner(it){
+  const list = getUnitEvidence(it.id);
+  let html = '<div class="evid-list">';
+  if(!list.length){ html += '<p class="evid-empty">No evidence recorded yet — every dimension above is self-assessed only.</p>'; }
+  else {
+    list.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).forEach(ev=>{
+      const isExternal = EXTERNAL_EVIDENCE_TYPES.has(ev.type);
+      html += '<div class="evid-item'+(isExternal?' ext':'')+'">'+
+        '<div class="evid-top"><span class="evid-type">'+escapeHtml(ev.type)+'</span>'+
+        '<span class="evid-title">'+escapeHtml(ev.title)+'</span>'+
+        (ev.date?'<span class="evid-date">'+escapeHtml(ev.date)+'</span>':'')+
+        '<button class="evid-del" onclick="deleteEvidence(event,\''+it.id+'\',\''+ev.id+'\')" title="Remove evidence">✕</button></div>'+
+        (ev.url?'<a class="lnk" href="'+escapeHtml(ev.url)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">open ↗</a>':'')+
+        (ev.notes?'<p class="evid-notes">'+escapeHtml(ev.notes)+'</p>':'')+
+        (ev.competencies&&ev.competencies.length?'<div class="evid-dims">'+ev.competencies.map(d=>'<span class="pill cur">'+escapeHtml(COMPETENCY_LABELS[d]||d)+'</span>').join('')+'</div>':'')+
+        '</div>';
+    });
+  }
+  html += '</div>';
+  html += '<span class="expander" onclick="toggleEvidenceForm(event,\''+it.id+'\')">+ add evidence</span>';
+  html += '<div class="evid-add-form" id="evform-'+it.id+'">'+
+    '<input type="text" id="ev-title-'+it.id+'" placeholder="Title (e.g. \'Reproduced ResNet-18 on CIFAR-10\')" maxlength="200">'+
+    '<select id="ev-type-'+it.id+'">'+EVIDENCE_TYPES.map(t=>'<option value="'+escapeHtml(t)+'">'+escapeHtml(t)+'</option>').join('')+'</select>'+
+    '<input type="url" id="ev-url-'+it.id+'" placeholder="URL / reference (optional)" maxlength="500">'+
+    '<input type="date" id="ev-date-'+it.id+'">'+
+    '<textarea id="ev-notes-'+it.id+'" placeholder="Notes (optional)" maxlength="2000"></textarea>'+
+    '<div class="evid-dimcheck">'+COMPETENCY_DIMS.map(d=>'<label><input type="checkbox" class="ev-dim" value="'+d+'"> '+COMPETENCY_LABELS[d]+'</label>').join('')+'</div>'+
+    '<div class="evid-form-btns"><button class="mbtn-primary" type="button" onclick="submitEvidenceForm(event,\''+it.id+'\')">Save evidence</button>'+
+    '<button class="mbtn-ghost" type="button" onclick="toggleEvidenceForm(event,\''+it.id+'\')">Cancel</button></div>'+
+    '</div>';
+  return html;
+}
+// Re-renders only the competency+evidence portion of one already-open detail panel, so
+// editing never collapses sections or triggers a full-page re-render.
+function refreshUnitDetail(unitId){
+  const rowEl = document.querySelector('.item[data-id="'+unitId+'"]');
+  const it = ITEMS.find(i=>i.id===unitId);
+  if(!rowEl || !it) return;
+  const compWrap = rowEl.querySelector('.comp-wrap');
+  const evidWrap = rowEl.querySelector('.evid-wrap');
+  if(compWrap) compWrap.innerHTML = competencySectionInner(it);
+  if(evidWrap) evidWrap.innerHTML = evidenceSectionInner(it);
+  const miniEl = rowEl.querySelector('.comp-mini');
+  if(miniEl) miniEl.innerHTML = renderCompMini(unitId);
+  updateAllMetrics();
+}
+function setCompetency(unitId,dim,level){ setUnitCompetencyLevel(unitId,dim,level); refreshUnitDetail(unitId); }
+function toggleEvidenceForm(e,unitId){ e.stopPropagation(); const f=document.getElementById('evform-'+unitId); if(f) f.classList.toggle('show'); }
+function submitEvidenceForm(e,unitId){
+  e.stopPropagation();
+  const titleEl=document.getElementById('ev-title-'+unitId);
+  const title=(titleEl&&titleEl.value||'').trim();
+  if(!title){ toast('Evidence needs a title'); return; }
+  const type=(document.getElementById('ev-type-'+unitId)||{}).value || EVIDENCE_TYPES[0];
+  const url=((document.getElementById('ev-url-'+unitId)||{}).value||'').trim();
+  const notes=((document.getElementById('ev-notes-'+unitId)||{}).value||'').trim();
+  const date=(document.getElementById('ev-date-'+unitId)||{}).value || new Date().toISOString().slice(0,10);
+  const checked=[...document.querySelectorAll('#evform-'+unitId+' .ev-dim:checked')].map(c=>c.value);
+  addEvidence(unitId, {id:genId('ev'), title:title.slice(0,200), type, url:url.slice(0,500), notes:notes.slice(0,2000), date, competencies:checked});
+  refreshUnitDetail(unitId);
+  toast('Evidence added');
+}
+function deleteEvidence(e,unitId,evidenceId){
+  e.stopPropagation();
+  if(!confirm('Remove this evidence record?')) return;
+  removeEvidence(unitId, evidenceId);
+  refreshUnitDetail(unitId);
+  toast('Evidence removed');
+}
+
+/* ---------- top bar + section progress rendering ---------- */
 function updateProgress(){
-  const total=ITEMS.length;
-  const nDone=ITEMS.filter(i=>isComplete(i.id)).length;
-  const nMaster=ITEMS.filter(i=>isMastered(i.id)).length;
-  const pct=total?Math.round(nDone/total*100):0, mpct=total?Math.round(nMaster/total*100):0;
-  document.getElementById('oFill').style.width=pct+'%';
-  document.getElementById('oMaster').style.width=mpct+'%';
-  document.getElementById('oPct').textContent=pct+'%';
-  document.getElementById('oCount').textContent=nDone+' / '+total;
+  const rc = calculateResourceCompletion();
+  document.getElementById('oFill').style.width=rc.pct+'%';
+  document.getElementById('oMaster').style.width=rc.masterPct+'%';
+  document.getElementById('oPct').textContent=rc.pct+'%';
+  document.getElementById('oCount').textContent=rc.done+' / '+rc.total;
   SECTIONS.forEach(sec=>{
     const items=ITEMS.filter(i=>i.ph===sec.key), d=items.filter(i=>isComplete(i.id)).length;
     const p=items.length?Math.round(d/items.length*100):0;
     const f=document.getElementById('sfill-'+sec.key), c=document.getElementById('scount-'+sec.key);
     if(f) f.style.width=p+'%'; if(c) c.textContent=d+'/'+items.length;
+    const majorIds = items.filter(i=>i.major).map(i=>i.id);
+    const comp = document.getElementById('scomp-'+sec.key);
+    if(comp){
+      if(majorIds.length){ comp.textContent='comp '+calculateGroupCompetency(majorIds).toFixed(1)+'/4'; comp.style.display=''; }
+      else comp.style.display='none';
+    }
   });
+}
+function renderCapStrip(){
+  const el=document.getElementById('capstrip'); if(!el) return;
+  const profile = calculateCapabilityProfile();
+  el.innerHTML = CAPABILITY_CATEGORIES.map(cat=>{
+    const d=profile[cat], label=CAPABILITY_LABELS[cat], riCls=cat==='research_independence'?' ri':'';
+    if(!d||d.pct===null||d.count===0) return '<div class="capchip nodata'+riCls+'"><span class="cc-label">'+label+'</span><span class="cc-pct">no data</span></div>';
+    return '<div class="capchip'+riCls+'"><span class="cc-label">'+label+'</span><div class="cc-bar"><i style="width:'+d.pct+'%"></i></div><span class="cc-pct">'+d.pct+'%</span></div>';
+  }).join('');
+}
+function updateAllMetrics(){ updateProgress(); renderCapStrip(); refreshActivePage(); }
+
+/* ---------- page navigation (Curriculum / Research / Dashboard / Gates / Frontier) ---------- */
+const PAGE_RENDERERS = {
+  research: renderResearchPage, dashboard: renderDashboardPage,
+  gates: renderGatesPage, frontier: renderFrontierPage
+};
+function switchView(view){
+  currentView = view;
+  document.querySelectorAll('.page').forEach(p=>p.classList.add('hide'));
+  const target = document.getElementById('page-'+view);
+  if(target) target.classList.remove('hide');
+  document.querySelectorAll('.pagetab').forEach(b=>b.classList.toggle('on', b.dataset.view===view));
+  refreshActivePage();
+}
+function refreshActivePage(){
+  const fn = PAGE_RENDERERS[currentView];
+  if(typeof fn==='function') fn();
 }
 
 /* ---------- filters ---------- */
@@ -904,16 +1719,21 @@ function applyFilters(){
 
 /* ---------- export / import / reset ---------- */
 function exportProgress(){
-  const done=ITEMS.filter(i=>isComplete(i.id));
-  const payload={ schema:'rs-track', version:2, exported:new Date().toISOString(),
-    completed:done.length, total:ITEMS.length,
-    progress: {...state},
-    items: done.map(i=>({id:i.id,title:i.t,type:i.type,state:state[i.id]===true?'done':state[i.id]})) };
+  const rc = calculateResourceCompletion();
+  const doneItems = ITEMS.filter(i=>isComplete(i.id));
+  const payload = {
+    schema:'rs-track', version:3, exported:new Date().toISOString(),
+    state: state,                          // full v3 state: itemProgress, competencies, evidence, researchActivity, researchQuestions, specializationRoles, researchGates, frontierTopics, settings
+    progress: {...state.itemProgress},     // legacy-compatible mirror for older tooling / quick inspection
+    completed: rc.done, total: rc.total,
+    items: doneItems.map(i=>({id:i.id,title:i.t,type:i.type,state:state.itemProgress[i.id]}))
+  };
   const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a'); a.href=url; a.download='rs-track-progress.json'; a.click();
   setTimeout(()=>URL.revokeObjectURL(url),0);
-  toast('Exported '+done.length+' completed items');
+  const es = calculateEvidenceStrength();
+  toast('Exported '+rc.done+' completed items, '+es.totalEvidenceRecords+' evidence record(s), '+state.researchQuestions.length+' research question(s)');
 }
 function triggerImport(){ document.getElementById('importFile').click(); }
 function handleImportFile(e){
@@ -922,48 +1742,196 @@ function handleImportFile(e){
   const reader=new FileReader();
   reader.onload=function(ev){
     let data; try{ data=JSON.parse(ev.target.result); }catch(err){ toast('Import failed: not valid JSON'); return; }
-    const parsed=parseImport(data);
+    let parsed; try{ parsed=validateImportedState(data); }catch(err){ toast('Import failed: could not read this file safely'); return; }
     if(!parsed){ toast('Import failed: unrecognized file format'); return; }
-    pendingImport=parsed.map;
-    const known=parsed.known, unknown=parsed.unknown;
+    pendingImport=parsed.incoming;
     document.getElementById('importSummary').innerHTML =
-      'Found <b>'+Object.keys(parsed.map).length+'</b> progress entries · <b>'+known+'</b> match this curriculum'+
-      (unknown?' · <b>'+unknown+'</b> unknown IDs will be ignored':'')+'. Merge keeps your current ticks and adds these; Replace overwrites.';
+      'Found <b>'+parsed.known+'</b> item-progress entries matching this curriculum'+
+      (parsed.unknown?' · <b>'+parsed.unknown+'</b> unknown IDs will be ignored':'')+
+      (parsed.evidenceCount?' · <b>'+parsed.evidenceCount+'</b> evidence record(s)':'')+
+      '. Merge keeps your current data and combines with this file (competencies/evidence keep the stronger/union values); Replace overwrites everything.';
     document.getElementById('importModal').classList.add('show');
   };
   reader.onerror=function(){ toast('Import failed: could not read file'); };
   reader.readAsText(file);
 }
-function parseImport(data){
-  if(!data||typeof data!=='object') return null;
-  const valid=new Set(ITEMS.map(i=>i.id)); const map={}; let known=0, unknown=0;
-  const ALLOWED=new Set([true,'in_progress','done','mastered']);
-  const ALIAS={'p1-sys':'p1-os'};   // legacy: the compressed "Systems foundations" unit was split
-  function put(id,val){ if(typeof id!=='string') return; id=ALIAS[id]||id; if(!valid.has(id)){ unknown++; return; }
-    let v = (val===true||val==='true')?'done':val;
-    if(!ALLOWED.has(v)) v='done'; map[id]=v; known++; }
-  if(data.progress&&typeof data.progress==='object'){ for(const k in data.progress) put(k,data.progress[k]); }
-  else if(Array.isArray(data.items)){ data.items.forEach(it=>{ if(it&&it.id) put(it.id, it.state||'done'); }); }
-  else { // maybe a bare {id:state} map (legacy)
-    let looksLikeMap=true; for(const k in data){ if(typeof data[k]==='object'){ looksLikeMap=false; break; } }
-    if(looksLikeMap){ for(const k in data) put(k,data[k]); } else return null;
+// Validates + sanitizes an arbitrary parsed-JSON blob into a safe, fully-shaped v3 state.
+// Never throws on malformed input; unknown item/unit ids are dropped rather than failing the import.
+// Accepts: a v3 export (schema:'rs-track', version>=3, .state{...}), a legacy v2 export
+// (.progress{id:state}), a legacy items[] array, or a bare {id:state} map.
+function validateImportedState(data){
+  if(!data || typeof data!=='object') return null;
+  const validIds = new Set(ITEMS.map(i=>i.id));
+  const validUnitIds = new Set(ITEMS.filter(i=>i.major).map(i=>i.id));
+  const ALIAS = {'p1-sys':'p1-os'};   // legacy: the compressed "Systems foundations" unit was split
+  const ALLOWED_PROGRESS = new Set(['in_progress','done','mastered']);
+
+  let rawFull=null, rawProgress=null;
+  if(data.state && typeof data.state==='object'){ rawFull=data.state; rawProgress=data.state.itemProgress; }
+  else if(data.itemProgress && typeof data.itemProgress==='object'){ rawFull=data; rawProgress=data.itemProgress; }
+  else if(data.progress && typeof data.progress==='object'){ rawProgress=data.progress; }
+  else if(Array.isArray(data.items)){ rawProgress={}; data.items.forEach(it=>{ if(it&&typeof it.id==='string') rawProgress[it.id]=it.state||'done'; }); }
+  else { let looksLikeMap=true; for(const k in data){ if(typeof data[k]==='object'&&data[k]!==null){ looksLikeMap=false; break; } } if(looksLikeMap) rawProgress=data; }
+  if(!rawFull && !rawProgress) return null;
+
+  const itemProgress={}; let known=0, unknown=0;
+  if(rawProgress && typeof rawProgress==='object'){
+    Object.keys(rawProgress).forEach(id=>{
+      const realId = ALIAS[id]||id;
+      if(!validIds.has(realId)){ unknown++; return; }
+      let v = rawProgress[id]; if(v===true||v==='true') v='done';
+      if(!ALLOWED_PROGRESS.has(v)) v='done';
+      itemProgress[realId]=v; known++;
+    });
   }
-  if(known===0&&unknown===0) return null;
-  return {map, known, unknown};
+  if(known===0 && unknown===0 && !rawFull) return null;
+
+  const safe = migrateState(rawFull||{});
+  safe.itemProgress = itemProgress;
+
+  const competencies={};
+  Object.keys(safe.competencies||{}).forEach(uid=>{
+    if(!validUnitIds.has(uid)) return;
+    const src=safe.competencies[uid]; if(!src||typeof src!=='object') return;
+    const out={};
+    COMPETENCY_DIMS.forEach(dim=>{
+      const entry=src[dim];
+      if(entry && typeof entry==='object') out[dim]={level:clampLevel(entry.level), lastPracticed: typeof entry.lastPracticed==='string'?entry.lastPracticed:null, lastDemonstrated: typeof entry.lastDemonstrated==='string'?entry.lastDemonstrated:null};
+    });
+    if(Object.keys(out).length) competencies[uid]=out;
+  });
+  safe.competencies = competencies;
+
+  const evidence={}; let evidenceCount=0;
+  Object.keys(safe.evidence||{}).forEach(uid=>{
+    if(!validUnitIds.has(uid)) return;
+    const list = Array.isArray(safe.evidence[uid]) ? safe.evidence[uid] : [];
+    const clean = list.filter(e=>e && typeof e==='object' && typeof e.title==='string').map(e=>({
+      id: typeof e.id==='string' ? e.id : genId('ev'),
+      title: String(e.title).slice(0,200),
+      type: EVIDENCE_TYPES.includes(e.type) ? e.type : EVIDENCE_TYPES[0],
+      url: typeof e.url==='string' ? e.url.slice(0,500) : '',
+      notes: typeof e.notes==='string' ? e.notes.slice(0,2000) : '',
+      date: typeof e.date==='string' ? e.date : '',
+      competencies: Array.isArray(e.competencies) ? e.competencies.filter(d=>COMPETENCY_DIMS.includes(d)) : []
+    }));
+    if(clean.length){ evidence[uid]=clean; evidenceCount+=clean.length; }
+  });
+  safe.evidence = evidence;
+
+  // Phase B: research questions — keep only well-shaped entries with a known status.
+  const trackKeys = new Set(SECTIONS.filter(s=>s.kind==='track').map(s=>s.key));
+  safe.researchQuestions = (Array.isArray(safe.researchQuestions) ? safe.researchQuestions : [])
+    .filter(q=>q && typeof q==='object')
+    .map(q=>{
+      const out = {id: typeof q.id==='string' ? q.id : genId('rq'),
+        status: RQ_STATUSES.includes(q.status) ? q.status : 'observation',
+        createdAt: typeof q.createdAt==='string' ? q.createdAt : new Date().toISOString(),
+        updatedAt: typeof q.updatedAt==='string' ? q.updatedAt : new Date().toISOString()};
+      RQ_FIELDS.forEach(f=>{ out[f.key] = typeof q[f.key]==='string' ? q[f.key].slice(0,4000) : ''; });
+      return out;
+    });
+
+  // Phase B: research activity — sanitize cadence numbers and every log entry.
+  const cadenceClean={};
+  Object.keys(defaultState().researchActivity.cadence).forEach(k=>{
+    const v = safe.researchActivity.cadence[k];
+    cadenceClean[k] = (typeof v==='number' && v>=0 && v<1000) ? Math.round(v) : defaultState().researchActivity.cadence[k];
+  });
+  const logClean={};
+  Object.keys(defaultState().researchActivity.log).forEach(k=>{
+    const list = Array.isArray(safe.researchActivity.log[k]) ? safe.researchActivity.log[k] : [];
+    logClean[k] = list.filter(e=>e && typeof e==='object' && typeof e.title==='string').map(e=>({
+      id: typeof e.id==='string' ? e.id : genId('al'),
+      title: String(e.title).slice(0,300),
+      date: typeof e.date==='string' ? e.date : new Date().toISOString().slice(0,10)
+    }));
+  });
+  safe.researchActivity = {cadence:cadenceClean, log:logClean};
+
+  // Phase B: research gates — only known gate keys, known statuses, bounded notes/links.
+  const gatesClean={};
+  GATES.forEach(g=>{
+    const src = safe.researchGates[g.key];
+    if(!src || typeof src!=='object') return;
+    gatesClean[g.key] = {
+      status: GATE_STATUSES.includes(src.status) ? src.status : 'not_attempted',
+      notes: typeof src.notes==='string' ? src.notes.slice(0,4000) : '',
+      updatedAt: typeof src.updatedAt==='string' ? src.updatedAt : null,
+      links: (Array.isArray(src.links)?src.links:[]).filter(l=>l&&typeof l==='object'&&typeof l.url==='string').map(l=>({
+        id: typeof l.id==='string' ? l.id : genId('gl'), title: typeof l.title==='string' ? l.title.slice(0,200) : l.url, url: l.url.slice(0,500)
+      }))
+    };
+  });
+  safe.researchGates = gatesClean;
+
+  // Phase B: specialization roles — only known track sections, only known role values.
+  const rolesClean={};
+  Object.keys(safe.specializationRoles||{}).forEach(k=>{
+    if(trackKeys.has(k) && SPEC_ROLES.includes(safe.specializationRoles[k])) rolesClean[k]=safe.specializationRoles[k];
+  });
+  safe.specializationRoles = rolesClean;
+
+  return {incoming:safe, known, unknown, evidenceCount};
 }
 function applyImport(mode){
   if(!pendingImport){ closeImport(); return; }
-  if(mode==='replace') state={...pendingImport};
-  else { for(const k in pendingImport){ // merge: keep the stronger state
-    const cur=state[k], inc=pendingImport[k];
-    const rank={undefined:0, true:2, in_progress:1, done:2, mastered:3};
-    if((rank[inc]||0) >= (rank[cur]||0)) state[k]=inc; } }
-  save(); closeImport(); render(); toast('Imported ('+mode+')');
+  if(mode==='replace'){
+    state = pendingImport;
+  } else {
+    const rank={undefined:0, in_progress:1, done:2, mastered:3};
+    Object.keys(pendingImport.itemProgress).forEach(k=>{
+      const cur=state.itemProgress[k], inc=pendingImport.itemProgress[k];
+      if((rank[inc]||0) >= (rank[cur]||0)) state.itemProgress[k]=inc;
+    });
+    Object.keys(pendingImport.competencies).forEach(uid=>{
+      if(!state.competencies[uid]) state.competencies[uid]={};
+      Object.keys(pendingImport.competencies[uid]).forEach(dim=>{
+        const inc=pendingImport.competencies[uid][dim], cur=state.competencies[uid][dim];
+        if(!cur || inc.level>=cur.level) state.competencies[uid][dim]=inc;
+      });
+    });
+    Object.keys(pendingImport.evidence).forEach(uid=>{
+      if(!state.evidence[uid]) state.evidence[uid]=[];
+      const existingIds=new Set(state.evidence[uid].map(e=>e.id));
+      pendingImport.evidence[uid].forEach(ev=>{ if(!existingIds.has(ev.id)) state.evidence[uid].push(ev); });
+    });
+    // Phase B fields: merge by union, never overwrite locally-edited data with older imports.
+    if(Array.isArray(pendingImport.researchQuestions) && pendingImport.researchQuestions.length){
+      const existingIds=new Set((state.researchQuestions||[]).map(q=>q.id));
+      pendingImport.researchQuestions.forEach(q=>{ if(!existingIds.has(q.id)) state.researchQuestions.push(q); });
+    }
+    Object.keys(pendingImport.researchActivity.log||{}).forEach(catKey=>{
+      if(!state.researchActivity.log[catKey]) state.researchActivity.log[catKey]=[];
+      const existingIds=new Set(state.researchActivity.log[catKey].map(e=>e.id));
+      (pendingImport.researchActivity.log[catKey]||[]).forEach(e=>{ if(!existingIds.has(e.id)) state.researchActivity.log[catKey].push(e); });
+    });
+    Object.assign(state.researchActivity.cadence, pendingImport.researchActivity.cadence||{});
+    Object.assign(state.specializationRoles, pendingImport.specializationRoles||{});
+    Object.keys(pendingImport.researchGates||{}).forEach(key=>{
+      const inc = pendingImport.researchGates[key], cur = state.researchGates[key];
+      const rank={not_attempted:0, needs_revision:1, self_assessed_pass:2, external_pass:3};
+      if(!cur || (rank[inc.status]||0) >= (rank[cur.status]||0)){
+        const mergedLinks = cur ? cur.links.slice() : [];
+        const existingLinkIds = new Set(mergedLinks.map(l=>l.id));
+        (inc.links||[]).forEach(l=>{ if(!existingLinkIds.has(l.id)) mergedLinks.push(l); });
+        state.researchGates[key] = Object.assign({}, inc, {links:mergedLinks});
+      } else {
+        const existingLinkIds = new Set(cur.links.map(l=>l.id));
+        (inc.links||[]).forEach(l=>{ if(!existingLinkIds.has(l.id)) cur.links.push(l); });
+      }
+    });
+    if(Array.isArray(pendingImport.frontierTopics) && pendingImport.frontierTopics.length){
+      const existingIds=new Set((state.frontierTopics||[]).map(f=>f.id));
+      pendingImport.frontierTopics.forEach(f=>{ if(!existingIds.has(f.id)) state.frontierTopics.push(f); });
+    }
+  }
+  saveState(); closeImport(); render(); toast('Imported ('+mode+')');
 }
 function closeImport(){ pendingImport=null; document.getElementById('importModal').classList.remove('show'); }
 function resetAll(){
-  if(!confirm('Reset all progress? This clears every mark and cannot be undone.')) return;
-  state={}; save(); render(); toast('Progress reset');
+  if(!confirm('Reset all progress? This clears every mark, competency rating, evidence record, research question, activity log, gate status and specialization role — and cannot be undone.')) return;
+  state = defaultState(); saveState(); render(); toast('Progress reset');
 }
 
 /* ---------- diagnostics / integrity ---------- */
@@ -984,24 +1952,278 @@ function runIntegrity(){
   const verify=ITEMS.filter(i=>i.verify).map(i=>i.id);
   return {issues, info, verify, total:ITEMS.length};
 }
+// Capability diagnostics: flags specific, evidence-aware issues (not generic motivational text).
+// The full diagnostics heuristic set (#17) is scheduled for Phase D; these are the checks whose
+// underlying data (competencies + evidence) exists as of Phase A.
+function runCapabilityDiagnostics(){
+  const notes=[];
+  const majorUnits = ITEMS.filter(i=>i.major);
+  const highSelfNoEvidence=[];
+  majorUnits.forEach(u=>{
+    const comp=getUnitCompetency(u.id);
+    const flagged = COMPETENCY_DIMS.some(dim=>comp[dim].level>=3 && getDimensionSource(u.id,dim)==='self');
+    if(flagged) highSelfNoEvidence.push(u.t);
+  });
+  if(highSelfNoEvidence.length){
+    notes.push(highSelfNoEvidence.length+' unit(s) have a competency self-rated Strong or Research-ready with no supporting evidence: '+
+      highSelfNoEvidence.slice(0,5).join('; ')+(highSelfNoEvidence.length>5?', …':'')+
+      '. Attach an evidence record (derivation, implementation, reproduction, ablation, etc.) to back these ratings.');
+  }
+  const es = calculateEvidenceStrength();
+  if(es.assessed>=5 && es.pct<20){
+    notes.push('Only '+es.pct+'% of assessed competencies are evidence-backed or externally validated ('+es.self+' of '+es.assessed+' assessed dimensions are self-assessed only). Evidence, not self-rating, is what should move Research Independence.');
+  }
+  const ri = calculateResearchIndependence(), rc = calculateResourceCompletion();
+  if(rc.pct>=40 && ri.pct<10){
+    notes.push('Resource completion is at '+rc.pct+'% but Research Independence is only '+ri.pct+'%. That gap is intentional — Research Independence is decoupled from course/paper completion and grows from evidence-backed critique and research competency (Phase B adds reproductions, ablations and hypothesis outcomes to this score).');
+  }
+  return notes;
+}
 function toggleDiag(){
   const el=document.getElementById('diag'); el.classList.toggle('show');
   if(!el.classList.contains('show')) return;
   const r=runIntegrity(), inner=document.getElementById('diagInner');
   let h='<h4>Integrity check — '+r.total+' items</h4>';
   if(!r.issues.length) h+='<p class="ok">✓ No structural issues: no duplicate IDs, all sections valid & populated, all types known, no malformed URLs.</p>';
-  else h+='<p class="warn">'+r.issues.length+' issue(s):</p><ul>'+r.issues.map(x=>'<li>'+x+'</li>').join('')+'</ul>';
-  if(r.info.length) h+='<p style="color:var(--muted)">'+r.info.map(x=>'· '+x).join('<br>')+'</p>';
+  else h+='<p class="warn">'+r.issues.length+' issue(s):</p><ul>'+r.issues.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul>';
+  if(r.info.length) h+='<p style="color:var(--muted)">'+r.info.map(x=>'· '+escapeHtml(x)).join('<br>')+'</p>';
   if(r.verify.length) h+='<p style="color:var(--amber)">⚠ '+r.verify.length+' item(s) flagged for verification (open & confirm before citing): '+r.verify.join(', ')+'</p>';
+  const capNotes = runCapabilityDiagnostics();
+  h += '<h4 style="margin-top:1rem">Capability diagnostics</h4>';
+  if(!capNotes.length) h += '<p class="ok">✓ No capability-tracking flags right now.</p>';
+  else h += '<ul>'+capNotes.map(x=>'<li class="warn" style="color:var(--frontier)">'+escapeHtml(x)+'</li>').join('')+'</ul>';
   inner.innerHTML=h;
 }
 
 let toastTimer;
 function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2400); }
 
+/* =========================================================================
+   PHASE B PAGES — Research (hypothesis log + activity), Dashboard, Gates, Frontier
+   ========================================================================= */
+
+/* ---------- Research page: hypothesis log ---------- */
+function rqCard(q){
+  const open = rqOpenId===q.id;
+  const fields = RQ_FIELDS.map(f=>'<div class="rq-field"><label>'+f.label+'</label><textarea data-rqfield="'+f.key+'" onblur="rqFieldBlur(event,\''+q.id+'\',\''+f.key+'\')">'+escapeHtml(q[f.key]||'')+'</textarea></div>').join('');
+  const statusOpts = RQ_STATUSES.map(s=>'<option value="'+s+'"'+(q.status===s?' selected':'')+'>'+RQ_STATUS_LABELS[s]+'</option>').join('');
+  return '<div class="rq-card'+(open?' open':'')+'" id="rqcard-'+q.id+'">'+
+    '<div class="rq-top" onclick="toggleRqCard(\''+q.id+'\')">'+
+      '<span class="rq-status st-'+q.status+'">'+RQ_STATUS_LABELS[q.status]+'</span>'+
+      '<span class="rq-q">'+escapeHtml(q.question||q.observation||'(untitled)')+'</span>'+
+      '<span class="rq-date">'+escapeHtml((q.updatedAt||q.createdAt||'').slice(0,10))+'</span>'+
+    '</div>'+
+    '<div class="rq-body">'+
+      '<div class="rq-2col"><div class="rq-field"><label>Status</label><select onclick="event.stopPropagation()" onchange="rqSetStatus(\''+q.id+'\',this.value)">'+statusOpts+'</select></div><div></div></div>'+
+      fields+
+      '<div class="rq-actions"><button class="rq-del" onclick="rqDelete(event,\''+q.id+'\')">Delete</button></div>'+
+    '</div>'+
+  '</div>';
+}
+function toggleRqCard(id){ rqOpenId = (rqOpenId===id) ? null : id; renderResearchPage(); }
+function rqFieldBlur(e, id, key){ updateResearchQuestion(id, {[key]: e.target.value.slice(0,4000)}); }
+function rqSetStatus(id, status){ updateResearchQuestion(id, {status}); renderResearchPage(); }
+function rqDelete(e, id){ e.stopPropagation(); if(!confirm('Delete this research question entry?')) return; deleteResearchQuestion(id); toast('Deleted'); renderResearchPage(); }
+function rqNew(){
+  const q = {id:genId('rq'), status:'observation', createdAt:new Date().toISOString(), updatedAt:new Date().toISOString()};
+  RQ_FIELDS.forEach(f=>q[f.key]='');
+  addResearchQuestion(q);
+  rqOpenId = q.id;
+  renderResearchPage();
+}
+function rqSetFilter(f){ rqFilter=f; renderResearchPage(); }
+function rqSetQuery(v){ rqQuery=v; renderResearchPage(); }
+function renderHypothesisLog(){
+  const stats = calculateResearchQuestionStats();
+  let list = state.researchQuestions.slice();
+  if(rqFilter!=='all') list = list.filter(q=>q.status===rqFilter);
+  if(rqQuery.trim()){
+    const needle = rqQuery.trim().toLowerCase();
+    list = list.filter(q=>RQ_FIELDS.some(f=>(q[f.key]||'').toLowerCase().includes(needle)));
+  }
+  const filterBtns = ['all'].concat(RQ_STATUSES).map(s=>{
+    const label = s==='all'?'All':RQ_STATUS_LABELS[s];
+    const count = s==='all'?stats.total:stats.byStatus[s];
+    return '<button class="chip'+(rqFilter===s?' on':'')+'" onclick="rqSetFilter(\''+s+'\')">'+label+' ('+count+')</button>';
+  }).join('');
+  return '<div class="dboard-sec">'+
+    '<h3>Research Question / Hypothesis Log</h3>'+
+    '<div class="tilegrid" style="margin-bottom:.9rem;">'+
+      '<div class="tile"><div class="tv">'+stats.open+'</div><div class="tl">Open questions</div></div>'+
+      '<div class="tile accent"><div class="tv">'+stats.active+'</div><div class="tl">Active hypotheses</div></div>'+
+      '<div class="tile good"><div class="tv">'+stats.byStatus.supported+'</div><div class="tl">Supported</div></div>'+
+      '<div class="tile warn"><div class="tv">'+stats.byStatus.falsified+'</div><div class="tl">Falsified ('+stats.falsificationRate+'%)</div></div>'+
+      '<div class="tile"><div class="tv">'+stats.byStatus.inconclusive+'</div><div class="tl">Inconclusive ('+stats.inconclusiveRate+'%)</div></div>'+
+      '<div class="tile"><div class="tv">'+stats.byStatus.archived+'</div><div class="tl">Archived</div></div>'+
+    '</div>'+
+    '<div class="rq-toolbar">'+
+      '<input type="text" placeholder="Search questions, hypotheses, results…" value="'+escapeHtml(rqQuery)+'" oninput="rqSetQuery(this.value)">'+
+      '<button class="btn" onclick="rqNew()">+ New entry</button>'+
+    '</div>'+
+    '<div class="rq-statfilter" style="margin-bottom:.8rem;">'+filterBtns+'</div>'+
+    (list.length ? list.map(rqCard).join('') : '<p style="color:var(--muted)">No entries'+(rqFilter!=='all'||rqQuery?' match this filter/search.':' yet — start from an observation, not a conclusion.')+'</p>')+
+  '</div>';
+}
+
+/* ---------- Research page: activity log + cadence ---------- */
+function actAdd(catKey){
+  const titleEl = document.getElementById('actin-'+catKey);
+  const title = ((titleEl&&titleEl.value)||'').trim();
+  if(!title){ toast('Add a short title/note first'); return; }
+  addActivityLogEntry(catKey, {id:genId('al'), title:title.slice(0,300), date:new Date().toISOString().slice(0,10)});
+  if(titleEl) titleEl.value='';
+  renderResearchPage();
+  toast('Logged');
+}
+function actRemove(catKey, entryId){ removeActivityLogEntry(catKey, entryId); renderResearchPage(); }
+function actSetCadence(key, value){ setCadence(key, value); renderResearchPage(); }
+function renderResearchActivity(){
+  const counts = calculateResearchActivityCounts();
+  const cadence = state.researchActivity.cadence;
+  const cadenceFields = [
+    {key:'paperPerWeek', label:'Papers / week'}, {key:'reconstructionPerMonth', label:'Reconstructions / month'},
+    {key:'reproductionPerQuarter', label:'Reproductions / quarter'}, {key:'memoPerQuarter', label:'Memos / quarter'}
+  ].map(f=>'<div class="cadence-field"><label>'+f.label+'</label><input type="number" min="0" value="'+cadence[f.key]+'" onchange="actSetCadence(\''+f.key+'\',this.value)"></div>').join('');
+  const cards = RESEARCH_ACTIVITY_CATEGORIES.map(cat=>{
+    const log = state.researchActivity.log[cat.key]||[];
+    const pace = calculateCadencePace(cat.key);
+    const paceHtml = pace ? '<div class="ac-pace '+(pace.onPace?'on':'off')+'">'+pace.recent+'/'+pace.target+' this '+pace.unit+' · '+(pace.onPace?'on pace':'behind pace')+'</div>' : '';
+    const recent = log.slice(0,3).map(e=>'<div>'+escapeHtml(e.date||'')+' — '+escapeHtml(e.title)+' <a href="#" onclick="event.preventDefault();actRemove(\''+cat.key+'\',\''+e.id+'\')" style="color:var(--frontier)">×</a></div>').join('');
+    return '<div class="actcard">'+
+      '<div class="ac-top"><span class="ac-count">'+counts[cat.key]+'</span><span class="ac-label">'+cat.label+'</span></div>'+
+      paceHtml+
+      '<div class="ac-recent">'+recent+'</div>'+
+      '<div class="ac-add"><input type="text" id="actin-'+cat.key+'" placeholder="What did you log?" onkeydown="if(event.key===\'Enter\'){actAdd(\''+cat.key+'\')}"><button onclick="actAdd(\''+cat.key+'\')">+ Log</button></div>'+
+    '</div>';
+  }).join('');
+  return '<div class="dboard-sec">'+
+    '<h3>Research Activity</h3>'+
+    '<p class="dsub">Recurring output, logged explicitly. "Hypotheses tested" ('+counts.hypothesesTested+') is derived automatically from the log above, not entered twice.</p>'+
+    '<div class="cadence-form">'+cadenceFields+'</div>'+
+    '<div class="actgrid">'+cards+'</div>'+
+  '</div>';
+}
+function renderResearchPage(){
+  const body = document.getElementById('researchPageBody'); if(!body) return;
+  body.innerHTML = renderHypothesisLog() + renderResearchActivity();
+}
+
+/* ---------- Gates page ---------- */
+function gateSetStatusUI(key, status){ setGateStatus(key, status); renderGatesPage(); }
+function gateSetNotesUI(e, key){ setGateNotes(key, e.target.value); }
+function gateAddLinkUI(key){
+  const t=document.getElementById('gl-title-'+key), u=document.getElementById('gl-url-'+key);
+  const url=(u&&u.value||'').trim(); if(!url){ toast('Add a URL first'); return; }
+  addGateLink(key, (t&&t.value||'').trim(), url);
+  if(t) t.value=''; if(u) u.value='';
+  renderGatesPage();
+}
+function gateRemoveLinkUI(key, linkId){ removeGateLink(key, linkId); renderGatesPage(); }
+function renderGatesPage(){
+  const body = document.getElementById('gatesPageBody'); if(!body) return;
+  const statusOpts = s0 => GATE_STATUSES.map(s=>'<option value="'+s+'"'+(s0===s?' selected':'')+'>'+GATE_STATUS_LABELS[s]+'</option>').join('');
+  body.innerHTML = GATES.map((g,i)=>{
+    const gate = getGate(g.key);
+    const links = gate.links.map(l=>'<div class="gate-link-row">→ <a href="'+escapeHtml(l.url)+'" target="_blank" rel="noopener">'+escapeHtml(l.title)+'</a> <a href="#" onclick="event.preventDefault();gateRemoveLinkUI(\''+g.key+'\',\''+l.id+'\')" style="color:var(--frontier)">×</a></div>').join('');
+    return '<div class="gate-card">'+
+      '<div class="gc-top"><div><div class="gate-num">Gate '+(i+1)+'</div><h4>'+escapeHtml(g.title)+'</h4></div>'+
+        '<select class="gate-status-select gs-'+gate.status+'" onchange="gateSetStatusUI(\''+g.key+'\',this.value)">'+statusOpts(gate.status)+'</select></div>'+
+      '<ul class="gate-reqs">'+g.requirements.map(r=>'<li>'+escapeHtml(r)+'</li>').join('')+'</ul>'+
+      '<textarea placeholder="Notes — what did you actually do, what would a critical reviewer push back on?" onblur="gateSetNotesUI(event,\''+g.key+'\')">'+escapeHtml(gate.notes)+'</textarea>'+
+      '<div class="gate-links">'+links+
+        '<div class="gate-addlink"><input type="text" id="gl-title-'+g.key+'" placeholder="Title (optional)"><input type="text" id="gl-url-'+g.key+'" placeholder="Evidence URL"><button onclick="gateAddLinkUI(\''+g.key+'\')">+ Link</button></div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+/* ---------- Frontier page (standalone view of the existing Frontier module) ---------- */
+function renderFrontierPage(){
+  const body = document.getElementById('frontierPageBody'); if(!body) return;
+  const frSec = SECTIONS.find(s=>s.key==='fr');
+  if(!frSec){ body.innerHTML='<p style="color:var(--muted)">No Frontier section found.</p>'; return; }
+  const items = ITEMS.filter(i=>i.ph==='fr');
+  const box = document.createElement('div'); box.className='items';
+  items.forEach(it=>box.appendChild(itemRow(it)));
+  body.innerHTML = '';
+  const goal = document.createElement('p'); goal.className='sec-goal'; goal.innerHTML=frSec.goal;
+  body.appendChild(goal); body.appendChild(box);
+}
+
+/* ---------- Dashboard page ---------- */
+function renderExpertiseShape(){
+  const tracks = SECTIONS.filter(s=>s.kind==='track');
+  const groups = {primary:[], secondary:[], reading:[], not_pursuing:[], '':[]};
+  tracks.forEach(t=>{ const r=getSpecializationRole(t.key); groups[r].push(t); });
+  const order = [['primary','Primary'],['secondary','Secondary'],['reading','Reading literacy'],['','Unset'],['not_pursuing','Not pursuing']];
+  return '<div class="shape-col">'+order.map(([key,label])=>{
+    const list = groups[key];
+    return '<div class="shape-group'+(list.length?'':' empty')+'"><h4>'+label+' ('+list.length+')</h4><ul>'+
+      (list.length ? list.map(t=>'<li>'+escapeHtml(t.title.split('—')[0].trim())+'</li>').join('') : '<li>none</li>')+'</ul></div>';
+  }).join('')+'</div>';
+}
+function renderMilestoneLadder(){
+  const m = calculateMilestoneStage();
+  const rungs = m.results.map(r=>{
+    const cls = r.level.n===m.stage ? 'current' : (r.level.n<m.stage ? 'done' : '');
+    const gap = (r.level.n===m.stage+1 && m.nextGap) ? '<div class="rung-gap">Next: '+escapeHtml(m.nextGap)+'</div>' : '';
+    return '<div class="rung '+cls+'"><div class="rung-n">'+r.level.n+'</div><div class="rung-body">'+
+      '<div class="rung-title">'+escapeHtml(r.level.title)+'</div><div class="rung-exit">'+escapeHtml(r.level.exit)+'</div>'+gap+
+      '</div></div>';
+  }).join('');
+  return '<div class="dboard-sec"><h3>Capability-Based Milestone Ladder</h3>'+
+    '<p class="dsub">Computed from competencies, evidence, research activity and gates — never from resource/checkbox completion. Current stage: <b>'+m.stage+' · '+(MILESTONE_LEVELS.find(l=>l.n===m.stage)||{title:'—'}).title+'</b>.</p>'+
+    '<div class="ladder">'+rungs+'</div></div>';
+}
+function renderGatesSummary(){
+  const rows = GATES.map((g,i)=>{
+    const st = gateStatus(g.key);
+    return '<div class="barrow"><div class="brl">Gate '+(i+1)+' · '+escapeHtml(g.title)+'</div><div class="brv" style="text-align:left;width:auto;">'+GATE_STATUS_LABELS[st]+'</div></div>';
+  }).join('');
+  const nextUnmet = GATES.find(g=>!gatePassed(g.key));
+  const callout = nextUnmet ? '<div class="gate-callout">Next unmet gate: <b>'+escapeHtml(nextUnmet.title)+'</b> — see the Gates tab.</div>' : '<div class="gate-callout">All research gates passed.</div>';
+  return '<div class="dboard-sec"><h3>Research Gates</h3>'+rows+callout+'</div>';
+}
+function renderDashboardPage(){
+  const body = document.getElementById('dashboardPageBody'); if(!body) return;
+  const cap = calculateCapabilityProfile();
+  const capRows = CAPABILITY_CATEGORIES.map(cat=>{
+    const d=cap[cat]; const label=CAPABILITY_LABELS[cat];
+    if(!d||d.pct===null) return '<div class="barrow"><div class="brl">'+label+'</div><div class="brbar"><i style="width:0%"></i></div><div class="brv">no data</div></div>';
+    return '<div class="barrow'+(cat==='research_independence'?' ri':'')+'"><div class="brl">'+label+'</div><div class="brbar"><i style="width:'+d.pct+'%"></i></div><div class="brv">'+d.pct+'%</div></div>';
+  }).join('');
+  const act = calculateResearchActivityCounts();
+  const outputTiles = ['reproductions','ablations','memos','peerReviews','talks','publications'].map(k=>{
+    const cat = RESEARCH_ACTIVITY_CATEGORIES.find(c=>c.key===k);
+    return '<div class="tile accent"><div class="tv">'+act[k]+'</div><div class="tl">'+(cat?cat.label:k)+'</div></div>';
+  }).join('');
+  const qstats = calculateResearchQuestionStats();
+  const pipelineTiles =
+    '<div class="tile"><div class="tv">'+qstats.open+'</div><div class="tl">Open questions</div></div>'+
+    '<div class="tile accent"><div class="tv">'+qstats.active+'</div><div class="tl">Active hypotheses</div></div>'+
+    '<div class="tile"><div class="tv">'+(state.researchQuestions.filter(q=>q.status==='experiment_running').length)+'</div><div class="tl">Running experiments</div></div>'+
+    '<div class="tile warn"><div class="tv">'+qstats.byStatus.falsified+'</div><div class="tl">Falsified</div></div>'+
+    '<div class="tile"><div class="tv">'+qstats.byStatus.inconclusive+'</div><div class="tl">Inconclusive</div></div>';
+  const ev = calculateEvidenceStrength();
+  const evTiles =
+    '<div class="tile"><div class="tv">'+ev.self+'</div><div class="tl">Self-assessed</div></div>'+
+    '<div class="tile accent"><div class="tv">'+ev.evidenceBacked+'</div><div class="tl">Evidence-backed</div></div>'+
+    '<div class="tile good"><div class="tv">'+ev.externallyValidated+'</div><div class="tl">Externally validated</div></div>'+
+    '<div class="tile"><div class="tv">'+ev.pct+'%</div><div class="tl">Backed or validated</div></div>';
+  body.innerHTML =
+    '<div class="dboard-sec"><h3>Capability Profile</h3>'+capRows+'</div>'+
+    '<div class="dboard-sec"><h3>Research Output</h3><div class="tilegrid">'+outputTiles+'</div></div>'+
+    '<div class="dboard-sec"><h3>Research Pipeline</h3><div class="tilegrid">'+pipelineTiles+'</div></div>'+
+    '<div class="dboard-sec"><h3>Evidence Quality</h3><div class="tilegrid">'+evTiles+'</div></div>'+
+    '<div class="dboard-sec"><h3>Expertise Shape</h3>'+renderExpertiseShape()+'</div>'+
+    renderGatesSummary()+
+    renderMilestoneLadder();
+}
+
 /* ---------- boot ---------- */
 (function(){ const r=runIntegrity(); if(r.issues.length) console.warn('[RS Track] integrity issues:',r.issues); else console.log('[RS Track] integrity OK —',r.total,'items,',r.verify.length,'flagged for verification'); })();
-load(); render();
+state = loadState();
+render();
 </script>
 </body>
 </html>
