@@ -41,6 +41,7 @@
   .btn{font-family:var(--mono); font-size:11px; letter-spacing:.05em; text-transform:uppercase; background:transparent;
     color:var(--muted-deep); border:1px solid var(--rule-deep); padding:.4rem .65rem; border-radius:6px; cursor:pointer; transition:.15s;}
   .btn:hover{color:#fff; border-color:var(--signal-soft);}
+  .btn.on{background:var(--signal); color:#fff; border-color:var(--signal);}
   .bar-tools{display:flex; align-items:center; gap:.6rem; margin-top:.65rem; flex-wrap:wrap;}
   .search{flex:1; min-width:190px; display:flex; align-items:center; gap:.5rem; background:rgba(255,255,255,.06);
     border:1px solid var(--rule-deep); border-radius:7px; padding:.35rem .7rem;}
@@ -161,6 +162,22 @@
   .gate-addlink{display:flex; gap:.4rem; margin-top:.4rem;}
   .gate-addlink input{flex:1; min-width:0; padding:.35rem .5rem; border:1px solid var(--rule); border-radius:6px; font-size:.85rem;}
   .gate-addlink button{font-family:var(--mono); font-size:10px; padding:.35rem .6rem; border-radius:6px; border:1px solid var(--rule); cursor:pointer; background:var(--signal); color:#fff;}
+
+  /* ---------- frontier research radar ---------- */
+  .fr-card{background:#fff; border:1px solid var(--rule); border-radius:10px; padding:.75rem .95rem; margin-bottom:.6rem;}
+  .fr-card.stale{border-left:3px solid var(--frontier);}
+  .fr-card .fr-top{display:flex; align-items:center; gap:.55rem; flex-wrap:wrap; cursor:pointer;}
+  .fr-card .fr-topic{font-weight:600; flex:1; min-width:0;}
+  .fr-status{font-family:var(--mono); font-size:8.5px; letter-spacing:.05em; text-transform:uppercase; padding:.18rem .48rem; border-radius:20px; font-weight:700; white-space:nowrap; background:var(--paper-2); color:var(--ink-soft);}
+  .fr-status.fs-emerging{background:rgba(198,135,27,.14); color:var(--amber);}
+  .fr-status.fs-active{background:rgba(165,53,43,.1); color:var(--frontier);}
+  .fr-status.fs-maturing{background:rgba(28,122,108,.13); color:var(--telecom);}
+  .fr-status.fs-archived{background:var(--paper-2); color:var(--muted);}
+  .fr-review-date{font-family:var(--mono); font-size:10px; color:var(--muted); white-space:nowrap;}
+  .fr-body{display:none; margin-top:.6rem; padding-top:.6rem; border-top:1px dotted var(--rule);}
+  .fr-card.open .fr-body{display:block;}
+  .fr-body select, .fr-body input[type=text]{width:100%; padding:.4rem .55rem; border:1px solid var(--rule); border-radius:6px; font-family:var(--sans); font-size:.88rem; background:var(--paper);}
+  .fr-body input[disabled]{color:var(--muted); background:var(--paper-2);}
 
   /* ---------- expertise shape / roles ---------- */
   .role-select-wrap{margin-left:auto;}
@@ -315,6 +332,11 @@
   .src-tag.src-self{background:rgba(198,135,27,.14); color:var(--amber);}
   .src-tag.src-evidence{background:rgba(28,122,108,.13); color:var(--telecom);}
   .src-tag.src-external{background:rgba(43,87,198,.12); color:var(--master);}
+  /* ---------- knowledge decay: last-practiced / last-demonstrated + "needs refresh" ---------- */
+  .refresh-badge{font-family:var(--mono); font-size:8.5px; letter-spacing:.05em; text-transform:uppercase; padding:.15rem .42rem; border-radius:4px; font-weight:700; white-space:nowrap; background:rgba(165,53,43,.1); color:var(--frontier);}
+  .comp-dates{display:flex; gap:.7rem; flex-wrap:wrap; width:100%; margin-left:calc(82px + .55rem);}
+  .comp-dates label{display:flex; align-items:center; gap:.3rem; font-family:var(--mono); font-size:9.5px; text-transform:uppercase; letter-spacing:.03em; color:var(--muted);}
+  .comp-dates input[type=date]{font-family:var(--sans); font-size:.78rem; padding:.15rem .3rem; border:1px solid var(--rule); border-radius:5px; background:#fff;}
 
   /* ---------- evidence records ---------- */
   .evid-wrap{margin:.2rem 0 .3rem;}
@@ -420,7 +442,7 @@
 
 <div class="page" id="page-curriculum">
 <div class="hero">
-  <div class="eyebrow">Self-directed doctoral program · 2026 edition · progress saved in this browser</div>
+  <div class="eyebrow">Self-directed doctoral program · progress saved in this browser</div>
   <h1>Research-scientist depth in AI, ML &amp; <em>generative models</em>.</h1>
   <p>Seven-phase core spine plus optional specialization tracks. Every item is checkable with a working link. <strong>Major learning units</strong> expand to show rationale, prerequisites, key topics, mastery checks and a required artifact — and support four states so you can mark real mastery, not just "watched it." Beyond that, major units now track <strong>six independent competency dimensions</strong> (Understand → Derive → Implement → Experiment → Critique → Research) that you back with <strong>evidence records</strong>, not just self-rating — because completing a course is not the same as being research-ready. Specialization tracks and modules start collapsed to keep the page clean; open what you're working on. Mark each specialization track's role — Primary / Secondary / Reading literacy / Not pursuing — from its section header; the <strong>Research</strong>, <strong>Dashboard</strong> and <strong>Gates</strong> tabs above turn that plus your evidence into a hypothesis log, a decomposed progress dashboard, and five defended research checkpoints.</p>
   <div class="legend">
@@ -474,7 +496,7 @@
   <div class="container pagehead">
     <div class="eyebrow">Frontier</div>
     <h1>Live research fronts.</h1>
-    <p>The Frontier module from the curriculum, standalone. <em>A full research-radar with status tracking and "review due" reminders is planned for a later phase — for now this mirrors the curriculum section.</em></p>
+    <p>A research radar you maintain yourself — topics, why they matter, key papers, and when you last reviewed each one — plus the Frontier module from the curriculum below it. The radar highlights topics due for review on a rolling basis; it never assumes a particular current year.</p>
   </div>
   <div class="container" id="frontierPageBody"></div>
 </div>
@@ -564,8 +586,8 @@ const SECTIONS = [
  {key:'t-theory', kind:'track', num:'∴', title:'Theoretical machine learning', dur:'Specialization · parallel', open:false,
   goal:"Why generalization happens at all — and why over-parameterized deep nets seem to break the classical story. PAC learning, complexity measures, stability, and scaling/generalization theory. Proof-level fluency, not a reading list: you should be able to reconstruct and defend these results from memory, not just cite them."},
 
- {key:'fr', kind:'module', num:'★', cls:'fr', title:'Frontier module — 2025–2026', dur:'Rolling · revisit every quarter', open:true,
-  goal:"The biggest currency upgrade. Live research fronts as of early 2026 — <strong>staying current is the job.</strong>"},
+ {key:'fr', kind:'module', num:'★', cls:'fr', title:'Frontier module — rolling reading list', dur:'Rolling · revisit every quarter', open:true,
+  goal:"The biggest currency upgrade. A rolling set of live research fronts, refreshed every quarter — <strong>staying current is the job.</strong> Use the Frontier tab's Research Radar above this list to track topics (not just papers) and when you last reviewed each one."},
  {key:'tel', kind:'module', num:'⌘', cls:'tel', title:'Telecom / wireless-AI vertex', dur:'Specialization · parallel with Phases 5–6', open:false,
   goal:"Your differentiator, rebuilt as a real research specialization: communications & wireless foundations → AI applications → standards → surveys → a concrete reproduction."},
  {key:'research', kind:'module', num:'✎', cls:'mod', title:'Research methodology & apprenticeship', dur:'Continuous', open:false,
@@ -1184,6 +1206,72 @@ const SPEC_ROLES = ['primary','secondary','reading','not_pursuing'];
 const SPEC_ROLE_LABELS = {primary:'Primary', secondary:'Secondary', reading:'Reading literacy', not_pursuing:'Not pursuing'};
 const SPEC_ROLE_TARGETS = {primary:'Target: research-frontier depth.', secondary:'Target: collaboration-level depth.', reading:'Target: understand papers and communicate with specialists.', not_pursuing:'Intentionally not being pursued right now — this is not a penalty.'};
 
+/* =========================================================================
+   PHASE D — Frontier research radar + competency freshness
+   ========================================================================= */
+// A frontier topic's status is a trajectory, not a checkbox — it tracks where a research
+// front is on its own arc, independent of how much of it you personally have studied.
+const FRONTIER_STATUSES = ['watching','emerging','active','maturing','archived'];
+const FRONTIER_STATUS_LABELS = {watching:'Watching', emerging:'Emerging', active:'Active research frontier', maturing:'Maturing', archived:'Archived'};
+const FRONTIER_CONFIDENCE_LEVELS = ['Not rated','Low','Moderate','High','Very high'];
+// Matches the curriculum's own "revisit every quarter" cadence for the Frontier module.
+const FRONTIER_REVIEW_STALE_DAYS = 90;
+
+function getFrontierTopics(){ return Array.isArray(state.frontierTopics) ? state.frontierTopics : []; }
+function addFrontierTopic(){
+  const t = {id:genId('frt'), topic:'', why:'', keyPapers:[], dateAdded:todayISO(), lastReviewed:null, confidence:0, status:'watching'};
+  state.frontierTopics.unshift(t); saveState();
+  return t;
+}
+function updateFrontierTopic(id, patch){
+  const t = state.frontierTopics.find(x=>x.id===id); if(!t) return;
+  Object.assign(t, patch); saveState();
+}
+function deleteFrontierTopic(id){ state.frontierTopics = state.frontierTopics.filter(x=>x.id!==id); saveState(); }
+function markFrontierReviewed(id){ updateFrontierTopic(id, {lastReviewed: todayISO()}); }
+function addFrontierKeyPaper(topicId, title, url){
+  const t = state.frontierTopics.find(x=>x.id===topicId); if(!t || !url) return;
+  if(!Array.isArray(t.keyPapers)) t.keyPapers=[];
+  t.keyPapers.push({id:genId('frp'), title:(title||url).slice(0,200), url:url.slice(0,500)});
+  saveState();
+}
+function removeFrontierKeyPaper(topicId, paperId){
+  const t = state.frontierTopics.find(x=>x.id===topicId); if(!t) return;
+  t.keyPapers = (t.keyPapers||[]).filter(p=>p.id!==paperId); saveState();
+}
+// "Reviewed" resets the staleness clock; before a first review, time is measured from
+// when the topic was added — a topic nobody has looked at since adding it is just as
+// stale as one that hasn't been revisited, and should surface the same way.
+function frontierDaysSinceReview(t){ return daysSince(t.lastReviewed || t.dateAdded); }
+function isFrontierStale(t){
+  if(t.status==='archived') return false;
+  const d = frontierDaysSinceReview(t);
+  return d===null || d>=FRONTIER_REVIEW_STALE_DAYS;
+}
+
+// A competency dimension only becomes "stale" once it has an actual practiced/demonstrated
+// date on record and that date has aged past the threshold — an unset date is not a penalty,
+// since these fields are explicitly optional. Mastery itself is never touched by this check.
+const STALE_COMPETENCY_DAYS = 180;
+function competencyFreshness(unitId, dim){
+  const c = getUnitCompetency(unitId)[dim];
+  if(c.level<=0) return {tracked:false, stale:false, days:null};
+  const days = [c.lastPracticed, c.lastDemonstrated].map(daysSince).filter(d=>d!==null);
+  if(!days.length) return {tracked:false, stale:false, days:null};
+  const mostRecent = Math.min(...days);
+  return {tracked:true, stale: mostRecent>=STALE_COMPETENCY_DAYS, days:mostRecent};
+}
+function getStaleCompetencies(){
+  const out=[];
+  activeMajorUnits().forEach(u=>{
+    COMPETENCY_DIMS.forEach(dim=>{
+      const f = competencyFreshness(u.id,dim);
+      if(f.stale) out.push({unitId:u.id, unitTitle:u.t, dim, days:f.days});
+    });
+  });
+  return out;
+}
+
 // Capability-based milestone ladder. Each level's `check(sig)` reads only from computed
 // signals (competencies+evidence+research activity+gates) — never from raw resource/checkbox
 // completion — and returns {pass, gap} so the UI can show exactly what's missing next.
@@ -1214,6 +1302,16 @@ function escapeHtml(str){
 }
 function genId(prefix){ return prefix+'-'+Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
 function clampLevel(v){ v=Number(v); if(!Number.isFinite(v)) return 0; return Math.max(0,Math.min(4,Math.round(v))); }
+// Date helpers used throughout Phase D (frontier review cadence, competency freshness).
+// Deliberately relative ("N days ago") everywhere in the UI — never a hardcoded calendar year —
+// so the tracker keeps making sense whenever it's opened, this year or a decade from now.
+function todayISO(){ return new Date().toISOString().slice(0,10); }
+function daysSince(dateStr){
+  if(!dateStr || typeof dateStr!=='string') return null;
+  const t = new Date(dateStr.length<=10 ? dateStr+'T00:00:00' : dateStr).getTime();
+  if(!Number.isFinite(t)) return null;
+  return Math.max(0, Math.floor((Date.now()-t)/86400000));
+}
 
 /* =========================================================================
    STATE MODEL + PERSISTENCE  (versioned schema — see plan doc for full shape)
@@ -1329,6 +1427,16 @@ function setUnitCompetencyLevel(unitId,dim,level){
   if(!state.competencies[unitId]) state.competencies[unitId]={};
   if(!state.competencies[unitId][dim]) state.competencies[unitId][dim]={level:0,lastPracticed:null,lastDemonstrated:null};
   state.competencies[unitId][dim].level = clampLevel(level);
+  saveState();
+}
+// Optional last-practiced / last-demonstrated dates (request: knowledge decay tracking).
+// Never touches `level` — staleness is surfaced separately as a "Needs refresh" label,
+// never by silently eroding a recorded mastery rating.
+function setUnitCompetencyDate(unitId,dim,field,value){
+  if(!COMPETENCY_DIMS.includes(dim) || (field!=='lastPracticed' && field!=='lastDemonstrated')) return;
+  if(!state.competencies[unitId]) state.competencies[unitId]={};
+  if(!state.competencies[unitId][dim]) state.competencies[unitId][dim]={level:0,lastPracticed:null,lastDemonstrated:null};
+  state.competencies[unitId][dim][field] = value || null;
   saveState();
 }
 function getUnitEvidence(unitId){ return Array.isArray(state.evidence[unitId]) ? state.evidence[unitId] : []; }
@@ -1688,7 +1796,7 @@ function itemRow(it){
     if(dt.resources&&dt.resources.length){ html+='<h5>Recommended resources</h5><ul>'+dt.resources.map(x=>'<li>'+(x.u?'<a href="'+x.u+'" target="_blank" rel="noopener">'+x.t+' ↗</a>':x.t)+'</li>').join('')+'</ul>'; }
     if(it.major){
       html+='<h5>Competency <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted)">— six independent dimensions</span></h5>';
-      html+='<p class="comp-note">0 = not assessed · 1 = developing · 2 = competent · 3 = strong · 4 = research-ready. Each dimension is tagged self-assessed, evidence-backed, or externally validated based on the evidence you attach below.</p>';
+      html+='<p class="comp-note">0 = not assessed · 1 = developing · 2 = competent · 3 = strong · 4 = research-ready. Each dimension is tagged self-assessed, evidence-backed, or externally validated based on the evidence you attach below. Last-practiced / last-demonstrated dates are optional — leaving them blank never lowers a rating, but a dimension left unpracticed for a long time is labeled <b>Needs refresh</b> below as a reminder, without erasing the rating itself.</p>';
       html+='<div class="comp-wrap">'+competencySectionInner(it)+'</div>';
       html+='<h5>Evidence</h5>';
       html+='<div class="evid-wrap">'+evidenceSectionInner(it)+'</div>';
@@ -1729,9 +1837,17 @@ function competencySectionInner(it){
     for(let l=0;l<=4;l++){
       btns += '<button type="button" class="comp-btn'+(level===l?' active':'')+'" onclick="setCompetency(\''+it.id+'\',\''+dim+'\','+l+')" title="'+escapeHtml(COMPETENCY_LEVELS[l])+'">'+l+'</button>';
     }
+    const fresh = competencyFreshness(it.id,dim);
+    const refreshBadge = fresh.stale ? '<span class="refresh-badge" title="No practice or demonstration recorded in over '+STALE_COMPETENCY_DAYS+' days — mastery rating is unchanged, this is just a reminder to revisit it.">Needs refresh · '+fresh.days+'d</span>' : '';
+    const dates = comp[dim];
+    const dateInputs = '<div class="comp-dates">'+
+      '<label>Last practiced <input type="date" value="'+escapeHtml(dates.lastPracticed||'')+'" onchange="setCompetencyDate(\''+it.id+'\',\''+dim+'\',\'lastPracticed\',this.value)"></label>'+
+      '<label>Last demonstrated <input type="date" value="'+escapeHtml(dates.lastDemonstrated||'')+'" onchange="setCompetencyDate(\''+it.id+'\',\''+dim+'\',\'lastDemonstrated\',this.value)"></label>'+
+      '</div>';
     html += '<div class="comp-row"><div class="comp-row-label">'+COMPETENCY_LABELS[dim]+'</div>'+
             '<div class="comp-btns">'+btns+'</div>'+
-            '<span class="src-tag src-'+src+'">'+sourceLabel(src)+'</span></div>';
+            '<span class="src-tag src-'+src+'">'+sourceLabel(src)+'</span>'+refreshBadge+
+            dateInputs+'</div>';
   });
   return html;
 }
@@ -1782,6 +1898,7 @@ function refreshUnitDetail(unitId){
   updateAllMetrics();
 }
 function setCompetency(unitId,dim,level){ setUnitCompetencyLevel(unitId,dim,level); refreshUnitDetail(unitId); }
+function setCompetencyDate(unitId,dim,field,value){ setUnitCompetencyDate(unitId,dim,field,value); refreshUnitDetail(unitId); }
 function toggleEvidenceForm(e,unitId){ e.stopPropagation(); const f=document.getElementById('evform-'+unitId); if(f) f.classList.toggle('show'); }
 function submitEvidenceForm(e,unitId){
   e.stopPropagation();
@@ -2038,6 +2155,22 @@ function validateImportedState(data){
   });
   safe.specializationRoles = rolesClean;
 
+  // Phase D: frontier topics — only well-shaped records with known status/confidence.
+  safe.frontierTopics = (Array.isArray(safe.frontierTopics) ? safe.frontierTopics : [])
+    .filter(t=>t && typeof t==='object')
+    .map(t=>({
+      id: typeof t.id==='string' ? t.id : genId('frt'),
+      topic: typeof t.topic==='string' ? t.topic.slice(0,200) : '',
+      why: typeof t.why==='string' ? t.why.slice(0,4000) : '',
+      keyPapers: (Array.isArray(t.keyPapers)?t.keyPapers:[]).filter(p=>p&&typeof p==='object'&&typeof p.url==='string').map(p=>({
+        id: typeof p.id==='string' ? p.id : genId('frp'), title: typeof p.title==='string' ? p.title.slice(0,200) : p.url.slice(0,200), url: p.url.slice(0,500)
+      })),
+      dateAdded: typeof t.dateAdded==='string' ? t.dateAdded : todayISO(),
+      lastReviewed: typeof t.lastReviewed==='string' ? t.lastReviewed : null,
+      confidence: clampLevel(t.confidence),
+      status: FRONTIER_STATUSES.includes(t.status) ? t.status : 'watching'
+    }));
+
   return {incoming:safe, known, unknown, evidenceCount};
 }
 function applyImport(mode){
@@ -2118,9 +2251,10 @@ function runIntegrity(){
   const verify=ITEMS.filter(i=>i.verify).map(i=>i.id);
   return {issues, info, verify, total:ITEMS.length};
 }
-// Capability diagnostics: flags specific, evidence-aware issues (not generic motivational text).
-// The full diagnostics heuristic set (#17) is scheduled for Phase D; these are the checks whose
-// underlying data (competencies + evidence) exists as of Phase A.
+// Capability diagnostics: flags specific, evidence-aware issues with a concrete, actionable
+// recommendation attached to real numbers — never generic motivational text. Phase D fills out
+// the full heuristic set; each check below only fires once there is enough signal to be a real
+// pattern rather than noise for a tracker someone just started using.
 function runCapabilityDiagnostics(){
   const notes=[];
   const majorUnits = ITEMS.filter(i=>i.major);
@@ -2141,8 +2275,100 @@ function runCapabilityDiagnostics(){
   }
   const ri = calculateResearchIndependence(), rc = calculateResourceCompletion();
   if(rc.pct>=40 && ri.pct<10){
-    notes.push('Resource completion is at '+rc.pct+'% but Research Independence is only '+ri.pct+'%. That gap is intentional — Research Independence is decoupled from course/paper completion and grows from evidence-backed critique and research competency (Phase B adds reproductions, ablations and hypothesis outcomes to this score).');
+    notes.push('Resource completion is at '+rc.pct+'% but Research Independence is only '+ri.pct+'%. That gap is intentional — Research Independence is decoupled from course/paper completion and grows from evidence-backed critique and research competency (reproductions, ablations and hypothesis outcomes on the Research tab feed this score).');
   }
+
+  const cap = calculateCapabilityProfile();
+  const qstats = calculateResearchQuestionStats();
+  const sig = calculateMilestoneSignals();
+
+  // High completion but low experimentation.
+  if(rc.pct>=40 && cap.experimentation.pct!==null && cap.experimentation.pct<20){
+    notes.push('Resource completion is at '+rc.pct+'% but Experimentation capability is only '+cap.experimentation.pct+'%. Reading and coursework are not experimentation — design and run a controlled experiment or ablation on something you have already studied.');
+  }
+
+  // No recent research activity.
+  const allActivityDates=[];
+  Object.values(state.researchActivity.log).forEach(list=>{ if(Array.isArray(list)) list.forEach(e=>{ if(e.date) allActivityDates.push(e.date); }); });
+  state.researchQuestions.forEach(q=>{ if(q.updatedAt) allActivityDates.push(q.updatedAt.slice(0,10)); });
+  const activityDays = allActivityDates.map(daysSince).filter(d=>d!==null);
+  const mostRecentActivityDays = activityDays.length ? Math.min(...activityDays) : null;
+  if(rc.done>=5){
+    if(mostRecentActivityDays===null){
+      notes.push('No research activity has been logged yet on the Research tab despite '+rc.done+' completed item(s). Log a paper read, reconstruction, reproduction or hypothesis to start building a research track record.');
+    } else if(mostRecentActivityDays>60){
+      notes.push('No research activity logged in the last '+mostRecentActivityDays+' days. Studying should be paired with recurring research output — log something on the Research tab.');
+    }
+  }
+
+  // Specialization role checks: no primary chosen, or too many tracks pursued at once.
+  const trackSections = SECTIONS.filter(s=>s.kind==='track');
+  const roleCounts = {primary:0, secondary:0, reading:0, not_pursuing:0};
+  trackSections.forEach(t=>{ const r=getSpecializationRole(t.key); if(r) roleCounts[r]=(roleCounts[r]||0)+1; });
+  const anyRoleSet = trackSections.some(t=>!!getSpecializationRole(t.key));
+  if(roleCounts.primary===0 && anyRoleSet){
+    notes.push('No specialization track is marked Primary. T-shaped expertise needs one track pursued to research-frontier depth — set a Primary role from a track\'s section header.');
+  }
+  if(roleCounts.primary>1){
+    notes.push(roleCounts.primary+' specialization tracks are marked Primary at once. Depth requires focus — pick the single track that matters most and downgrade the rest to Secondary or Reading literacy.');
+  }
+  const activeTrackCount = roleCounts.primary+roleCounts.secondary;
+  if(activeTrackCount>=4){
+    notes.push(activeTrackCount+' specialization tracks are marked Primary or Secondary at the same time. Pursuing that many tracks simultaneously dilutes depth in each — mark some Reading literacy or Not pursuing instead.');
+  }
+
+  // Overdue research gates.
+  const stuckGates = GATES.filter(g=>{
+    const gt = getGate(g.key);
+    if(gt.status!=='needs_revision' || !gt.updatedAt) return false;
+    const d = daysSince(gt.updatedAt.slice(0,10));
+    return d!==null && d>45;
+  });
+  if(stuckGates.length){
+    notes.push(stuckGates.length+' research gate(s) have sat at "Needs revision" for over 45 days: '+stuckGates.map(g=>g.title).join('; ')+'. Revisit and resolve them — they block the milestones that depend on them.');
+  }
+  const milestoneStage = calculateMilestoneStage().stage;
+  if(milestoneStage>=3 && gateStatus('gate1')==='not_attempted'){
+    notes.push('Milestone stage is '+milestoneStage+' (Reproducer or beyond) but Gate 1 (Reproduction Defense) has never been attempted. Formalize a reproduction you have already done into a gate defense.');
+  }
+
+  // Weak evaluation capability.
+  if(rc.pct>=25 && cap.evaluation.pct!==null && cap.evaluation.pct<25){
+    notes.push('Evaluation capability is only '+cap.evaluation.pct+'% while overall resource completion is '+rc.pct+'%. Evaluation is a mandatory core module, not an afterthought — invest evidence-backed competency there deliberately.');
+  }
+
+  // Weak statistical rigor (Experimental Science & Statistical Rigor core unit specifically).
+  const esCoreComp = getUnitCompetency('es-core');
+  const esCoreAssessedDims = COMPETENCY_DIMS.filter(d=>esCoreComp[d].level>0).length;
+  if(rc.pct>=40 && esCoreAssessedDims<=1){
+    notes.push('Overall resource completion is '+rc.pct+'% but "Statistical rigor for ML experiments" has almost no competency assessed. Weak statistical rigor undermines every experimental claim you make — assess and evidence it directly rather than letting it lag behind reading progress.');
+  }
+
+  // Many papers read but few reproductions.
+  const papersCompleted = ITEMS.filter(i=>i.type==='paper' && isComplete(i.id)).length;
+  const reproductionSignals = sig.reproductionSignals;
+  if(papersCompleted>=15 && reproductionSignals<=1){
+    notes.push('You completed '+papersCompleted+' papers but have only '+reproductionSignals+' reproduction'+(reproductionSignals===1?'':'s')+'. Pause reading accumulation and reproduce one recent paper end to end.');
+  }
+
+  // Many implementations but few hypotheses.
+  if(sig.implementBreadth>=5 && qstats.total===0){
+    notes.push('You have Competent+ implementation on '+sig.implementBreadth+' major units but zero entries in the Hypothesis Log. Implementation without a research question is not research — log an observation or question from your most recent implementation.');
+  }
+
+  // No external validation at all.
+  if(es.assessed>=8 && es.externallyValidated===0){
+    notes.push('None of your '+es.assessed+' assessed competency dimensions are externally validated. Self- and evidence-backed ratings cannot fully substitute for outside signal — seek a peer review or external validation on your strongest unit.');
+  }
+
+  // Stale competencies (knowledge decay — see the "Needs refresh" labels on major units).
+  const stale = getStaleCompetencies();
+  if(stale.length){
+    const byUnit = new Set(stale.map(s=>s.unitId));
+    const sample = stale.slice(0,5).map(s=>s.unitTitle+' ('+COMPETENCY_LABELS[s.dim]+', '+s.days+'d)').join('; ');
+    notes.push(stale.length+' competency dimension(s) across '+byUnit.size+' unit(s) have not been practiced or demonstrated in over '+STALE_COMPETENCY_DAYS+' days and are labeled "Needs refresh" (the rating itself is untouched): '+sample+(stale.length>5?', …':'')+'.');
+  }
+
   return notes;
 }
 function toggleDiag(){
@@ -2303,17 +2529,97 @@ function renderGatesPage(){
   }).join('');
 }
 
-/* ---------- Frontier page (standalone view of the existing Frontier module) ---------- */
+/* ---------- Frontier page: research radar (Phase D) + curriculum module view ---------- */
+let frReviewOnly = false, frOpenId = null;
+function frToggleReviewMode(){ frReviewOnly = !frReviewOnly; renderFrontierPage(); }
+function frNewTopic(){ const t=addFrontierTopic(); frOpenId=t.id; renderFrontierPage(); }
+function frToggleCard(id){ frOpenId = (frOpenId===id) ? null : id; renderFrontierPage(); }
+function frDelete(e,id){ e.stopPropagation(); if(!confirm('Delete this frontier topic? This cannot be undone.')) return; deleteFrontierTopic(id); toast('Deleted'); renderFrontierPage(); }
+function frFieldBlur(e,id,key){ updateFrontierTopic(id, {[key]: e.target.value.slice(0, key==='topic'?200:4000)}); }
+function frSetStatus(id,status){ if(!FRONTIER_STATUSES.includes(status)) return; updateFrontierTopic(id, {status}); renderFrontierPage(); }
+function frSetConfidence(id,level){ updateFrontierTopic(id, {confidence: clampLevel(level)}); renderFrontierPage(); }
+function frMarkReviewed(e,id){ e.stopPropagation(); markFrontierReviewed(id); toast('Marked reviewed today'); renderFrontierPage(); }
+function frAddPaperUI(id){
+  const t=document.getElementById('frp-title-'+id), u=document.getElementById('frp-url-'+id);
+  const url=(u&&u.value||'').trim(); if(!url){ toast('Add a URL first'); return; }
+  addFrontierKeyPaper(id, (t&&t.value||'').trim(), url);
+  if(t) t.value=''; if(u) u.value='';
+  renderFrontierPage();
+}
+function frRemovePaperUI(e,topicId,paperId){ e.stopPropagation(); removeFrontierKeyPaper(topicId,paperId); renderFrontierPage(); }
+
+// A topic's "reviewed X days/months ago" label is always computed relative to today (daysSince),
+// never printed as an absolute year — the radar reads the same whether opened this month or years out.
+function frReviewLabel(t){
+  const d = frontierDaysSinceReview(t);
+  if(d===null) return 'Never reviewed';
+  if(!t.lastReviewed) return 'Never reviewed · added '+d+'d ago';
+  return 'Reviewed '+d+'d ago';
+}
+function frTopicCard(t){
+  const open = frOpenId===t.id, stale = isFrontierStale(t);
+  const statusOpts = FRONTIER_STATUSES.map(s=>'<option value="'+s+'"'+(t.status===s?' selected':'')+'>'+FRONTIER_STATUS_LABELS[s]+'</option>').join('');
+  const confOpts = FRONTIER_CONFIDENCE_LEVELS.map((l,i)=>'<option value="'+i+'"'+(t.confidence===i?' selected':'')+'>'+l+'</option>').join('');
+  const papers = (t.keyPapers||[]).map(p=>'<div class="gate-link-row">→ <a href="'+escapeHtml(p.url)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">'+escapeHtml(p.title)+'</a> <a href="#" onclick="event.preventDefault();frRemovePaperUI(event,\''+t.id+'\',\''+p.id+'\')" style="color:var(--frontier)">×</a></div>').join('');
+  return '<div class="fr-card'+(open?' open':'')+(stale?' stale':'')+'" id="frcard-'+t.id+'">'+
+    '<div class="fr-top" onclick="frToggleCard(\''+t.id+'\')">'+
+      '<span class="fr-status fs-'+t.status+'">'+FRONTIER_STATUS_LABELS[t.status]+'</span>'+
+      '<span class="fr-topic">'+escapeHtml(t.topic||'(untitled topic)')+'</span>'+
+      (stale?'<span class="refresh-badge" title="Review cadence is every '+FRONTIER_REVIEW_STALE_DAYS+' days">Review due</span>':'')+
+      '<span class="fr-review-date">'+escapeHtml(frReviewLabel(t))+'</span>'+
+    '</div>'+
+    '<div class="fr-body">'+
+      '<div class="rq-2col">'+
+        '<div class="rq-field"><label>Topic</label><input type="text" maxlength="200" value="'+escapeHtml(t.topic||'')+'" onclick="event.stopPropagation()" onblur="frFieldBlur(event,\''+t.id+'\',\'topic\')"></div>'+
+        '<div class="rq-field"><label>Status</label><select onclick="event.stopPropagation()" onchange="frSetStatus(\''+t.id+'\',this.value)">'+statusOpts+'</select></div>'+
+      '</div>'+
+      '<div class="rq-field"><label>Why it matters</label><textarea onclick="event.stopPropagation()" onblur="frFieldBlur(event,\''+t.id+'\',\'why\')">'+escapeHtml(t.why||'')+'</textarea></div>'+
+      '<div class="rq-2col">'+
+        '<div class="rq-field"><label>Confidence / relevance</label><select onclick="event.stopPropagation()" onchange="frSetConfidence(\''+t.id+'\',this.value)">'+confOpts+'</select></div>'+
+        '<div class="rq-field"><label>Date added</label><input type="text" value="'+escapeHtml(t.dateAdded||'')+'" disabled></div>'+
+      '</div>'+
+      '<div class="rq-field"><label>Key papers</label><div class="gate-links">'+papers+
+        '<div class="gate-addlink"><input type="text" id="frp-title-'+t.id+'" placeholder="Title (optional)" onclick="event.stopPropagation()"><input type="text" id="frp-url-'+t.id+'" placeholder="URL" onclick="event.stopPropagation()"><button onclick="event.stopPropagation();frAddPaperUI(\''+t.id+'\')">+ Paper</button></div>'+
+      '</div></div>'+
+      '<div class="rq-actions"><button class="btn" onclick="frMarkReviewed(event,\''+t.id+'\')">Mark reviewed today</button><button class="rq-del" onclick="frDelete(event,\''+t.id+'\')">Delete</button></div>'+
+    '</div>'+
+  '</div>';
+}
+function renderFrontierRadar(){
+  const all = getFrontierTopics();
+  const staleCount = all.filter(isFrontierStale).length;
+  let list = (frReviewOnly ? all.filter(isFrontierStale) : all).slice();
+  list.sort((a,b)=>(frontierDaysSinceReview(b)||0)-(frontierDaysSinceReview(a)||0));
+  const cards = list.length ? list.map(frTopicCard).join('')
+    : '<p style="color:var(--muted)">'+(frReviewOnly?'Nothing overdue for review right now — everything has been reviewed within the last '+FRONTIER_REVIEW_STALE_DAYS+' days.':'No frontier topics tracked yet. Add one below: what it is, why it matters, and the papers that define it right now.')+'</p>';
+  return '<div class="dboard-sec">'+
+    '<h3>Research Radar</h3>'+
+    '<p class="dsub">Your own living list of research fronts — independent of any curriculum content below. Status reflects where a topic sits on its own trajectory (Watching → Emerging → Active research frontier → Maturing, or Archived once it is no longer worth tracking). "Review due" is always relative to today, not tied to any particular year.</p>'+
+    '<div class="tilegrid" style="margin-bottom:.9rem;">'+
+      '<div class="tile"><div class="tv">'+all.length+'</div><div class="tl">Topics tracked</div></div>'+
+      '<div class="tile'+(staleCount?' warn':' good')+'"><div class="tv">'+staleCount+'</div><div class="tl">Due for review</div></div>'+
+    '</div>'+
+    '<div class="rq-toolbar">'+
+      '<button class="btn'+(frReviewOnly?' on':'')+'" onclick="frToggleReviewMode()">'+(frReviewOnly?'Show all topics':'Review frontier topics ('+staleCount+' due)')+'</button>'+
+      '<button class="btn" onclick="frNewTopic()">+ New topic</button>'+
+    '</div>'+
+    cards+
+  '</div>';
+}
 function renderFrontierPage(){
   const body = document.getElementById('frontierPageBody'); if(!body) return;
   const frSec = SECTIONS.find(s=>s.key==='fr');
-  if(!frSec){ body.innerHTML='<p style="color:var(--muted)">No Frontier section found.</p>'; return; }
-  const items = ITEMS.filter(i=>i.ph==='fr');
-  const box = document.createElement('div'); box.className='items';
-  items.forEach(it=>box.appendChild(itemRow(it)));
-  body.innerHTML = '';
-  const goal = document.createElement('p'); goal.className='sec-goal'; goal.innerHTML=frSec.goal;
-  body.appendChild(goal); body.appendChild(box);
+  let html = renderFrontierRadar();
+  if(frSec){
+    const items = ITEMS.filter(i=>i.ph==='fr');
+    const box = document.createElement('div'); box.className='items';
+    items.forEach(it=>box.appendChild(itemRow(it)));
+    html += '<div class="dboard-sec"><h3>Frontier curriculum</h3><p class="sec-goal">'+frSec.goal+'</p></div>';
+    body.innerHTML = html;
+    body.appendChild(box);
+  } else {
+    body.innerHTML = html;
+  }
 }
 
 /* ---------- Dashboard page ---------- */
