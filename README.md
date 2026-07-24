@@ -33,9 +33,13 @@ Progress is meant to reflect real mastery, not just “watched it.”
 | 5 | Foundation models, LLMs & ML systems | 12–18 months |
 | 6 | Increasingly independent research | Ongoing (years 3–7) |
 
+### Core modules
+
+Three mandatory modules that apply across phases rather than sitting inside one: **Experimental Science & Statistical Rigor for ML**, **Evaluation**, and **Research Engineering** (which adds a replication-status tracker — Not attempted / Self reproduced / Independently reproduced / Failed independent reproduction — for reproduction artifacts).
+
 ### Specialization tracks & modules
 
-Optional tracks (e.g. advanced RL, probabilistic ML, ML systems) and modules such as the **Frontier 2025–2026** rolling list, **telecom / wireless-AI**, research methodology, qualifying-exam checkpoints, a curated resource index, and a **milestone ladder** of artifacts.
+Optional tracks (e.g. advanced RL, probabilistic ML, ML systems, **theoretical machine learning**) and modules such as the **Frontier 2025–2026** rolling list, **telecom / wireless-AI**, research methodology, qualifying-exam checkpoints, a curated resource index, and a **milestone ladder** of artifacts.
 
 Item types include courses, books, papers, projects, milestones, standards, and skills.
 

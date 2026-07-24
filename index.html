@@ -169,6 +169,11 @@
   .role-select.role-secondary{border-color:var(--signal); color:var(--signal); font-weight:700;}
   .role-select.role-reading{border-color:var(--amber); color:var(--amber); font-weight:700;}
   .role-select.role-not_pursuing{color:var(--muted);}
+  /* Phase C — Research Engineering: replication-status selector on opted-in reproduction items */
+  .repl-select{font-family:var(--mono); font-size:9.5px; text-transform:uppercase; letter-spacing:.03em; padding:.25rem .4rem; border-radius:5px; border:1px solid var(--rule); background:#fff; color:var(--ink-soft); cursor:pointer; margin-top:.35rem;}
+  .repl-select.repl-self_reproduced{border-color:var(--amber); color:var(--amber); font-weight:700;}
+  .repl-select.repl-independently_reproduced{border-color:var(--master); color:var(--master); font-weight:700;}
+  .repl-select.repl-failed_independent_reproduction{border-color:var(--frontier); color:var(--frontier); font-weight:700;}
   .shape-col{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem;}
   .shape-group h4{font-family:var(--mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 .4rem;}
   .shape-group ul{margin:0; padding-left:1.05rem; font-size:.88rem; color:var(--ink-soft);}
@@ -215,6 +220,7 @@
   .sec-titles{flex:1; min-width:0;}
   .sec-kind{font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted);}
   .sec-kind.spec{color:var(--project);} .sec-kind.module{color:var(--ink-soft);}
+  .sec-kind.module.core{color:var(--signal); font-weight:700;}
   .sec-titles h2{font-family:var(--serif); font-weight:600; font-size:clamp(1.3rem,2.7vw,1.75rem); margin:0; line-height:1.12;}
   .sec-titles .dur{font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted);}
   .sec-prog{display:flex; align-items:center; gap:.55rem; min-width:120px; flex-shrink:0;}
@@ -231,6 +237,11 @@
 
   /* ---------- groups & items ---------- */
   .grp-label{font-family:var(--mono); font-size:10px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); margin:1.15rem 0 .4rem; font-weight:600;}
+  /* Phase C: presentational layer headers (e.g. Phase 5's four-layer regrouping) */
+  .layer-head{margin:1.7rem 0 .3rem; padding-top:1.1rem; border-top:1px solid var(--rule);}
+  .layer-head:first-of-type{border-top:0; padding-top:0; margin-top:.6rem;}
+  .layer-head h4{font-family:var(--serif); font-size:1.05rem; font-weight:600; margin:0; color:var(--ink);}
+  .layer-goal{color:var(--muted); font-size:.85rem; margin:.2rem 0 0; max-width:52rem;}
   .items{border:1px solid var(--rule); border-radius:10px; overflow:hidden; background:#fff;}
   .item{border-bottom:1px solid var(--rule);}
   .item:last-child{border-bottom:0;}
@@ -514,10 +525,25 @@ const SECTIONS = [
   exit:"Implement a value-based (DQN) and a policy-gradient (PPO) agent from scratch that solve control benchmarks; write up what stabilized training and why."},
  {key:'p5', kind:'phase', num:'5', title:'Foundation models, LLMs & ML systems', dur:'12–18 months', open:true,
   goal:"The current center of gravity. Two parallel tracks: <strong>the model</strong> (build an LLM end-to-end) and <strong>the system</strong> (train & serve it at scale).",
-  exit:"Pre-train a small LLM end-to-end then post-train with SFT + DPO; 2× a served model's throughput and explain why; reproduce one scaling-law fit."},
+  exit:"Pre-train a small LLM end-to-end then post-train with SFT + DPO; 2× a served model's throughput and explain why; reproduce one scaling-law fit.",
+  // Presentational regrouping only (Phase C) — every item below still carries its original id/url;
+  // `layer` just changes which of these four headers it renders under.
+  layers:[
+    {key:'pretrain', label:'Pretraining', goal:"Build the base model: tokenization, architecture, data, and the scaling laws that predict what a training run will cost and yield."},
+    {key:'posttrain', label:'Post-training', goal:"Turn a base model into something aligned and useful: supervised fine-tuning, preference optimization, and efficient adaptation."},
+    {key:'inference', label:'Inference-time intelligence', goal:"What the model does at serving time: efficient inference, retrieval augmentation, and throughput engineering."},
+    {key:'evalsci', label:'Evaluation & science', goal:"Treat the system you built as an object of study — production evaluation practice, plus a required original empirical finding."}
+  ]},
  {key:'p6', kind:'phase', num:'6', title:'Increasingly independent research', dur:'Ongoing · years 3–7', open:true,
   goal:"The actual PhD: pick a niche, map its literature, reproduce its SOTA, find the gap, publish. Read → Reconstruct → Reproduce → Ablate → Critique → Synthesize → Hypothesize → Design → Write → Defend.",
   exit:"One reproduction others use; one workshop paper, then a main-conference / top-journal paper; a defensible research opinion."},
+
+ {key:'expsci', kind:'module', num:'Σ', cls:'mod', core:true, title:'Experimental Science & Statistical Rigor for ML', dur:'Core · continuous, applied from Phase 2 onward', open:false,
+  goal:"The methodology that separates a real result from a lucky seed. Statistical power, uncertainty, and the discipline to design experiments that could actually falsify your hypothesis — rigor a PhD is expected to bring to every claim, not just the headline ones."},
+ {key:'eval', kind:'module', num:'◎', cls:'mod', core:true, title:'Evaluation', dur:'Core · mandatory, builds on Phase 5', open:false,
+  goal:"Measuring whether a model actually works — and whether the measurement itself can be trusted. Benchmark construction, contamination, calibration, and the limits of any single number. Turns 'it scored X%' into a defensible claim."},
+ {key:'reseng', kind:'module', num:'⚙', cls:'mod', core:true, title:'Research Engineering', dur:'Core · mandatory, applied throughout Phases 3–6', open:false,
+  goal:"The infrastructure that makes a result trustworthy and reusable: configs, tracked experiments, versioned data, and a repo someone else can actually run. The difference between a result and a reproducible result."},
 
  {key:'t-prob', kind:'track', num:'β', title:'Probabilistic & Bayesian ML', dur:'Specialization · parallel', open:false,
   goal:"Kept distinct from the LLM path: probabilistic modeling, Bayesian inference, graphical models, EM, MCMC, variational inference, and uncertainty."},
@@ -535,6 +561,8 @@ const SECTIONS = [
   goal:"Causal graphs, interventions, confounding, backdoor adjustment, potential outcomes, identification, and the limits of observational data."},
  {key:'t-sys', kind:'track', num:'▤', title:'ML systems deep-dive', dur:'Specialization · parallel with Phase 5', open:false,
   goal:"Beyond LLM-systems: foundational OS/networks/distributed systems, plus data pipelines, parallelism, kernels, serving, and reliability — measured, not just read."},
+ {key:'t-theory', kind:'track', num:'∴', title:'Theoretical machine learning', dur:'Specialization · parallel', open:false,
+  goal:"Why generalization happens at all — and why over-parameterized deep nets seem to break the classical story. PAC learning, complexity measures, stability, and scaling/generalization theory. Proof-level fluency, not a reading list: you should be able to reconstruct and defend these results from memory, not just cite them."},
 
  {key:'fr', kind:'module', num:'★', cls:'fr', title:'Frontier module — 2025–2026', dur:'Rolling · revisit every quarter', open:true,
   goal:"The biggest currency upgrade. Live research fronts as of early 2026 — <strong>staying current is the job.</strong>"},
@@ -704,62 +732,141 @@ const ITEMS = [
  {id:'p4-proj', ph:'p4', type:'project', t:'Implement DQN and PPO from scratch; solve classic-control benchmarks; ablate what stabilizes training'},
 
  // ---------------- PHASE 5 — FM/LLM/systems ----------------
- {id:'p5-cs336', ph:'p5', type:'course', major:true, t:'Stanford CS336 — Language Modeling from Scratch', m:'flagship: tokenizer→MoE→Triton→parallelism→scaling→inference→RLHF', u:'https://stanford-cs336.github.io/spring2025/',
+ {id:'p5-cs336', ph:'p5', type:'course', major:true, layer:'pretrain', t:'Stanford CS336 — Language Modeling from Scratch', m:'flagship: tokenizer→MoE→Triton→parallelism→scaling→inference→RLHF', u:'https://stanford-cs336.github.io/spring2025/',
   detail:{why:"The single most important applied course of the last two years: you build a real LLM end-to-end with minimal scaffolding, touching every layer from tokenization to alignment. It is the fastest route from 'understands DL' to 'operates at the frontier.'",
    prereq:"Deep learning core; strong Python; the RL phase (for the alignment lectures).",
    topics:["Tokenization (BPE)","Transformer architecture & hyperparameters","Mixture-of-experts","GPUs, Triton kernels","Data / tensor / pipeline parallelism","Scaling laws","Inference & serving","Evaluation","Data curation","Alignment: SFT, RLHF, RL"],
    mastery:["Implement a tokenizer, transformer, and training loop from scratch","Explain the parallelism strategy needed for a given model/GPU budget","Fit and interpret a scaling law on your own runs","Post-train a base model with SFT and a preference method"],
    artifact:"Complete CS336 A1–A5 (or equivalent): a pre-trained small LM you then post-train with SFT + DPO.",
    resources:[{t:'CS336 lectures on YouTube (Stanford Online)',u:'https://www.youtube.com/@stanfordonline'},{t:'Build a Large Language Model (From Scratch) — Raschka'}]}},
- {id:'p5-cs324', ph:'p5', type:'course', t:'Stanford CS324 — Large Language Models', u:'https://stanford-cs324.github.io/winter2022/'},
- {id:'p5-6594', ph:'p5', type:'course', t:'MIT 6.5940 — TinyML & Efficient Deep Learning (Han)', m:'quantization, pruning, efficient inference', u:'https://hanlab.mit.edu/courses/2024-fall-65940', verify:true},
- {id:'p5-chip', ph:'p5', type:'book', t:'Designing Machine Learning Systems — Chip Huyen'},
- {id:'p5-mlops', ph:'p5', type:'course', t:'Chip Huyen — MLOps guide', u:'https://huyenchip.com/mlops/'},
- {id:'p5-gpt3', ph:'p5', type:'paper', cur:'LANDMARK', seq:'scaling', t:'Language Models are Few-Shot Learners (GPT-3) — Brown et al. 2020', u:'https://arxiv.org/abs/2005.14165',
+ {id:'p5-cs324', ph:'p5', type:'course', layer:'pretrain', t:'Stanford CS324 — Large Language Models', u:'https://stanford-cs324.github.io/winter2022/'},
+ {id:'p5-6594', ph:'p5', type:'course', layer:'inference', t:'MIT 6.5940 — TinyML & Efficient Deep Learning (Han)', m:'quantization, pruning, efficient inference', u:'https://hanlab.mit.edu/courses/2024-fall-65940', verify:true},
+ {id:'p5-chip', ph:'p5', type:'book', layer:'evalsci', t:'Designing Machine Learning Systems — Chip Huyen'},
+ {id:'p5-mlops', ph:'p5', type:'course', layer:'evalsci', t:'Chip Huyen — MLOps guide', u:'https://huyenchip.com/mlops/'},
+ {id:'p5-gpt3', ph:'p5', type:'paper', cur:'LANDMARK', seq:'scaling', layer:'pretrain', t:'Language Models are Few-Shot Learners (GPT-3) — Brown et al. 2020', u:'https://arxiv.org/abs/2005.14165',
   detail:{why:"Established in-context / few-shot learning as an emergent capability of scale and set the paradigm the whole LLM era runs on.",
    tech:"The scaling recipe and the few-shot prompting protocol; what in-context learning is and is not (no weight updates at inference).",
    after:"Reproduce a few-shot vs zero-shot gap on a small model for one task; probe how prompt format and shot count change results; separate genuine capability from prompt sensitivity."}},
- {id:'p5-bert', ph:'p5', type:'paper', cur:'LANDMARK', seq:'transformers', t:'BERT — Devlin et al. 2018', u:'https://arxiv.org/abs/1810.04805',
+ {id:'p5-bert', ph:'p5', type:'paper', cur:'LANDMARK', seq:'transformers', layer:'pretrain', t:'BERT — Devlin et al. 2018', u:'https://arxiv.org/abs/1810.04805',
   detail:{why:"Defined the pretrain-then-finetune encoder paradigm that dominated NLP before decoder-only models and still underlies many embedding/retrieval systems.",
    tech:"Masked-language-modeling (and next-sentence) objectives, bidirectional context, and why this suits understanding tasks rather than generation.",
    after:"Fine-tune a small BERT on a classification task; contrast its bidirectional objective with GPT's autoregressive one; argue when you'd choose an encoder vs a decoder."}},
- {id:'p5-scaling', ph:'p5', type:'paper', cur:'FOUNDATIONAL', seq:'scaling', t:'Scaling Laws for Neural Language Models — Kaplan et al. 2020', u:'https://arxiv.org/abs/2001.08361',
+ {id:'p5-scaling', ph:'p5', type:'paper', cur:'FOUNDATIONAL', seq:'scaling', layer:'pretrain', t:'Scaling Laws for Neural Language Models — Kaplan et al. 2020', u:'https://arxiv.org/abs/2001.08361',
   detail:{why:"Showed loss follows smooth power laws in compute, data and parameters — turning model design into a predictable extrapolation problem.",
    tech:"The power-law fits, the notion of compute-optimal allocation, and the (later-corrected) prescription for trading off model size vs data.",
    after:"Fit a scaling law on your own small runs (loss vs params or tokens); extrapolate and test the prediction; contrast its data/model tradeoff with Chinchilla's correction."}},
- {id:'p5-chinchilla', ph:'p5', type:'paper', cur:'LANDMARK', seq:'scaling', t:'Training Compute-Optimal LLMs (Chinchilla) — Hoffmann et al. 2022', u:'https://arxiv.org/abs/2203.15556',
+ {id:'p5-chinchilla', ph:'p5', type:'paper', cur:'LANDMARK', seq:'scaling', layer:'pretrain', t:'Training Compute-Optimal LLMs (Chinchilla) — Hoffmann et al. 2022', u:'https://arxiv.org/abs/2203.15556',
   detail:{why:"Corrected the scaling recipe — most large models were badly under-trained on data — and reset how compute budgets are allocated.",
    tech:"The compute-optimal result that tokens should scale roughly in proportion to parameters, and the isoFLOP methodology used to derive it.",
    after:"Re-derive the compute-optimal frontier from isoFLOP curves on small runs; compare the Kaplan vs Chinchilla prescriptions; compute the 'right' data budget for a given parameter count."}},
- {id:'p5-instructgpt', ph:'p5', type:'paper', cur:'LANDMARK', seq:'post-training', t:'InstructGPT — Ouyang et al. 2022', u:'https://arxiv.org/abs/2203.02155',
+ {id:'p5-instructgpt', ph:'p5', type:'paper', cur:'LANDMARK', seq:'post-training', layer:'posttrain', t:'InstructGPT — Ouyang et al. 2022', u:'https://arxiv.org/abs/2203.02155',
   detail:{why:"The RLHF recipe that turned raw LMs into instruction-followers — the direct ancestor of ChatGPT and modern post-training.",
    tech:"The three-stage pipeline (SFT → reward model → PPO) and why a learned reward model plus RL beats supervised fine-tuning alone for alignment.",
    after:"Implement SFT + a reward model on a small preference set; compare against SFT-only; reason about reward hacking and why a KL-to-reference penalty is needed."}},
- {id:'p5-dpo', ph:'p5', type:'paper', cur:'METHOD', seq:'post-training', t:'Direct Preference Optimization (DPO) — Rafailov et al. 2023', u:'https://arxiv.org/abs/2305.18290',
+ {id:'p5-dpo', ph:'p5', type:'paper', cur:'METHOD', seq:'post-training', layer:'posttrain', t:'Direct Preference Optimization (DPO) — Rafailov et al. 2023', u:'https://arxiv.org/abs/2305.18290',
   detail:{why:"Collapsed RLHF's reward-model-plus-PPO pipeline into a single supervised loss, now a default for preference tuning.",
    tech:"The derivation showing the RLHF optimum has a closed form that turns preference learning into a classification-style loss on the policy — no RL loop.",
    after:"Derive the DPO loss from the RLHF objective; implement it and post-train a small SFT model on preferences; compare to a PPO-RLHF baseline on quality and stability."}},
- {id:'p5-lora', ph:'p5', type:'paper', cur:'METHOD', seq:'post-training', t:'LoRA — Hu et al. 2021', u:'https://arxiv.org/abs/2106.09685',
+ {id:'p5-lora', ph:'p5', type:'paper', cur:'METHOD', seq:'post-training', layer:'posttrain', t:'LoRA — Hu et al. 2021', u:'https://arxiv.org/abs/2106.09685',
   detail:{why:"Made fine-tuning large models cheap by training small low-rank adapters — the backbone of practical parameter-efficient tuning and most open-model work.",
    tech:"The low-rank update ΔW = BA added to frozen weights, why it works (adaptation has low intrinsic rank), and the memory/serving implications.",
    after:"Implement LoRA on a small transformer; sweep the rank r and measure the quality/parameter tradeoff; verify adapters can be merged back into the base weights."}},
- {id:'p5-flash', ph:'p5', type:'paper', cur:'SYSTEMS', seq:'efficient', t:'FlashAttention — Dao et al. 2022', u:'https://arxiv.org/abs/2205.14135',
+ {id:'p5-flash', ph:'p5', type:'paper', cur:'SYSTEMS', seq:'efficient', layer:'pretrain', t:'FlashAttention — Dao et al. 2022', u:'https://arxiv.org/abs/2205.14135',
   detail:{why:"Made exact attention IO-aware and fast, unlocking longer contexts — a canonical example of algorithm–hardware co-design.",
    tech:"Tiling plus recomputation (online softmax) to keep the full attention matrix out of HBM; why the win is memory-bandwidth, not FLOPs.",
    after:"Work through the tiling and online-softmax math; benchmark memory and speed vs naive attention; explain how it changes the cost model of the transformer you built."}},
- {id:'p5-zero', ph:'p5', type:'paper', cur:'SYSTEMS', seq:'efficient', t:'ZeRO — Rajbhandari et al. 2019', u:'https://arxiv.org/abs/1910.02054'},
- {id:'p5-megatron', ph:'p5', type:'paper', cur:'SYSTEMS', seq:'efficient', t:'Megatron-LM — Shoeybi et al. 2019', u:'https://arxiv.org/abs/1909.08053'},
- {id:'p5-rag', ph:'p5', type:'paper', cur:'METHOD', seq:'retrieval', t:'Retrieval-Augmented Generation — Lewis et al. 2020', u:'https://arxiv.org/abs/2005.11401'},
- {id:'p5-proj-pretrain', ph:'p5', type:'project', t:'Pre-train a small LLM end-to-end (CS336 A1–A5), then post-train with SFT + DPO'},
- {id:'p5-proj-serve', ph:'p5', type:'project', t:'Profile & 2× the inference throughput of a served model; explain exactly why'},
+ {id:'p5-zero', ph:'p5', type:'paper', cur:'SYSTEMS', seq:'efficient', layer:'pretrain', t:'ZeRO — Rajbhandari et al. 2019', u:'https://arxiv.org/abs/1910.02054'},
+ {id:'p5-megatron', ph:'p5', type:'paper', cur:'SYSTEMS', seq:'efficient', layer:'pretrain', t:'Megatron-LM — Shoeybi et al. 2019', u:'https://arxiv.org/abs/1909.08053'},
+ {id:'p5-rag', ph:'p5', type:'paper', cur:'METHOD', seq:'retrieval', layer:'inference', t:'Retrieval-Augmented Generation — Lewis et al. 2020', u:'https://arxiv.org/abs/2005.11401'},
+ {id:'p5-proj-pretrain', ph:'p5', type:'project', layer:'pretrain', t:'Pre-train a small LLM end-to-end (CS336 A1–A5), then post-train with SFT + DPO'},
+ {id:'p5-proj-serve', ph:'p5', type:'project', layer:'inference', t:'Profile & 2× the inference throughput of a served model; explain exactly why'},
+ {id:'p5-proj-phenomenon', ph:'p5', type:'project', major:true, layer:'evalsci', t:'Discover, test & characterize a non-obvious empirical phenomenon in a model you trained or a public one', m:'the required Phase 5 research artifact — closes the loop from "operate the system" to "study it"',
+  detail:{why:"The three layers above teach you to build, align and serve a model; this closes the loop by requiring you to treat your own runs as data — the actual practice of empirical ML research, not just following a recipe.",
+   prereq:"A trained/post-trained model to probe (from p5-proj-pretrain), or logged access to a public model's outputs across settings.",
+   topics:["Exploratory analysis of training or inference behavior","Formulating a specific, falsifiable claim (not a vague 'this seems interesting')","Designing a controlled experiment that isolates the phenomenon","Ruling out confounds: seed, prompt/template, decoding settings, data leakage","Reporting a negative or partial result honestly when the effect doesn't hold up"],
+   mastery:["State a specific, falsifiable claim about model behavior","Design and run an experiment that isolates the phenomenon from likely confounds","Report the result including what would have falsified the claim and what didn't"],
+   artifact:"A short research memo: the phenomenon, why it's non-obvious, the experiment that isolates it, the result (including null/negative outcomes), and what would change your mind about it."}},
 
  // ---------------- PHASE 6 — research ----------------
  {id:'p6-map', ph:'p6', type:'project', t:'Build a literature map of one sub-area; know every key paper & open problem'},
- {id:'p6-repro', ph:'p6', type:'project', t:'Re-implement a SOTA method from scratch; match the reported numbers'},
+ {id:'p6-repro', ph:'p6', type:'project', replication:true, t:'Re-implement a SOTA method from scratch; match the reported numbers'},
  {id:'p6-ablate', ph:'p6', type:'project', t:'Run an ablation — change one thing, measure, explain'},
  {id:'p6-proposal', ph:'p6', type:'project', t:'Write a 3–5 page research proposal (problem, gap, hypothesis, experiment plan)'},
  {id:'p6-workshop', ph:'p6', type:'milestone', t:'Publish a workshop paper at a top venue'},
  {id:'p6-conf', ph:'p6', type:'milestone', t:'Publish a main-conference or top-journal paper'},
+
+ // ---------------- MODULE: Experimental Science & Statistical Rigor for ML ----------------
+ {id:'es-core', ph:'expsci', type:'skill', major:true, t:'Statistical rigor for ML experiments', m:'power, uncertainty, and the discipline of a falsifiable claim',
+  detail:{why:"Most ML claims that fail to replicate fail on methodology, not ideas: underpowered comparisons, a single lucky seed, an untuned baseline against a tuned method, silent contamination, or a benchmark that's been implicitly overfit by the community. This is the full statistical toolkit rm-exp only introduced — the difference between 'it worked once' and a defensible result.",
+   prereq:"Probability & statistics (Phase 1); real training runs to analyze (Phase 2+).",
+   topics:["Statistical power & sample-size reasoning","Effect sizes vs p-values","Confidence intervals over seeds/runs","The bootstrap","Permutation & randomization tests","Multiple hypothesis testing & false-discovery control","Seed variance as a first-class quantity, not noise","Hyperparameter-selection bias (tuning on the test set without knowing it)","Benchmark overfitting from repeated community reuse","Data/benchmark contamination","Adaptive experimentation & the cost of peeking at results","Ablation methodology — isolate one factor, hold the rest fixed","Factorial & fractional-factorial design for multi-factor studies","Sensitivity & robustness checks","Causal vs merely correlational claims about method changes","Human evaluation design","Inter-rater agreement","LLM-as-judge validity & failure modes","Reproducibility across seed/hardware/software","Keeping and reporting null/negative results"],
+   mastery:["Compute the sample size needed to detect a given effect size at a given power","Report a result as mean ± CI over seeds, not a single number","Run a permutation test to check whether a reported gap is distinguishable from chance","Correct for multiple comparisons when several methods/benchmarks are tested at once","Detect hyperparameter-selection bias or contamination in a paper or your own pipeline","Design a factorial ablation that separates two entangled factors","Argue whether a result is causal or merely correlated with the change you made","Assess whether an LLM-as-judge score is valid evidence or an artifact of the judge","Keep and report a negative result with the same rigor as a positive one"],
+   artifact:"Reproduce a published ML result with a rigorous multi-seed ablation study: mean ± CI over ≥5 seeds, a fair-baseline comparison, a factorial ablation isolating each changed component, a significance test for the headline claim, and an explicit contamination/leakage check.",
+   resources:[{t:'Pineau et al. — Improving Reproducibility in Machine Learning Research (NeurIPS 2019 Reproducibility Program)'},{t:'The ML Reproducibility Checklist'},{t:'Demšar — Statistical Comparisons of Classifiers over Multiple Data Sets (JMLR 2006)',u:'https://www.jmlr.org/papers/v7/demsar06a.html'}]}},
+ {id:'es-cohen', ph:'expsci', type:'book', t:'Statistical Power Analysis for the Behavioral Sciences — Cohen', m:'the canonical reference on power & effect size'},
+ {id:'es-boot', ph:'expsci', type:'book', t:'An Introduction to the Bootstrap — Efron & Tibshirani', m:'resampling-based uncertainty without distributional assumptions'},
+ {id:'es-demsar', ph:'expsci', type:'paper', cur:'FOUNDATIONAL', seq:'statistics', t:'Statistical Comparisons of Classifiers over Multiple Data Sets — Demšar 2006', u:'https://www.jmlr.org/papers/v7/demsar06a.html'},
+ {id:'es-seedvar', ph:'expsci', type:'paper', cur:'CRITIQUE', seq:'statistics', t:'Deep Reinforcement Learning that Matters — Henderson et al. 2017', m:'seed/implementation variance large enough to overturn published claims', u:'https://arxiv.org/abs/1709.06560'},
+ {id:'es-showyourwork', ph:'expsci', type:'paper', cur:'METHOD', seq:'statistics', t:'Show Your Work: Improved Reporting of Experimental Results — Dodge et al. 2019', m:'hyperparameter-selection & compute-budget bias in reported results', u:'https://arxiv.org/abs/1909.03004'},
+ {id:'es-contam', ph:'expsci', type:'paper', cur:'FRONTIER', seq:'statistics', t:'Time Travel in LLMs: Tracing Data Contamination in Large Language Models — Golchin & Surdeanu 2023', u:'https://arxiv.org/abs/2308.08493'},
+ {id:'es-adaptive', ph:'expsci', type:'skill', t:'Own: adaptive experimentation & sequential testing — why peeking at results as they arrive inflates false positives'},
+ {id:'es-ablation', ph:'expsci', type:'skill', t:'Own: ablation methodology — change one factor, hold everything else fixed, report the delta with uncertainty'},
+ {id:'es-factorial', ph:'expsci', type:'skill', t:'Own: factorial & fractional-factorial design for multi-factor hyperparameter/ablation studies'},
+ {id:'es-humaneval', ph:'expsci', type:'paper', cur:'CRITIQUE', seq:'human-eval', t:'Twenty Years of Confusion in Human Evaluation: NLG Needs Evaluation Sheets & Standardised Definitions — Howcroft et al. 2020', verify:true},
+ {id:'es-interrater', ph:'expsci', type:'skill', t:"Own: inter-rater agreement (Cohen's/Fleiss' kappa, Krippendorff's alpha) and when it invalidates an eval"},
+ {id:'es-llmjudge', ph:'expsci', type:'paper', cur:'METHOD', seq:'human-eval', t:'Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena — Zheng et al. 2023', u:'https://arxiv.org/abs/2306.05685'},
+ {id:'es-null', ph:'expsci', type:'skill', t:"Own: keeping and reporting null/negative results — most hypotheses are wrong, and that's data too"},
+ {id:'es-proj', ph:'expsci', type:'project', replication:true, t:'Reproduce a published result with a multi-seed ablation study: mean ± CI, a fair baseline, and a significance test on the headline claim'},
+
+ // ---------------- MODULE: Evaluation ----------------
+ {id:'ev-core', ph:'eval', type:'skill', major:true, t:'Rigorous evaluation & benchmark design', m:'the methodology behind every reported number',
+  detail:{why:"A benchmark score is only as trustworthy as the benchmark and the measurement process around it. Contamination, aggregate metrics that hide subgroup failures, benchmark saturation, and unreliable LLM-as-judge scoring all let a model look better than it is. Evaluation is now a first-class research skill, not an afterthought after training.",
+   prereq:"Deep learning core (Phase 3); the Experimental Science module's statistical toolkit.",
+   topics:["Benchmark construction & what a benchmark actually measures","Data/benchmark contamination","Capability vs propensity (can it, vs does it by default)","Calibration","Selective prediction & abstention","Distribution shift in evaluation sets","Adversarial evaluation","Long-tail / subgroup evaluation vs aggregate metrics","Human evaluation design","LLM-as-judge reliability & bias","Pairwise/Elo evaluation and its limitations","Statistical uncertainty in benchmark scores","pass@k and other sampling-based metrics","Benchmark saturation & gaming","Multilingual & cross-cultural validity","Agent evaluation (multi-step, tool use)","Reproducibility across inference configs (decoding params, batching, hardware)"],
+   mastery:["Design a benchmark slice that would reveal a failure an aggregate score hides","Distinguish a capability failure from a propensity/elicitation failure","Compute and interpret pass@k correctly for a sampling-based eval","Identify likely contamination between a benchmark and a model's training data","Argue whether a pairwise/Elo ranking is a valid proxy for a stated capability","Reproduce a reported benchmark number and identify what inference-config detail moved it","Report a benchmark score with its statistical uncertainty, not as a bare percentage"],
+   artifact:"Design an eval/benchmark that reveals a failure hidden by an aggregate metric — e.g. a subgroup slice, a long-tail case class, or a metric-gaming shortcut — and show the gap between the aggregate score and the revealed failure rate.",
+   resources:[{t:'HELM — Holistic Evaluation of Language Models',u:'https://arxiv.org/abs/2211.09110'},{t:'EleutherAI lm-evaluation-harness',u:'https://github.com/EleutherAI/lm-evaluation-harness'}]}},
+ {id:'ev-harness', ph:'eval', type:'course', t:'EleutherAI lm-evaluation-harness', m:'the standard eval tooling', u:'https://github.com/EleutherAI/lm-evaluation-harness'},
+ {id:'ev-helm', ph:'eval', type:'paper', cur:'SYSTEMS', seq:'evaluation', t:'Holistic Evaluation of Language Models (HELM) — Liang et al. 2022', u:'https://arxiv.org/abs/2211.09110'},
+ {id:'ev-passk', ph:'eval', type:'paper', cur:'FOUNDATIONAL', seq:'evaluation', t:'Evaluating Large Language Models Trained on Code — Chen et al. 2021', m:'defines pass@k', u:'https://arxiv.org/abs/2107.03374'},
+ {id:'ev-contam', ph:'eval', type:'paper', cur:'FRONTIER', seq:'evaluation', t:'Detecting Pretraining Data from Large Language Models — Shi et al. 2023', u:'https://arxiv.org/abs/2310.16789'},
+ {id:'ev-mirage', ph:'eval', type:'paper', cur:'CRITIQUE', seq:'evaluation', t:'Are Emergent Abilities of Large Language Models a Mirage? — Schaeffer et al. 2023', m:'metric choice can manufacture apparent "emergence"', u:'https://arxiv.org/abs/2304.15004'},
+ {id:'ev-calib', ph:'eval', type:'paper', cur:'METHOD', seq:'evaluation', t:'On Calibration of Modern Neural Networks — Guo et al. 2017', u:'https://arxiv.org/abs/1706.04599'},
+ {id:'ev-selective', ph:'eval', type:'paper', cur:'METHOD', seq:'evaluation', t:'Selective Classification for Deep Neural Networks — Geifman & El-Yaniv 2017', u:'https://arxiv.org/abs/1705.08500'},
+ {id:'ev-shift', ph:'eval', type:'paper', cur:'SYSTEMS', seq:'evaluation', t:'A Fine-Grained Analysis on Distribution Shift — Wiles et al. 2021', u:'https://arxiv.org/abs/2110.11328'},
+ {id:'ev-arena', ph:'eval', type:'paper', cur:'METHOD', seq:'evaluation', t:'Chatbot Arena: An Open Platform for Evaluating LLMs by Human Preference — Chiang et al. 2024', m:'pairwise/Elo evaluation and its limitations', u:'https://arxiv.org/abs/2403.04132'},
+ {id:'ev-judge', ph:'eval', type:'paper', cur:'METHOD', seq:'evaluation', t:'Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena — Zheng et al. 2023', u:'https://arxiv.org/abs/2306.05685'},
+ {id:'ev-multiling', ph:'eval', type:'paper', cur:'FRONTIER', seq:'evaluation', t:'MEGA: Multilingual Evaluation of Generative AI — Ahuja et al. 2023', u:'https://arxiv.org/abs/2303.12528'},
+ {id:'ev-agents', ph:'eval', type:'paper', cur:'FRONTIER', seq:'evaluation', t:'AgentBench: Evaluating LLMs as Agents — Liu et al. 2023', u:'https://arxiv.org/abs/2308.03688'},
+ {id:'ev-repro', ph:'eval', type:'skill', t:'Own: reproducibility across inference configs — decoding params, batching, and hardware can silently change reported scores'},
+ {id:'ev-proj', ph:'eval', type:'project', t:'Design an eval/benchmark that reveals a failure an aggregate metric hides (a subgroup, a long-tail slice, or a metric-gaming shortcut)'},
+
+ // ---------------- MODULE: Research Engineering ----------------
+ {id:'re-core', ph:'reseng', type:'skill', major:true, t:'Research engineering for reproducible ML', m:'the infrastructure that makes a result trustworthy and reusable',
+  detail:{why:"A result nobody else can reproduce — including you, six months later — isn't a research result yet. Configuration, tracking, versioning and environment discipline are what let a finding survive contact with another researcher, another cluster, or your own future self.",
+   prereq:"Deep learning core (Phase 3); comfort running multi-run training jobs.",
+   topics:["Experiment configuration (Hydra-style hierarchical configs)","Reproducible pipelines","Dataset versioning","Checkpoint management","Experiment tracking","Profiling training & inference jobs","Cluster & numerical debugging (NaNs, desync, non-determinism)","Gradient & activation instrumentation","Automated hyperparameter sweeps","Artifact preservation (code+data+config+weights as one unit)","Reproducible environments (containers, lockfiles, pinned drivers)","Compute & cost accounting"],
+   mastery:["Configure an experiment so every run is fully specified by a versioned config, not ad-hoc flags","Track and compare runs so you can find 'the run that produced Figure 3' a year later","Profile a training/inference job and identify the actual bottleneck from a trace","Diagnose a NaN/Inf or a silent data-parallel desync from symptoms alone","Instrument gradients/activations to catch a training pathology before it wastes a run","Package a finished experiment so a stranger can reproduce it with one documented command","Estimate the GPU-hours and $ cost of a planned sweep before running it"],
+   artifact:"A repo another researcher can reproduce with one documented command — pinned environment, versioned config, fixed seed, versioned data/checkpoint, and a README that states the exact expected output.",
+   resources:[{t:'Hydra — hierarchical configuration',u:'https://hydra.cc/'},{t:'Weights & Biases — experiment tracking',u:'https://wandb.ai/site'},{t:'DVC — data & pipeline versioning',u:'https://dvc.org/'}]}},
+ {id:'re-hydra', ph:'reseng', type:'course', t:'Hydra — hierarchical experiment configuration', u:'https://hydra.cc/'},
+ {id:'re-wandb', ph:'reseng', type:'course', t:'Weights & Biases — experiment tracking', u:'https://wandb.ai/site'},
+ {id:'re-dvc', ph:'reseng', type:'course', t:'DVC — data & pipeline versioning', u:'https://dvc.org/'},
+ {id:'re-mlflow', ph:'reseng', type:'course', t:'MLflow — experiment tracking & model registry', u:'https://mlflow.org/'},
+ {id:'re-profiling', ph:'reseng', type:'skill', t:'Own: profiling a training/inference job (torch profiler, Nsight) and reading a trace for the real bottleneck'},
+ {id:'re-numdebug', ph:'reseng', type:'skill', t:'Own: numerical & cluster debugging — NaNs/Infs, gradient explosions, silent data-parallel desync, non-deterministic ops'},
+ {id:'re-instrument', ph:'reseng', type:'skill', t:'Own: gradient & activation instrumentation (hooks, norms, histograms) to catch a training pathology before it wastes a run'},
+ {id:'re-sweeps', ph:'reseng', type:'skill', t:'Own: automated hyperparameter sweeps (grid/random/Bayesian) without inflating the effective number of hypotheses tested'},
+ {id:'re-artifact', ph:'reseng', type:'skill', t:'Own: artifact preservation — pinning code, data, config and weights together so a run is re-runnable a year later'},
+ {id:'re-envs', ph:'reseng', type:'skill', t:'Own: reproducible environments — containers/lockfiles and pinned CUDA/driver versions as a correctness requirement, not hygiene'},
+ {id:'re-compute', ph:'reseng', type:'skill', t:'Own: compute & cost accounting — GPU-hours, $ per experiment, and budgeting a sweep before running it'},
+ {id:'re-pineau', ph:'reseng', type:'paper', cur:'METHOD', seq:'engineering', t:'Improving Reproducibility in Machine Learning Research — Pineau et al. 2021', m:'NeurIPS 2019 Reproducibility Program report; JMLR', verify:true},
+ {id:'re-proj', ph:'reseng', type:'project', major:true, replication:true, t:'Package a completed experiment as a repo a stranger can reproduce with one documented command (pinned env, versioned config, seed, data version)',
+  detail:{why:"This is the Research Engineering module's required artifact — the practical test of everything above. A single documented command is the bar: not 'it should work if you set up the environment right', but it actually runs.",
+   prereq:"A completed experiment from any earlier phase.",
+   topics:["Pinned environment (container or lockfile)","Versioned config and seed","Versioned data/checkpoint reference","A README with the exact expected output"],
+   mastery:["Hand the repo to someone else (or a clean machine/container) and have it reproduce the reported number with one command"],
+   artifact:"A repo another researcher can reproduce with one documented command."}},
 
  // ---------------- TRACK: Probabilistic & Bayesian ML ----------------
  {id:'tp-cs228', ph:'t-prob', type:'course', t:'Stanford CS228 — Probabilistic Graphical Models', u:'https://cs228.stanford.edu/'},
@@ -862,6 +969,26 @@ const ITEMS = [
  {id:'ts-debt', ph:'t-sys', type:'paper', cur:'CRITIQUE', seq:'ml-systems', t:'Hidden Technical Debt in ML Systems — Sculley et al. 2015', m:'NeurIPS; no arXiv', verify:true},
  {id:'ts-proj', ph:'t-sys', type:'project', t:'Run a real multi-GPU data-parallel training job; measure scaling efficiency and find the bottleneck'},
 
+ // ---------------- TRACK: Theoretical machine learning ----------------
+ {id:'tth-core', ph:'t-theory', type:'book', major:true, t:'Foundations of Machine Learning — Mohri, Rostamizadeh & Talwalkar', m:'PAC learning, VC dimension, Rademacher complexity, stability — proof-level, not survey-level', u:'https://cs.nyu.edu/~mohri/mlbook/',
+  detail:{why:"Generalization — why a model that fits training data also works on new data — is not an empirical accident; it has a precise theory. This track exists to make you able to reconstruct that theory's proofs from memory and know exactly where they stop applying to deep, over-parameterized models, not just cite the results.",
+   prereq:"Linear algebra, probability & mathematical statistics (Phase 1); comfort with formal proof.",
+   topics:["PAC learning","VC dimension","Rademacher complexity","Uniform convergence","Algorithmic stability","Online learning & regret","Statistical decision theory","Concentration of measure","High-dimensional statistics","Non-convex optimization landscapes","Implicit regularization","Double descent","Neural scaling-law theory","Representation-learning theory"],
+   mastery:["Derive the PAC generalization bound from first principles","Compute or tightly bound the VC dimension of a given hypothesis class","State and apply a concentration inequality (Hoeffding/McDiarmid) to a learning-theory argument","Prove that algorithmic stability implies generalization for a simple algorithm (e.g. SGD on a convex loss)","Explain double descent and why it isn't a contradiction of classical bias–variance theory","Critique one theoretical result's assumptions and its relevance to models actually used in practice"],
+   artifact:"Reconstruct and defend three ML-theory proofs from memory (e.g. a PAC generalization bound, a concentration inequality, and one modern result such as the NTK linearization or a stability-generalization argument) — plus a written critique of one result's assumptions and real-world relevance.",
+   resources:[{t:'Understanding Machine Learning: From Theory to Algorithms — Shalev-Shwartz & Ben-David (free PDF)',u:'https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/'},{t:'High-Dimensional Statistics: A Non-Asymptotic Viewpoint — Wainwright'},{t:'Concentration Inequalities — Boucheron, Lugosi & Massart'}]}},
+ {id:'tth-shwartz', ph:'t-theory', type:'book', t:'Understanding Machine Learning: From Theory to Algorithms — Shalev-Shwartz & Ben-David', m:'free PDF', u:'https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/'},
+ {id:'tth-highdim', ph:'t-theory', type:'book', t:'High-Dimensional Statistics: A Non-Asymptotic Viewpoint — Wainwright'},
+ {id:'tth-boucheron', ph:'t-theory', type:'book', t:'Concentration Inequalities — Boucheron, Lugosi & Massart'},
+ {id:'tth-dd', ph:'t-theory', type:'paper', cur:'LANDMARK', seq:'theory', t:'Reconciling Modern ML Practice and the Bias–Variance Trade-off (double descent) — Belkin et al. 2019', u:'https://arxiv.org/abs/1812.11118'},
+ {id:'tth-scaling', ph:'t-theory', type:'paper', cur:'METHOD', seq:'theory', t:'Explaining Neural Scaling Laws — Bahri et al. 2021', u:'https://arxiv.org/abs/2102.06701'},
+ {id:'tth-implicit', ph:'t-theory', type:'paper', cur:'METHOD', seq:'theory', t:'The Implicit Bias of Gradient Descent on Separable Data — Soudry et al. 2017', u:'https://arxiv.org/abs/1710.10345'},
+ {id:'tth-nonconvex', ph:'t-theory', type:'paper', cur:'METHOD', seq:'theory', t:'Gradient Descent Converges to Minimizers — Lee et al. 2016', m:'non-convex landscapes: escaping saddle points', u:'https://arxiv.org/abs/1602.04915'},
+ {id:'tth-ntk', ph:'t-theory', type:'paper', cur:'LANDMARK', seq:'theory', t:'Neural Tangent Kernel: Convergence and Generalization in Neural Networks — Jacot et al. 2018', u:'https://arxiv.org/abs/1806.07572'},
+ {id:'tth-online', ph:'t-theory', type:'skill', t:'Own: online learning & regret — the adversarial-sequence view of learning and its regret bounds'},
+ {id:'tth-stability', ph:'t-theory', type:'skill', t:'Own: algorithmic stability — why a stable learning rule generalizes, and where that argument breaks'},
+ {id:'tth-proof', ph:'t-theory', type:'project', t:"Reconstruct three ML-theory proofs from memory (e.g. a PAC bound, a concentration inequality, NTK linearization) and critique one result's assumptions and real-world relevance"},
+
  // ---------------- MODULE: Frontier 2026 ----------------
  {id:'fr-r1', ph:'fr', type:'paper', cur:'FRONTIER', seq:'reasoning', t:'DeepSeek-R1 — reasoning via RL (GRPO)', u:'https://arxiv.org/abs/2501.12948',
   detail:{why:"Showed strong reasoning can emerge from largely pure RL on verifiable rewards, reshaping how frontier reasoning models are trained.",
@@ -917,7 +1044,7 @@ const ITEMS = [
    artifact:"A reproduction/ablation report on a real method: multi-seed results with confidence intervals, an ablation table, a fair-baseline note, and a reproducibility checklist (code, config, seeds, hardware).",
    resources:[{t:'Pineau et al. — Improving Reproducibility in ML Research (NeurIPS reproducibility program)'},{t:'The ML Reproducibility Checklist'}]}},
  {id:'rm-annot', ph:'research', type:'project', t:'Maintain an annotated bibliography for your niche (your-words summary per paper)'},
- {id:'rm-repro', ph:'research', type:'project', t:'Write a reproduction report: setup, results vs paper, discrepancies, and lessons'},
+ {id:'rm-repro', ph:'research', type:'project', replication:true, t:'Write a reproduction report: setup, results vs paper, discrepancies, and lessons'},
  {id:'rm-neg', ph:'research', type:'project', t:'Keep a negative-results log — hypotheses that failed and why (where taste forms)'},
  {id:'rm-review', ph:'research', type:'skill', t:'Practice peer review: write a mock review of a recent paper against a venue rubric'},
  {id:'rm-talk', ph:'research', type:'milestone', t:'Give a research talk / reading-group presentation on your reproduction'},
@@ -950,7 +1077,7 @@ const ITEMS = [
  // ---------------- MODULE: Milestone ladder ----------------
  {id:'ml-m3', ph:'ml', type:'milestone', t:'Month 3 — "I understand backprop." From-scratch NumPy net + derivation, public on GitHub'},
  {id:'ml-m6', ph:'ml', type:'milestone', t:'Month 6 — "I built a neural net from scratch." micrograd → makemore → small nanoGPT'},
- {id:'ml-y1', ph:'ml', type:'milestone', t:'Year 1 — "I reproduced a paper." A faithful reproduction that matches numbers, written up'},
+ {id:'ml-y1', ph:'ml', type:'milestone', replication:true, t:'Year 1 — "I reproduced a paper." A faithful reproduction that matches numbers, written up'},
  {id:'ml-y2', ph:'ml', type:'milestone', t:'Year 2 — "I have a research niche." Literature map + reproduced SOTA + first ablation + proposal'},
  {id:'ml-y3', ph:'ml', type:'milestone', t:'Year 3 — "I published original work." Workshop paper (ideally ML × telecom); first qual defended'},
  {id:'ml-y45', ph:'ml', type:'milestone', t:'Years 4–5 — "I am a research scientist." Main-conference/journal paper + used public reproductions'},
@@ -978,14 +1105,15 @@ const CAPABILITY_CATEGORIES = ['theory','implementation','experimentation','eval
 const CAPABILITY_LABELS = {theory:'Theory',implementation:'Implementation',experimentation:'Experimentation',evaluation:'Evaluation',systems:'Systems',research_independence:'Research Independence'};
 // Which competency dimension(s) roll up into each tag-based category.
 const CATEGORY_DIMENSIONS = {theory:['understand','derive'], implementation:['implement'], experimentation:['experiment'], systems:['implement','experiment'], evaluation:['understand','experiment','critique']};
-// Which major units count toward which categories. (Evaluation gets no units until the
-// Phase C core Evaluation module ships — the dashboard shows "no data" rather than faking a score.)
+// Which major units count toward which categories. (Phase C ships the core Evaluation module,
+// so 'evaluation' now gets real units below instead of always reading "no data".)
 const CAPABILITY_TAGS = {
   'p1-la':['theory'], 'p1-prob':['theory'], 'p1-opt':['theory'], 'p1-info':['theory'],
   'p1-algo':['implementation','systems'], 'p1-os':['systems'], 'p1-net':['systems'],
   'p3-dl':['implementation','theory'], 'p4-rlfound':['implementation','theory'],
-  'p5-cs336':['implementation','systems'], 'tg-cs236':['theory','implementation'],
-  'tc-neal':['theory'], 'tel-tse':['theory'], 'rm-exp':['experimentation']
+  'p5-cs336':['implementation','systems'], 'p5-proj-phenomenon':['experimentation'], 'tg-cs236':['theory','implementation'],
+  'tc-neal':['theory'], 'tel-tse':['theory'], 'rm-exp':['experimentation'],
+  'es-core':['experimentation'], 'ev-core':['evaluation'], 're-core':['systems'], 're-proj':['systems'], 'tth-core':['theory']
 };
 // Evidence-tier weighting: a self-assessed level counts for less than an evidence-backed
 // or externally-validated one when rolling up into aggregate scores. This is the mechanism
@@ -1038,6 +1166,19 @@ const GATE_STATUSES = ['not_attempted','self_assessed_pass','external_pass','nee
 const GATE_STATUS_LABELS = {not_attempted:'Not attempted', self_assessed_pass:'Self-assessed pass', external_pass:'External pass', needs_revision:'Needs revision'};
 function gateStatus(key){ return (state.researchGates[key] && state.researchGates[key].status) || 'not_attempted'; }
 function gatePassed(key){ const s=gateStatus(key); return s==='self_assessed_pass'||s==='external_pass'; }
+
+// Phase C — Research Engineering: replication status for items opted in via `replication:true`
+// (reproduction projects/milestones). Kept independent of GATE_STATUSES: a gate is a one-time
+// defense, replication status tracks the ongoing state of a specific reproduction artifact.
+const REPLICATION_STATUSES = ['not_attempted','self_reproduced','independently_reproduced','failed_independent_reproduction'];
+const REPLICATION_STATUS_LABELS = {not_attempted:'Not attempted', self_reproduced:'Self reproduced', independently_reproduced:'Independently reproduced', failed_independent_reproduction:'Failed independent reproduction'};
+function getReplicationStatus(id){ return (state.replicationStatus && state.replicationStatus[id]) || 'not_attempted'; }
+function setReplicationStatus(id, status){
+  if(!REPLICATION_STATUSES.includes(status)) return;
+  if(!state.replicationStatus) state.replicationStatus = {};
+  state.replicationStatus[id] = status;
+  saveState();
+}
 
 const SPEC_ROLES = ['primary','secondary','reading','not_pursuing'];
 const SPEC_ROLE_LABELS = {primary:'Primary', secondary:'Secondary', reading:'Reading literacy', not_pursuing:'Not pursuing'};
@@ -1101,6 +1242,7 @@ function defaultState(){
     researchQuestions: [],
     specializationRoles: {},
     researchGates: {},
+    replicationStatus: {},
     frontierTopics: [],
     settings: {}
   };
@@ -1142,6 +1284,7 @@ function migrateState(raw){
     researchQuestions: Array.isArray(s.researchQuestions) ? s.researchQuestions : [],
     specializationRoles: (s.specializationRoles && typeof s.specializationRoles==='object') ? s.specializationRoles : {},
     researchGates: (s.researchGates && typeof s.researchGates==='object') ? s.researchGates : {},
+    replicationStatus: (s.replicationStatus && typeof s.replicationStatus==='object') ? s.replicationStatus : {},
     frontierTopics: Array.isArray(s.frontierTopics) ? s.frontierTopics : [],
     settings: (s.settings && typeof s.settings==='object') ? s.settings : {}
   };
@@ -1441,7 +1584,7 @@ function render(){
     wrap.className='sec'+(sectionOpen[sec.key]?'':' collapsed'); wrap.id='sec-'+sec.key;
     const numCls = sec.cls || (sec.kind==='track'?'track':(sec.kind==='module'?'mod':''));
     const kindLabel = sec.kind==='track'?'<div class="sec-kind spec">Specialization track</div>'
-                    : sec.kind==='module'?'<div class="sec-kind module">Module</div>':'';
+                    : sec.kind==='module'?'<div class="sec-kind module'+(sec.core?' core':'')+'">'+(sec.core?'Core module — required':'Module')+'</div>':'';
     const roleSelector = sec.kind==='track' ? (()=>{
       const cur = getSpecializationRole(sec.key);
       const opts = [['','— set role —']].concat(SPEC_ROLES.map(r=>[r,SPEC_ROLE_LABELS[r]]))
@@ -1461,12 +1604,30 @@ function render(){
     const body=document.createElement('div'); body.className='sec-body';
     const goal=document.createElement('p'); goal.className='sec-goal'; goal.innerHTML=sec.goal; body.appendChild(goal);
 
-    GROUP_ORDER.forEach(tp=>{
-      const g=secItems.filter(i=>i.type===tp); if(!g.length) return;
-      const lbl=document.createElement('div'); lbl.className='grp-label'; lbl.textContent=GROUP_NAME[tp]; body.appendChild(lbl);
-      const box=document.createElement('div'); box.className='items';
-      g.forEach(it=>box.appendChild(itemRow(it))); body.appendChild(box);
-    });
+    const renderTypeGroups = (items)=>{
+      GROUP_ORDER.forEach(tp=>{
+        const g=items.filter(i=>i.type===tp); if(!g.length) return;
+        const lbl=document.createElement('div'); lbl.className='grp-label'; lbl.textContent=GROUP_NAME[tp]; body.appendChild(lbl);
+        const box=document.createElement('div'); box.className='items';
+        g.forEach(it=>box.appendChild(itemRow(it))); body.appendChild(box);
+      });
+    };
+    if(sec.layers && sec.layers.length){
+      // Presentational four-layer regrouping (Phase C / Phase 5): items keep their own id/type,
+      // `layer` just decides which header they render under. Anything missing a matching layer
+      // still renders (ungrouped, at the end) so a mistagged item can never silently disappear.
+      sec.layers.forEach(layer=>{
+        const layerItems = secItems.filter(i=>i.layer===layer.key); if(!layerItems.length) return;
+        const lh=document.createElement('div'); lh.className='layer-head';
+        lh.innerHTML='<h4>'+layer.label+'</h4>'+(layer.goal?'<p class="layer-goal">'+layer.goal+'</p>':'');
+        body.appendChild(lh);
+        renderTypeGroups(layerItems);
+      });
+      const unlayered = secItems.filter(i=>!sec.layers.some(l=>l.key===i.layer));
+      if(unlayered.length) renderTypeGroups(unlayered);
+    } else {
+      renderTypeGroups(secItems);
+    }
     if(sec.exit){ const ex=document.createElement('div'); ex.className='exit'; ex.innerHTML='<b>Exit criteria</b>'+sec.exit; body.appendChild(ex); }
     wrap.appendChild(body); app.appendChild(wrap);
   });
@@ -1499,11 +1660,16 @@ function itemRow(it){
   const meta=it.m?'<div class="m">'+it.m+'</div>':'';
   const compMini=it.major?'<div class="comp-mini">'+renderCompMini(it.id)+'</div>':'';
   const expander=(it.detail||it.major)?'<span class="expander" onclick="toggleDetail(event,this)">details ⌄</span>':'';
+  const replSelect = it.replication ? (()=>{
+    const cur = getReplicationStatus(it.id);
+    const opts = REPLICATION_STATUSES.map(s=>'<option value="'+s+'"'+(cur===s?' selected':'')+'>'+REPLICATION_STATUS_LABELS[s]+'</option>').join('');
+    return '<select class="repl-select repl-'+cur+'" onclick="event.stopPropagation()" onchange="event.stopPropagation(); setReplicationStatus(\''+it.id+'\',this.value); render();" title="Replication status">'+opts+'</select>';
+  })() : '';
 
   const r=document.createElement('div'); r.className='item-row';
   r.innerHTML =
     '<div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>'+
-    '<div class="item-main"><div class="t"><span class="tt">'+it.t+'</span>'+link+' '+pills+'</div>'+meta+compMini+'</div>'+
+    '<div class="item-main"><div class="t"><span class="tt">'+it.t+'</span>'+link+' '+pills+'</div>'+meta+compMini+replSelect+'</div>'+
     expander+
     '<span class="badge '+it.type+'">'+TYPE_LABEL[it.type]+'</span>';
   r.addEventListener('click',()=>cycle(it,row));
