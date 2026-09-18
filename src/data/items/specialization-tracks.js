@@ -1,6 +1,6 @@
-// The 9 optional specialization tracks (probabilistic/Bayesian ML, generative modeling,
+// The 10 optional specialization tracks (probabilistic/Bayesian ML, generative modeling,
 // advanced RL, graph ML, multimodal, trustworthy AI, causal inference, ML systems,
-// theoretical ML).
+// theoretical ML, agentic AI systems & multi-agent engineering).
 
 const SPECIALIZATION_TRACKS = [
  // ---------------- TRACK: Probabilistic & Bayesian ML ----------------
@@ -77,11 +77,24 @@ const SPECIALIZATION_TRACKS = [
   detail:{why:"The foundational text of mechanistic interpretability — treats a transformer as reverse-engineerable circuits rather than a black box.",
    tech:"The residual-stream view, the QK/OV decomposition of attention heads, and induction heads as a concrete discovered mechanism.",
    after:"Reproduce an induction-head analysis on a small model with TransformerLens; identify a head's function via ablation/activation patching; write up the mechanism you found."}},
+ {id:'tt-sae', ph:'t-trust', type:'paper', cur:'LANDMARK', seq:'interpretability', t:'Scaling Monosemanticity: Extracting Interpretable Features from Claude 3 Sonnet — Anthropic, 2024', m:'sparse autoencoders scaled to a production model — the current interpretability frontier', u:'https://transformer-circuits.pub/2024/scaling-monosemanticity/',
+  detail:{why:"Showed sparse autoencoders can pull millions of monosemantic, human-interpretable features out of a production-scale model, not just a toy one — the result that made feature-level interpretability a practical research program rather than a small-model curiosity.",
+   tech:"Training a sparse autoencoder on residual-stream activations to decompose superposed polysemantic neurons into (mostly) monosemantic features; using found features to causally steer model behavior.",
+   after:"Train a small sparse autoencoder on a mid-size open model's activations; find and validate one interpretable feature by activation inspection and steering; discuss what 'monosemantic' does and doesn't guarantee."}},
  {id:'tt-nanda', ph:'t-trust', type:'course', t:'Neel Nanda — mechanistic interpretability (TransformerLens + open problems)', u:'https://www.neelnanda.io/mechanistic-interpretability', verify:true},
  {id:'tt-concrete', ph:'t-trust', type:'paper', cur:'FOUNDATIONAL', seq:'safety', t:'Concrete Problems in AI Safety — Amodei et al. 2016', u:'https://arxiv.org/abs/1606.06565'},
  {id:'tt-cai', ph:'t-trust', type:'paper', cur:'METHOD', seq:'safety', t:'Constitutional AI: Harmlessness from AI Feedback — Bai et al. 2022', u:'https://arxiv.org/abs/2212.08073'},
+ {id:'tt-w2s', ph:'t-trust', type:'paper', cur:'FRONTIER', seq:'safety', t:'Weak-to-Strong Generalization — Burns et al. 2023', m:'OpenAI Superalignment; can a weak supervisor still usefully train a stronger model?', u:'https://arxiv.org/abs/2312.09390'},
+ {id:'tt-gcg', ph:'t-trust', type:'paper', cur:'METHOD', seq:'security', t:'Universal and Transferable Adversarial Attacks on Aligned Language Models (GCG) — Zou et al. 2023', m:'greedy coordinate-gradient search finds suffixes that transfer across models', u:'https://arxiv.org/abs/2307.15043'},
+ {id:'tt-injection', ph:'t-trust', type:'paper', cur:'FOUNDATIONAL', seq:'security', t:"Not What You've Signed Up For: Indirect Prompt Injection — Greshake et al. 2023", m:'the paper that named the risk every tool-using agent now has to defend against', u:'https://arxiv.org/abs/2302.12173',
+  detail:{why:"Once an LLM reads untrusted retrieved content or tool output, that content can carry instructions the model may follow — an attack surface with no analogue in classical software and one every agent you build in the agentic-AI track is exposed to.",
+   tech:"A taxonomy of indirect prompt injection (data theft, worming, ecosystem contamination) from a computer-security lens, and why instructions vs. data have no reliable separation in a raw prompt.",
+   after:"Build a small tool-using agent, plant an indirect injection in a document/tool result it reads, and show the attack succeeding; then implement and test one mitigation (e.g. instruction hierarchy, output filtering, or a taint-tracked context)."}},
+ {id:'tt-owasp', ph:'t-trust', type:'std', t:'OWASP Top 10 for LLM Applications (2025)', m:'the field’s consensus risk checklist — prompt injection, insecure output handling, excessive agency, and more', u:'https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/'},
+ {id:'tt-redteam', ph:'t-trust', type:'skill', t:'Own: LLM/agent red-teaming — designing prompt-injection and jailbreak attacks against your own system, and which mitigations (instruction hierarchy, taint tracking, output filtering) actually hold up'},
  {id:'tt-cards', ph:'t-trust', type:'paper', cur:'SYSTEMS', seq:'evaluation', t:'Model Cards for Model Reporting — Mitchell et al. 2018', u:'https://arxiv.org/abs/1810.03993'},
  {id:'tt-proj', ph:'t-trust', type:'project', t:'Build an eval harness for a task; measure accuracy, calibration, and a distribution-shift split'},
+ {id:'tt-proj-redteam', ph:'t-trust', type:'project', t:'Red-team a tool-using agent (yours or a public one) for prompt injection; report which attacks succeeded and which mitigation actually closed each one'},
 
  // ---------------- TRACK: Causal inference ----------------
  {id:'tc-neal', ph:'t-causal', type:'course', major:true, t:'Brady Neal — Introduction to Causal Inference', m:'free course + notes', u:'https://www.bradyneal.com/causal-inference-course',
@@ -123,6 +136,39 @@ const SPECIALIZATION_TRACKS = [
  {id:'tth-online', ph:'t-theory', type:'skill', t:'Own: online learning & regret — the adversarial-sequence view of learning and its regret bounds'},
  {id:'tth-stability', ph:'t-theory', type:'skill', t:'Own: algorithmic stability — why a stable learning rule generalizes, and where that argument breaks'},
  {id:'tth-proof', ph:'t-theory', type:'project', t:"Reconstruct three ML-theory proofs from memory (e.g. a PAC bound, a concentration inequality, NTK linearization) and critique one result's assumptions and real-world relevance"},
+
+ // ---------------- TRACK: Agentic AI systems & multi-agent engineering ----------------
+ {id:'tag-cs294', ph:'t-agent', type:'course', major:true, t:'Berkeley CS194/194-196/294 — Large Language Model Agents', m:'Dawn Song et al.; the flagship agents course', u:'https://llmagents-learning.org/sp25',
+  detail:{why:"Agents — systems that let an LLM plan, call tools, and act over multiple steps — are now how frontier labs actually ship LLM capability (coding agents, research agents, computer-use agents). This is the first course to treat agent design as its own discipline rather than a prompting trick.",
+   prereq:"Deep learning core; the LLM/foundation-models phase (Phase 5); comfort calling an LLM API.",
+   topics:["Reasoning & planning (CoT, ReAct, reflection)","Tool use & function calling","Memory (working, episodic, long-term)","Multi-agent collaboration & communication protocols","Coding agents & computer-use agents","Retrieval-augmented agents","Agent evaluation & benchmarks","Safety, reliability & guardrails for autonomous systems"],
+   mastery:["Implement a ReAct-style agent loop (reason → act → observe) from scratch, not via a framework","Design a tool/function schema an LLM can call reliably, including error handling","Explain when multi-agent decomposition helps vs. adds coordination overhead and failure surface","Evaluate an agent by task-success rate over repeated runs, not a single anecdotal trace"],
+   artifact:"A tested multi-step agent (own loop, not a black-box framework) that completes a real task via tool use, with logged trajectories and a task-success-rate evaluation over multiple runs.",
+   resources:[{t:'CS294/194-196 lecture recordings & readings',u:'https://llmagents-learning.org/sp25'},{t:'Anthropic — Building Effective Agents',u:'https://www.anthropic.com/engineering/building-effective-agents'}]}},
+ {id:'tag-cs329a', ph:'t-agent', type:'course', t:'Stanford CS329A — Self-Improving AI Agents', m:'constitutional AI, verifiers, test-time compute, agentic workflows', u:'https://cs329a.stanford.edu/'},
+ {id:'tag-mcp-intro', ph:'t-agent', type:'course', t:'Anthropic — Introduction to Model Context Protocol', m:'MCP’s three primitives: tools, resources, prompts; building servers & clients', u:'https://anthropic.skilljar.com/introduction-to-model-context-protocol'},
+ {id:'tag-mcp-adv', ph:'t-agent', type:'course', t:'Anthropic — Model Context Protocol: Advanced Topics', m:'transports, sampling, notifications, production deployment', u:'https://anthropic.skilljar.com/model-context-protocol-advanced-topics'},
+ {id:'tag-skills', ph:'t-agent', type:'course', t:'Anthropic — Introduction to Agent Skills', m:'packaging reusable, specialized workflows as Skills vs. CLAUDE.md/hooks/subagents', u:'https://anthropic.skilljar.com/introduction-to-agent-skills'},
+ {id:'tag-subagents', ph:'t-agent', type:'course', t:'Anthropic — Introduction to Subagents', m:'isolated-context delegation to keep a main conversation clean and focused', u:'https://anthropic.skilljar.com/introduction-to-subagents'},
+ {id:'tag-dlai', ph:'t-agent', type:'course', t:'DeepLearning.AI — Agent Skills with Anthropic', m:'code-gen/test workflows in Claude Code; subagents equipped with skills', u:'https://www.deeplearning.ai/courses/agent-skills-with-anthropic'},
+ {id:'tag-building-effective', ph:'t-agent', type:'paper', cur:'FOUNDATIONAL', seq:'agent-foundations', t:'Building Effective Agents — Anthropic Engineering, 2024', u:'https://www.anthropic.com/engineering/building-effective-agents',
+  detail:{why:"The clearest available taxonomy of agentic systems — it separates fixed-control-flow “workflows” (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer) from open-ended “agents”, and argues for the simplest structure that solves the task rather than reaching for autonomy by default.",
+   tech:"Composable building blocks (an LLM + tools + a loop) over heavyweight frameworks; when a fixed workflow beats an autonomous loop on cost, latency and reliability.",
+   after:"Implement one workflow pattern (e.g. orchestrator-workers or evaluator-optimizer) and one autonomous agent loop for the same task; compare reliability, cost and latency; write up which structure you'd actually ship."}},
+ {id:'tag-coala', ph:'t-agent', type:'paper', cur:'FOUNDATIONAL', seq:'agent-architecture', t:'Cognitive Architectures for Language Agents (CoALA) — Sumers et al. 2023', m:'a reference architecture: memory (working/episodic/semantic/procedural) + a structured action space', u:'https://arxiv.org/abs/2309.02427'},
+ {id:'tag-autogen', ph:'t-agent', type:'paper', cur:'METHOD', seq:'multi-agent', t:'AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation — Wu et al. 2023', u:'https://arxiv.org/abs/2308.08155'},
+ {id:'tag-swebench', ph:'t-agent', type:'paper', cur:'FOUNDATIONAL', seq:'agent-eval', t:'SWE-bench: Can Language Models Resolve Real-World GitHub Issues? — Jimenez et al. 2023', m:'the standard coding-agent benchmark', u:'https://arxiv.org/abs/2310.06770'},
+ {id:'tag-mastfail', ph:'t-agent', type:'paper', cur:'CRITIQUE', seq:'multi-agent', t:'Why Do Multi-Agent LLM Systems Fail? — Cemri et al. 2025', m:'14 failure modes across 1600+ annotated traces (MAST taxonomy)', u:'https://arxiv.org/abs/2503.13657',
+  detail:{why:"Multi-agent systems are often reached for by default even though empirical gains over a well-built single agent are frequently minimal; this paper gives a validated taxonomy of why they fail instead of leaving it to anecdote.",
+   tech:"14 failure modes in 3 categories — system-design issues, inter-agent misalignment, and task verification — derived from human-annotated traces across 7 popular multi-agent frameworks.",
+   after:"Take a multi-agent system you built (or a public one's traces) and classify its failures against the MAST taxonomy; identify which category dominates and what a single-agent redesign would fix vs. not."}},
+ {id:'tag-contexteng', ph:'t-agent', type:'paper', cur:'FRONTIER', seq:'context-engineering', t:'Context Engineering: From Prompts to Corporate Multi-Agent Architecture — 2026', m:'context as the agent’s operating system: relevance, sufficiency, isolation, economy, provenance', u:'https://arxiv.org/abs/2603.09619'},
+ {id:'tag-workflow-vs-agent', ph:'t-agent', type:'skill', t:'Own: workflows vs. agents — prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer, and when to reach for autonomy instead'},
+ {id:'tag-toolschema', ph:'t-agent', type:'skill', t:'Own: tool/function-calling schema design — error surfaces, idempotency, side-effect scoping, and results an LLM can act on reliably'},
+ {id:'tag-agentcontext', ph:'t-agent', type:'skill', t:'Own: context engineering for agents — context-window budgeting, compaction/summarization, working vs. long-term vs. procedural memory, and sub-agent context isolation'},
+ {id:'tag-agentsafety', ph:'t-agent', type:'skill', t:'Own: agent safety & guardrails — permission scoping, sandboxing, human-in-the-loop checkpoints, and blast-radius limits on autonomous actions'},
+ {id:'tag-proj-agent', ph:'t-agent', type:'project', t:'Build a tested multi-step tool-using agent (or an MCP server + client) that completes a real task end-to-end; log full trajectories and report task-success rate over multiple runs with a failure-mode breakdown'},
+ {id:'tag-proj-multiagent', ph:'t-agent', type:'project', t:'Build a multi-agent (orchestrator + sub-agents) system and a single-agent baseline for the same task; ablate and report when/why the multi-agent version actually helps, grounded in the MAST failure taxonomy'},
 
 ];
 
