@@ -972,6 +972,22 @@
       }
     },
     {
+      id: "p5-rope",
+      ph: "p5",
+      type: "paper",
+      cur: "METHOD",
+      seq: "transformers",
+      layer: "pretrain",
+      t: "RoFormer: Rotary Position Embedding (RoPE) \u2014 Su et al. 2021",
+      m: "the positional encoding nearly every modern open LLM (LLaMA, DeepSeek, Qwen, \u2026) actually uses",
+      u: "https://arxiv.org/abs/2104.09864",
+      detail: {
+        why: "Attention Is All You Need used fixed sinusoidal or learned absolute positions; RoPE's relative, rotation-based encoding is what replaced them in essentially every contemporary open LLM, and it's the mechanism every context-length-extension trick (YaRN, NTK-aware scaling) actually operates on.",
+        tech: "Encoding position by rotating query/key vectors in 2D subspaces so their dot product depends only on relative position; why this composes cleanly with attention and generalizes better to unseen sequence lengths than absolute encodings.",
+        after: "Implement RoPE and swap it into the transformer block you already built in place of absolute positional encoding; verify relative-position invariance empirically; explain what breaks when you evaluate far past the trained context length."
+      }
+    },
+    {
       id: "p5-scaling",
       ph: "p5",
       type: "paper",
@@ -1063,6 +1079,22 @@
     },
     { id: "p5-zero", ph: "p5", type: "paper", cur: "SYSTEMS", seq: "efficient", layer: "pretrain", t: "ZeRO \u2014 Rajbhandari et al. 2019", u: "https://arxiv.org/abs/1910.02054" },
     { id: "p5-megatron", ph: "p5", type: "paper", cur: "SYSTEMS", seq: "efficient", layer: "pretrain", t: "Megatron-LM \u2014 Shoeybi et al. 2019", u: "https://arxiv.org/abs/1909.08053" },
+    {
+      id: "p5-deepseekv3",
+      ph: "p5",
+      type: "paper",
+      cur: "LANDMARK",
+      seq: "efficient",
+      layer: "pretrain",
+      t: "DeepSeek-V3 Technical Report \u2014 DeepSeek-AI 2024",
+      m: "multi-head latent attention, DeepSeekMoE, auxiliary-loss-free routing, FP8 training \u2014 671B params trained for ~2.79M H800 GPU-hours",
+      u: "https://arxiv.org/abs/2412.19437",
+      detail: {
+        why: "The clearest public account of how a frontier-scale MoE model is actually trained cost-efficiently today \u2014 the document every 'how do we not need 10x the compute' systems discussion now references.",
+        tech: "Multi-head latent attention (compressing KV cache into a low-rank latent), auxiliary-loss-free MoE load balancing instead of a balancing loss, multi-token prediction as a training objective, and FP8 mixed-precision training at scale.",
+        after: "Work through why MLA reduces KV-cache memory vs. standard multi-head attention; implement a toy auxiliary-loss-free load-balancing routine for a small MoE; explain in your own words what multi-token prediction buys during training that next-token prediction doesn't."
+      }
+    },
     { id: "p5-rag", ph: "p5", type: "paper", cur: "METHOD", seq: "retrieval", layer: "inference", t: "Retrieval-Augmented Generation \u2014 Lewis et al. 2020", u: "https://arxiv.org/abs/2005.11401" },
     { id: "p5-distill", ph: "p5", type: "paper", cur: "FOUNDATIONAL", seq: "efficient", layer: "inference", t: "Distilling the Knowledge in a Neural Network \u2014 Hinton, Vinyals & Dean 2015", m: 'training a small model to match a large one\u2019s soft predictions; the root of every modern "mini" model', u: "https://arxiv.org/abs/1503.02531" },
     { id: "p5-specdec", ph: "p5", type: "paper", cur: "METHOD", seq: "efficient", layer: "inference", t: "Fast Inference from Transformers via Speculative Decoding \u2014 Leviathan et al. 2022", m: "a small draft model proposes tokens, the large model verifies them in parallel \u2014 lossless 2\u20133\xD7 speedup", u: "https://arxiv.org/abs/2211.17192" },
@@ -1147,6 +1179,8 @@
     { id: "ev-harness", ph: "eval", type: "course", t: "EleutherAI lm-evaluation-harness", m: "the standard eval tooling", u: "https://github.com/EleutherAI/lm-evaluation-harness" },
     { id: "ev-helm", ph: "eval", type: "paper", cur: "SYSTEMS", seq: "evaluation", t: "Holistic Evaluation of Language Models (HELM) \u2014 Liang et al. 2022", u: "https://arxiv.org/abs/2211.09110" },
     { id: "ev-passk", ph: "eval", type: "paper", cur: "FOUNDATIONAL", seq: "evaluation", t: "Evaluating Large Language Models Trained on Code \u2014 Chen et al. 2021", m: "defines pass@k", u: "https://arxiv.org/abs/2107.03374" },
+    { id: "ev-gpqa", ph: "eval", type: "paper", cur: "FOUNDATIONAL", seq: "evaluation", t: "GPQA: A Graduate-Level Google-Proof Q&A Benchmark \u2014 Rein et al. 2023", m: "the standard hard-science-reasoning benchmark every frontier model release quotes", u: "https://arxiv.org/abs/2311.12022" },
+    { id: "ev-arcagi", ph: "eval", type: "paper", cur: "FRONTIER", seq: "evaluation", t: "ARC Prize 2024: Technical Report", m: "Chollet\u2019s abstraction-and-reasoning corpus; built to resist memorization rather than reward it", u: "https://arxiv.org/abs/2412.04604" },
     { id: "ev-contam", ph: "eval", type: "paper", cur: "FRONTIER", seq: "evaluation", t: "Detecting Pretraining Data from Large Language Models \u2014 Shi et al. 2023", u: "https://arxiv.org/abs/2310.16789" },
     { id: "ev-mirage", ph: "eval", type: "paper", cur: "CRITIQUE", seq: "evaluation", t: "Are Emergent Abilities of Large Language Models a Mirage? \u2014 Schaeffer et al. 2023", m: 'metric choice can manufacture apparent "emergence"', u: "https://arxiv.org/abs/2304.15004" },
     { id: "ev-calib", ph: "eval", type: "paper", cur: "METHOD", seq: "evaluation", t: "On Calibration of Modern Neural Networks \u2014 Guo et al. 2017", u: "https://arxiv.org/abs/1706.04599" },
@@ -1392,6 +1426,21 @@
       }
     },
     { id: "tt-owasp", ph: "t-trust", type: "std", t: "OWASP Top 10 for LLM Applications (2025)", m: "the field\u2019s consensus risk checklist \u2014 prompt injection, insecure output handling, excessive agency, and more", u: "https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/" },
+    {
+      id: "tt-dpsgd",
+      ph: "t-trust",
+      type: "paper",
+      cur: "FOUNDATIONAL",
+      seq: "privacy",
+      t: "Deep Learning with Differential Privacy (DP-SGD) \u2014 Abadi et al. 2016",
+      m: "per-example gradient clipping + calibrated noise gives a formal (\u03B5,\u03B4) privacy guarantee on the trained model",
+      u: "https://arxiv.org/abs/1607.00133",
+      detail: {
+        why: "Training data can be extracted from a model (membership inference, verbatim memorization) unless privacy is a training-time guarantee, not a hope. DP-SGD is the mechanism nearly every privacy-preserving training pipeline still builds on.",
+        tech: "Clipping each per-example gradient to bound sensitivity, then adding calibrated Gaussian noise before the update; the moments-accountant technique for tracking cumulative privacy loss (\u03B5) over many steps.",
+        after: "Train the same small model with and without DP-SGD; measure the utility cost at a fixed \u03B5; run a simple membership-inference attack against both and show DP-SGD suppresses it."
+      }
+    },
     { id: "tt-redteam", ph: "t-trust", type: "skill", t: "Own: LLM/agent red-teaming \u2014 designing prompt-injection and jailbreak attacks against your own system, and which mitigations (instruction hierarchy, taint tracking, output filtering) actually hold up" },
     { id: "tt-cards", ph: "t-trust", type: "paper", cur: "SYSTEMS", seq: "evaluation", t: "Model Cards for Model Reporting \u2014 Mitchell et al. 2018", u: "https://arxiv.org/abs/1810.03993" },
     { id: "tt-proj", ph: "t-trust", type: "project", t: "Build an eval harness for a task; measure accuracy, calibration, and a distribution-shift split" },
@@ -1558,7 +1607,38 @@
         after: "Reproduce a CoT vs direct-answer gap on a reasoning benchmark; test self-consistency (sampling + majority vote); probe whether the reasoning is faithful or post-hoc."
       }
     },
+    {
+      id: "fr-prm",
+      ph: "fr",
+      type: "paper",
+      cur: "FRONTIER",
+      seq: "reasoning",
+      t: "Let's Verify Step by Step \u2014 Lightman et al. 2023",
+      m: "process reward models beat outcome supervision \u2014 the direct ancestor of R1/o1-style reasoning training",
+      u: "https://arxiv.org/abs/2305.20050",
+      detail: {
+        why: "Established that rewarding each reasoning step (not just the final answer) produces far more reliable reasoning models \u2014 the training idea that GRPO/DeepSeek-R1-style RL on verifiable rewards builds directly on.",
+        tech: "Process-supervised vs. outcome-supervised reward models (PRM vs. ORM) trained on step-level human labels, and why step-level credit assignment beats a single terminal reward.",
+        after: "Train a small outcome reward model and a process reward model on the same reasoning dataset; compare how well each reranks sampled solutions; identify a case where the ORM rewards a wrong-reasoning-right-answer trace."
+      }
+    },
     { id: "fr-fno", ph: "fr", type: "paper", cur: "FRONTIER", seq: "ai-for-science", t: "Fourier Neural Operator for PDEs \u2014 Li et al. 2020", m: "AI-for-science method-transfer template", u: "https://arxiv.org/abs/2010.08895" },
+    {
+      id: "fr-alphafold2",
+      ph: "fr",
+      type: "paper",
+      cur: "LANDMARK",
+      seq: "ai-for-science",
+      t: "Highly Accurate Protein Structure Prediction with AlphaFold \u2014 Jumper et al. 2021",
+      m: "Nature; 2024 Nobel Prize in Chemistry (Hassabis & Jumper)",
+      u: "https://www.nature.com/articles/s41586-021-03819-2",
+      detail: {
+        why: "The clearest existence proof that a learned model can solve a decades-open scientific problem (protein folding) rather than just fit a benchmark \u2014 the template every later AI-for-science claim gets measured against.",
+        tech: "The Evoformer's iterative refinement of a residue-pair representation from MSAs and templates, and the structure module that turns it into 3D coordinates via invariant point attention.",
+        after: "Run AlphaFold2 (or ColabFold) on a protein of known structure; compare the predicted structure and per-residue confidence (pLDDT) to the experimental one; explain one case where confidence and accuracy diverge."
+      }
+    },
+    { id: "fr-alphafold3", ph: "fr", type: "paper", cur: "FRONTIER", seq: "ai-for-science", t: "Accurate Structure Prediction of Biomolecular Interactions with AlphaFold3 \u2014 Abramson et al. 2024", m: "Nature; generalizes from proteins alone to protein\u2013ligand/DNA/RNA complexes via a diffusion module", u: "https://www.nature.com/articles/s41586-024-07487-w" },
     { id: "fr-review", ph: "fr", type: "book", t: "Sebastian Raschka \u2014 State of LLMs annual reviews", m: "the quarterly currency habit", u: "https://magazine.sebastianraschka.com/" },
     // ---------------- MODULE: Telecom vertex ----------------
     {
