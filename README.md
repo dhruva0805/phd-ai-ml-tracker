@@ -42,7 +42,7 @@ Three mandatory modules that apply across phases rather than sitting inside one:
 
 ### Specialization tracks & modules
 
-Optional tracks (e.g. advanced RL, probabilistic ML, ML systems, **theoretical machine learning**) and modules such as the **Frontier** rolling reading list (paired with the Research Radar above it on the Frontier tab), **telecom / wireless-AI**, research methodology, qualifying-exam checkpoints, a curated resource index, and a **milestone ladder** of artifacts.
+Optional tracks (e.g. advanced RL, probabilistic ML, ML systems, **theoretical machine learning**, **agentic AI systems & multi-agent engineering**) and modules such as the **Frontier** rolling reading list (paired with the Research Radar above it on the Frontier tab), **telecom / wireless-AI**, research methodology, qualifying-exam checkpoints, a curated resource index, and a **milestone ladder** of artifacts.
 
 Item types include courses, books, papers, projects, milestones, standards, and skills.
 

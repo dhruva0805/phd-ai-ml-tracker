@@ -35,7 +35,8 @@ const CAPABILITY_TAGS = {
   'p3-dl':['implementation','theory'], 'p4-rlfound':['implementation','theory'],
   'p5-cs336':['implementation','systems'], 'p5-proj-phenomenon':['experimentation'], 'tg-cs236':['theory','implementation'],
   'tc-neal':['theory'], 'tel-tse':['theory'], 'rm-exp':['experimentation'],
-  'es-core':['experimentation'], 'ev-core':['evaluation'], 're-core':['systems'], 're-proj':['systems'], 'tth-core':['theory']
+  'es-core':['experimentation'], 'ev-core':['evaluation'], 're-core':['systems'], 're-proj':['systems'], 'tth-core':['theory'],
+  'tag-cs294':['implementation','systems']
 };
 // Evidence-tier weighting: a self-assessed level counts for less than an evidence-backed
 // or externally-validated one when rolling up into aggregate scores. This is the mechanism

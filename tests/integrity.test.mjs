@@ -31,5 +31,5 @@ test('every section has at least one item', () => {
 });
 
 test('the dataset has the expected item count (guards against a bad extraction dropping content)', () => {
-  assert.equal(ITEMS.length, 249);
+  assert.equal(ITEMS.length, 268);
 });

@@ -1415,7 +1415,70 @@
     { id: "tth-ntk", ph: "t-theory", type: "paper", cur: "LANDMARK", seq: "theory", t: "Neural Tangent Kernel: Convergence and Generalization in Neural Networks \u2014 Jacot et al. 2018", u: "https://arxiv.org/abs/1806.07572" },
     { id: "tth-online", ph: "t-theory", type: "skill", t: "Own: online learning & regret \u2014 the adversarial-sequence view of learning and its regret bounds" },
     { id: "tth-stability", ph: "t-theory", type: "skill", t: "Own: algorithmic stability \u2014 why a stable learning rule generalizes, and where that argument breaks" },
-    { id: "tth-proof", ph: "t-theory", type: "project", t: "Reconstruct three ML-theory proofs from memory (e.g. a PAC bound, a concentration inequality, NTK linearization) and critique one result's assumptions and real-world relevance" }
+    { id: "tth-proof", ph: "t-theory", type: "project", t: "Reconstruct three ML-theory proofs from memory (e.g. a PAC bound, a concentration inequality, NTK linearization) and critique one result's assumptions and real-world relevance" },
+    // ---------------- TRACK: Agentic AI systems & multi-agent engineering ----------------
+    {
+      id: "tag-cs294",
+      ph: "t-agent",
+      type: "course",
+      major: true,
+      t: "Berkeley CS194/194-196/294 \u2014 Large Language Model Agents",
+      m: "Dawn Song et al.; the flagship agents course",
+      u: "https://llmagents-learning.org/sp25",
+      detail: {
+        why: "Agents \u2014 systems that let an LLM plan, call tools, and act over multiple steps \u2014 are now how frontier labs actually ship LLM capability (coding agents, research agents, computer-use agents). This is the first course to treat agent design as its own discipline rather than a prompting trick.",
+        prereq: "Deep learning core; the LLM/foundation-models phase (Phase 5); comfort calling an LLM API.",
+        topics: ["Reasoning & planning (CoT, ReAct, reflection)", "Tool use & function calling", "Memory (working, episodic, long-term)", "Multi-agent collaboration & communication protocols", "Coding agents & computer-use agents", "Retrieval-augmented agents", "Agent evaluation & benchmarks", "Safety, reliability & guardrails for autonomous systems"],
+        mastery: ["Implement a ReAct-style agent loop (reason \u2192 act \u2192 observe) from scratch, not via a framework", "Design a tool/function schema an LLM can call reliably, including error handling", "Explain when multi-agent decomposition helps vs. adds coordination overhead and failure surface", "Evaluate an agent by task-success rate over repeated runs, not a single anecdotal trace"],
+        artifact: "A tested multi-step agent (own loop, not a black-box framework) that completes a real task via tool use, with logged trajectories and a task-success-rate evaluation over multiple runs.",
+        resources: [{ t: "CS294/194-196 lecture recordings & readings", u: "https://llmagents-learning.org/sp25" }, { t: "Anthropic \u2014 Building Effective Agents", u: "https://www.anthropic.com/engineering/building-effective-agents" }]
+      }
+    },
+    { id: "tag-cs329a", ph: "t-agent", type: "course", t: "Stanford CS329A \u2014 Self-Improving AI Agents", m: "constitutional AI, verifiers, test-time compute, agentic workflows", u: "https://cs329a.stanford.edu/" },
+    { id: "tag-mcp-intro", ph: "t-agent", type: "course", t: "Anthropic \u2014 Introduction to Model Context Protocol", m: "MCP\u2019s three primitives: tools, resources, prompts; building servers & clients", u: "https://anthropic.skilljar.com/introduction-to-model-context-protocol" },
+    { id: "tag-mcp-adv", ph: "t-agent", type: "course", t: "Anthropic \u2014 Model Context Protocol: Advanced Topics", m: "transports, sampling, notifications, production deployment", u: "https://anthropic.skilljar.com/model-context-protocol-advanced-topics" },
+    { id: "tag-skills", ph: "t-agent", type: "course", t: "Anthropic \u2014 Introduction to Agent Skills", m: "packaging reusable, specialized workflows as Skills vs. CLAUDE.md/hooks/subagents", u: "https://anthropic.skilljar.com/introduction-to-agent-skills" },
+    { id: "tag-subagents", ph: "t-agent", type: "course", t: "Anthropic \u2014 Introduction to Subagents", m: "isolated-context delegation to keep a main conversation clean and focused", u: "https://anthropic.skilljar.com/introduction-to-subagents" },
+    { id: "tag-dlai", ph: "t-agent", type: "course", t: "DeepLearning.AI \u2014 Agent Skills with Anthropic", m: "code-gen/test workflows in Claude Code; subagents equipped with skills", u: "https://www.deeplearning.ai/courses/agent-skills-with-anthropic" },
+    {
+      id: "tag-building-effective",
+      ph: "t-agent",
+      type: "paper",
+      cur: "FOUNDATIONAL",
+      seq: "agent-foundations",
+      t: "Building Effective Agents \u2014 Anthropic Engineering, 2024",
+      u: "https://www.anthropic.com/engineering/building-effective-agents",
+      detail: {
+        why: "The clearest available taxonomy of agentic systems \u2014 it separates fixed-control-flow \u201Cworkflows\u201D (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer) from open-ended \u201Cagents\u201D, and argues for the simplest structure that solves the task rather than reaching for autonomy by default.",
+        tech: "Composable building blocks (an LLM + tools + a loop) over heavyweight frameworks; when a fixed workflow beats an autonomous loop on cost, latency and reliability.",
+        after: "Implement one workflow pattern (e.g. orchestrator-workers or evaluator-optimizer) and one autonomous agent loop for the same task; compare reliability, cost and latency; write up which structure you'd actually ship."
+      }
+    },
+    { id: "tag-coala", ph: "t-agent", type: "paper", cur: "FOUNDATIONAL", seq: "agent-architecture", t: "Cognitive Architectures for Language Agents (CoALA) \u2014 Sumers et al. 2023", m: "a reference architecture: memory (working/episodic/semantic/procedural) + a structured action space", u: "https://arxiv.org/abs/2309.02427" },
+    { id: "tag-autogen", ph: "t-agent", type: "paper", cur: "METHOD", seq: "multi-agent", t: "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation \u2014 Wu et al. 2023", u: "https://arxiv.org/abs/2308.08155" },
+    { id: "tag-swebench", ph: "t-agent", type: "paper", cur: "FOUNDATIONAL", seq: "agent-eval", t: "SWE-bench: Can Language Models Resolve Real-World GitHub Issues? \u2014 Jimenez et al. 2023", m: "the standard coding-agent benchmark", u: "https://arxiv.org/abs/2310.06770" },
+    {
+      id: "tag-mastfail",
+      ph: "t-agent",
+      type: "paper",
+      cur: "CRITIQUE",
+      seq: "multi-agent",
+      t: "Why Do Multi-Agent LLM Systems Fail? \u2014 Cemri et al. 2025",
+      m: "14 failure modes across 1600+ annotated traces (MAST taxonomy)",
+      u: "https://arxiv.org/abs/2503.13657",
+      detail: {
+        why: "Multi-agent systems are often reached for by default even though empirical gains over a well-built single agent are frequently minimal; this paper gives a validated taxonomy of why they fail instead of leaving it to anecdote.",
+        tech: "14 failure modes in 3 categories \u2014 system-design issues, inter-agent misalignment, and task verification \u2014 derived from human-annotated traces across 7 popular multi-agent frameworks.",
+        after: "Take a multi-agent system you built (or a public one's traces) and classify its failures against the MAST taxonomy; identify which category dominates and what a single-agent redesign would fix vs. not."
+      }
+    },
+    { id: "tag-contexteng", ph: "t-agent", type: "paper", cur: "FRONTIER", seq: "context-engineering", t: "Context Engineering: From Prompts to Corporate Multi-Agent Architecture \u2014 2026", m: "context as the agent\u2019s operating system: relevance, sufficiency, isolation, economy, provenance", u: "https://arxiv.org/abs/2603.09619" },
+    { id: "tag-workflow-vs-agent", ph: "t-agent", type: "skill", t: "Own: workflows vs. agents \u2014 prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer, and when to reach for autonomy instead" },
+    { id: "tag-toolschema", ph: "t-agent", type: "skill", t: "Own: tool/function-calling schema design \u2014 error surfaces, idempotency, side-effect scoping, and results an LLM can act on reliably" },
+    { id: "tag-agentcontext", ph: "t-agent", type: "skill", t: "Own: context engineering for agents \u2014 context-window budgeting, compaction/summarization, working vs. long-term vs. procedural memory, and sub-agent context isolation" },
+    { id: "tag-agentsafety", ph: "t-agent", type: "skill", t: "Own: agent safety & guardrails \u2014 permission scoping, sandboxing, human-in-the-loop checkpoints, and blast-radius limits on autonomous actions" },
+    { id: "tag-proj-agent", ph: "t-agent", type: "project", t: "Build a tested multi-step tool-using agent (or an MCP server + client) that completes a real task end-to-end; log full trajectories and report task-success rate over multiple runs with a failure-mode breakdown" },
+    { id: "tag-proj-multiagent", ph: "t-agent", type: "project", t: "Build a multi-agent (orchestrator + sub-agents) system and a single-agent baseline for the same task; ablate and report when/why the multi-agent version actually helps, grounded in the MAST failure taxonomy" }
   ];
 
   // src/data/items/optional-modules.js
@@ -1756,6 +1819,15 @@
       goal: "Why generalization happens at all \u2014 and why over-parameterized deep nets seem to break the classical story. PAC learning, complexity measures, stability, and scaling/generalization theory. Proof-level fluency, not a reading list: you should be able to reconstruct and defend these results from memory, not just cite them."
     },
     {
+      key: "t-agent",
+      kind: "track",
+      num: "\u25C6",
+      title: "Agentic AI systems & multi-agent engineering",
+      dur: "Specialization \xB7 parallel with Phases 5\u20136",
+      open: false,
+      goal: "Building and evaluating systems where an LLM plans, calls tools, and acts over multiple steps: workflows vs. autonomous agents, MCP, agent Skills, sub-agent orchestration, context engineering, and the failure modes specific to multi-step and multi-agent systems."
+    },
+    {
       key: "fr",
       kind: "module",
       num: "\u2605",
@@ -1848,7 +1920,8 @@
     "ev-core": ["evaluation"],
     "re-core": ["systems"],
     "re-proj": ["systems"],
-    "tth-core": ["theory"]
+    "tth-core": ["theory"],
+    "tag-cs294": ["implementation", "systems"]
   };
   var EVIDENCE_TIER_WEIGHT = { self: 0.5, evidence: 0.85, external: 1 };
   var RESEARCH_INDEPENDENCE_WEIGHT = { self: 0.15, evidence: 0.75, external: 1 };

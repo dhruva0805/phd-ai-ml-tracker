@@ -1,4 +1,4 @@
-// The 20 curriculum sections (7 core phases, 3 core modules, 9 specialization tracks, 6
+// The 21 curriculum sections (7 core phases, 3 core modules, 10 specialization tracks, 6
 // optional modules) — headings, goals/exit text, and structural metadata. Items reference
 // a section by its `ph` key; see data/items/.
 
@@ -58,6 +58,8 @@ const SECTIONS = [
   goal:"Beyond LLM-systems: foundational OS/networks/distributed systems, plus data pipelines, parallelism, kernels, serving, and reliability — measured, not just read."},
  {key:'t-theory', kind:'track', num:'∴', title:'Theoretical machine learning', dur:'Specialization · parallel', open:false,
   goal:"Why generalization happens at all — and why over-parameterized deep nets seem to break the classical story. PAC learning, complexity measures, stability, and scaling/generalization theory. Proof-level fluency, not a reading list: you should be able to reconstruct and defend these results from memory, not just cite them."},
+ {key:'t-agent', kind:'track', num:'◆', title:'Agentic AI systems & multi-agent engineering', dur:'Specialization · parallel with Phases 5–6', open:false,
+  goal:"Building and evaluating systems where an LLM plans, calls tools, and acts over multiple steps: workflows vs. autonomous agents, MCP, agent Skills, sub-agent orchestration, context engineering, and the failure modes specific to multi-step and multi-agent systems."},
 
  {key:'fr', kind:'module', num:'★', cls:'fr', title:'Frontier module — rolling reading list', dur:'Rolling · revisit every quarter', open:true,
   goal:"The biggest currency upgrade. A rolling set of live research fronts, refreshed every quarter — <strong>staying current is the job.</strong> Use the Frontier tab's Research Radar above this list to track topics (not just papers) and when you last reviewed each one."},
