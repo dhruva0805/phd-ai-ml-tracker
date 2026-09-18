@@ -1,4 +1,4 @@
-// All 268 curriculum items. type: course|book|paper|project|milestone|std|skill
+// All 279 curriculum items. type: course|book|paper|project|milestone|std|skill
 // optional fields: m(meta) u(url) major(bool) seq(pill) cur(curation) verify(bool) detail{}
 // Each item's `ph` field references a SECTIONS key (see ../sections.js).
 import { CORE_CURRICULUM } from './core-curriculum.js';

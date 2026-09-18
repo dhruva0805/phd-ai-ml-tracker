@@ -1064,6 +1064,9 @@
     { id: "p5-zero", ph: "p5", type: "paper", cur: "SYSTEMS", seq: "efficient", layer: "pretrain", t: "ZeRO \u2014 Rajbhandari et al. 2019", u: "https://arxiv.org/abs/1910.02054" },
     { id: "p5-megatron", ph: "p5", type: "paper", cur: "SYSTEMS", seq: "efficient", layer: "pretrain", t: "Megatron-LM \u2014 Shoeybi et al. 2019", u: "https://arxiv.org/abs/1909.08053" },
     { id: "p5-rag", ph: "p5", type: "paper", cur: "METHOD", seq: "retrieval", layer: "inference", t: "Retrieval-Augmented Generation \u2014 Lewis et al. 2020", u: "https://arxiv.org/abs/2005.11401" },
+    { id: "p5-distill", ph: "p5", type: "paper", cur: "FOUNDATIONAL", seq: "efficient", layer: "inference", t: "Distilling the Knowledge in a Neural Network \u2014 Hinton, Vinyals & Dean 2015", m: 'training a small model to match a large one\u2019s soft predictions; the root of every modern "mini" model', u: "https://arxiv.org/abs/1503.02531" },
+    { id: "p5-specdec", ph: "p5", type: "paper", cur: "METHOD", seq: "efficient", layer: "inference", t: "Fast Inference from Transformers via Speculative Decoding \u2014 Leviathan et al. 2022", m: "a small draft model proposes tokens, the large model verifies them in parallel \u2014 lossless 2\u20133\xD7 speedup", u: "https://arxiv.org/abs/2211.17192" },
+    { id: "p5-gptq", ph: "p5", type: "paper", cur: "SYSTEMS", seq: "efficient", layer: "inference", t: "GPTQ: Accurate Post-Training Quantization for GPTs \u2014 Frantar et al. 2022", m: "one-shot weight quantization to 3\u20134 bits with minimal accuracy loss", u: "https://arxiv.org/abs/2210.17323" },
     { id: "p5-proj-pretrain", ph: "p5", type: "project", layer: "pretrain", t: "Pre-train a small LLM end-to-end (CS336 A1\u2013A5), then post-train with SFT + DPO" },
     { id: "p5-proj-serve", ph: "p5", type: "project", layer: "inference", t: "Profile & 2\xD7 the inference throughput of a served model; explain exactly why" },
     {
@@ -1353,11 +1356,46 @@
         after: "Reproduce an induction-head analysis on a small model with TransformerLens; identify a head's function via ablation/activation patching; write up the mechanism you found."
       }
     },
+    {
+      id: "tt-sae",
+      ph: "t-trust",
+      type: "paper",
+      cur: "LANDMARK",
+      seq: "interpretability",
+      t: "Scaling Monosemanticity: Extracting Interpretable Features from Claude 3 Sonnet \u2014 Anthropic, 2024",
+      m: "sparse autoencoders scaled to a production model \u2014 the current interpretability frontier",
+      u: "https://transformer-circuits.pub/2024/scaling-monosemanticity/",
+      detail: {
+        why: "Showed sparse autoencoders can pull millions of monosemantic, human-interpretable features out of a production-scale model, not just a toy one \u2014 the result that made feature-level interpretability a practical research program rather than a small-model curiosity.",
+        tech: "Training a sparse autoencoder on residual-stream activations to decompose superposed polysemantic neurons into (mostly) monosemantic features; using found features to causally steer model behavior.",
+        after: "Train a small sparse autoencoder on a mid-size open model's activations; find and validate one interpretable feature by activation inspection and steering; discuss what 'monosemantic' does and doesn't guarantee."
+      }
+    },
     { id: "tt-nanda", ph: "t-trust", type: "course", t: "Neel Nanda \u2014 mechanistic interpretability (TransformerLens + open problems)", u: "https://www.neelnanda.io/mechanistic-interpretability", verify: true },
     { id: "tt-concrete", ph: "t-trust", type: "paper", cur: "FOUNDATIONAL", seq: "safety", t: "Concrete Problems in AI Safety \u2014 Amodei et al. 2016", u: "https://arxiv.org/abs/1606.06565" },
     { id: "tt-cai", ph: "t-trust", type: "paper", cur: "METHOD", seq: "safety", t: "Constitutional AI: Harmlessness from AI Feedback \u2014 Bai et al. 2022", u: "https://arxiv.org/abs/2212.08073" },
+    { id: "tt-w2s", ph: "t-trust", type: "paper", cur: "FRONTIER", seq: "safety", t: "Weak-to-Strong Generalization \u2014 Burns et al. 2023", m: "OpenAI Superalignment; can a weak supervisor still usefully train a stronger model?", u: "https://arxiv.org/abs/2312.09390" },
+    { id: "tt-gcg", ph: "t-trust", type: "paper", cur: "METHOD", seq: "security", t: "Universal and Transferable Adversarial Attacks on Aligned Language Models (GCG) \u2014 Zou et al. 2023", m: "greedy coordinate-gradient search finds suffixes that transfer across models", u: "https://arxiv.org/abs/2307.15043" },
+    {
+      id: "tt-injection",
+      ph: "t-trust",
+      type: "paper",
+      cur: "FOUNDATIONAL",
+      seq: "security",
+      t: "Not What You've Signed Up For: Indirect Prompt Injection \u2014 Greshake et al. 2023",
+      m: "the paper that named the risk every tool-using agent now has to defend against",
+      u: "https://arxiv.org/abs/2302.12173",
+      detail: {
+        why: "Once an LLM reads untrusted retrieved content or tool output, that content can carry instructions the model may follow \u2014 an attack surface with no analogue in classical software and one every agent you build in the agentic-AI track is exposed to.",
+        tech: "A taxonomy of indirect prompt injection (data theft, worming, ecosystem contamination) from a computer-security lens, and why instructions vs. data have no reliable separation in a raw prompt.",
+        after: "Build a small tool-using agent, plant an indirect injection in a document/tool result it reads, and show the attack succeeding; then implement and test one mitigation (e.g. instruction hierarchy, output filtering, or a taint-tracked context)."
+      }
+    },
+    { id: "tt-owasp", ph: "t-trust", type: "std", t: "OWASP Top 10 for LLM Applications (2025)", m: "the field\u2019s consensus risk checklist \u2014 prompt injection, insecure output handling, excessive agency, and more", u: "https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/" },
+    { id: "tt-redteam", ph: "t-trust", type: "skill", t: "Own: LLM/agent red-teaming \u2014 designing prompt-injection and jailbreak attacks against your own system, and which mitigations (instruction hierarchy, taint tracking, output filtering) actually hold up" },
     { id: "tt-cards", ph: "t-trust", type: "paper", cur: "SYSTEMS", seq: "evaluation", t: "Model Cards for Model Reporting \u2014 Mitchell et al. 2018", u: "https://arxiv.org/abs/1810.03993" },
     { id: "tt-proj", ph: "t-trust", type: "project", t: "Build an eval harness for a task; measure accuracy, calibration, and a distribution-shift split" },
+    { id: "tt-proj-redteam", ph: "t-trust", type: "project", t: "Red-team a tool-using agent (yours or a public one) for prompt injection; report which attacks succeeded and which mitigation actually closed each one" },
     // ---------------- TRACK: Causal inference ----------------
     {
       id: "tc-neal",
@@ -1502,6 +1540,7 @@
     { id: "fr-latent", ph: "fr", type: "paper", cur: "FRONTIER", seq: "reasoning", t: "Scaling Test-Time Compute with Latent Reasoning \u2014 Geiping et al. 2025", u: "https://arxiv.org/abs/2502.05171" },
     { id: "fr-latentsurvey", ph: "fr", type: "paper", cur: "FRONTIER", seq: "reasoning", t: "A Survey on Latent Reasoning \u2014 2025", u: "https://arxiv.org/abs/2507.06203" },
     { id: "fr-mamba", ph: "fr", type: "paper", cur: "FRONTIER", seq: "architectures", t: "Mamba: Selective State-Space Models \u2014 Gu & Dao 2023", u: "https://arxiv.org/abs/2312.00752" },
+    { id: "fr-llada", ph: "fr", type: "paper", cur: "FRONTIER", seq: "architectures", t: "Large Language Diffusion Models (LLaDA) \u2014 Nie et al. 2025", m: "a diffusion LM trained from scratch at 8B scale, rivaling LLaMA3-8B \u2014 autoregression may not be the only way to a strong LLM", u: "https://arxiv.org/abs/2502.09992" },
     { id: "fr-switch", ph: "fr", type: "paper", cur: "FRONTIER", seq: "architectures", t: "Switch Transformer (MoE at scale) \u2014 Fedus et al. 2021", u: "https://arxiv.org/abs/2101.03961" },
     { id: "fr-react", ph: "fr", type: "paper", cur: "FRONTIER", seq: "agents", t: "ReAct: Reasoning + Acting in LMs \u2014 Yao et al. 2022", u: "https://arxiv.org/abs/2210.03629" },
     { id: "fr-toolformer", ph: "fr", type: "paper", cur: "FRONTIER", seq: "agents", t: "Toolformer \u2014 Schick et al. 2023", u: "https://arxiv.org/abs/2302.04761" },

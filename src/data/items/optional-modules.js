@@ -11,6 +11,7 @@ const OPTIONAL_MODULES = [
  {id:'fr-latent', ph:'fr', type:'paper', cur:'FRONTIER', seq:'reasoning', t:'Scaling Test-Time Compute with Latent Reasoning — Geiping et al. 2025', u:'https://arxiv.org/abs/2502.05171'},
  {id:'fr-latentsurvey', ph:'fr', type:'paper', cur:'FRONTIER', seq:'reasoning', t:'A Survey on Latent Reasoning — 2025', u:'https://arxiv.org/abs/2507.06203'},
  {id:'fr-mamba', ph:'fr', type:'paper', cur:'FRONTIER', seq:'architectures', t:'Mamba: Selective State-Space Models — Gu & Dao 2023', u:'https://arxiv.org/abs/2312.00752'},
+ {id:'fr-llada', ph:'fr', type:'paper', cur:'FRONTIER', seq:'architectures', t:'Large Language Diffusion Models (LLaDA) — Nie et al. 2025', m:'a diffusion LM trained from scratch at 8B scale, rivaling LLaMA3-8B — autoregression may not be the only way to a strong LLM', u:'https://arxiv.org/abs/2502.09992'},
  {id:'fr-switch', ph:'fr', type:'paper', cur:'FRONTIER', seq:'architectures', t:'Switch Transformer (MoE at scale) — Fedus et al. 2021', u:'https://arxiv.org/abs/2101.03961'},
  {id:'fr-react', ph:'fr', type:'paper', cur:'FRONTIER', seq:'agents', t:'ReAct: Reasoning + Acting in LMs — Yao et al. 2022', u:'https://arxiv.org/abs/2210.03629'},
  {id:'fr-toolformer', ph:'fr', type:'paper', cur:'FRONTIER', seq:'agents', t:'Toolformer — Schick et al. 2023', u:'https://arxiv.org/abs/2302.04761'},
