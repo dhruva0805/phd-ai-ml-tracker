@@ -11,7 +11,7 @@
     --maxw:1120px;
   }
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth; scroll-padding-top:150px;}
+  html{scroll-behavior:smooth; scroll-padding-top:104px;} /* matches the sticky bar's ~86px height + a little breathing room */
   body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans);
     font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;}
   ::selection{background:var(--signal); color:#fff;}
@@ -47,43 +47,50 @@
     color:var(--muted-deep); border:1px solid var(--rule-deep); padding:.4rem .65rem; border-radius:6px; cursor:pointer; transition:.15s;}
   .btn:hover{color:#fff; border-color:var(--signal-soft);}
   .btn.on{background:var(--signal); color:#fff; border-color:var(--signal);}
-  .bar-tools{display:flex; align-items:center; gap:.6rem; margin-top:.55rem; flex-wrap:wrap;}
-  .search{flex:1; min-width:190px; display:flex; align-items:center; gap:.5rem; background:rgba(255,255,255,.06);
-    border:1px solid var(--rule-deep); border-radius:7px; padding:.35rem .7rem;}
-  .search input{flex:1; background:transparent; border:0; outline:0; color:#fff; font-size:14px; font-family:var(--sans);}
-  .search input::placeholder{color:var(--muted-deep);}
+  /* "Expand all" is the one bar-actions button that only does anything on the Curriculum tab —
+     switchView() in src/ui/render-shared.js toggles .view-curriculum on .bar to hide it
+     elsewhere. Search/filters/phase-nav/capability-strip used to live here and need the same
+     treatment; they don't any more (see .curriculum-toolbar below). */
+  .bar:not(.view-curriculum) #expandBtn{display:none;}
+
+  /* ---------- curriculum toolbar (search, filter chips, phase quick-nav, capability strip) ----------
+     Lives in the Curriculum page's own content, not the sticky bar: these controls only matter
+     while you're starting to browse, not once you've scrolled into the item list below, and
+     they only ever apply to the Curriculum tab in the first place — so unlike the sticky bar's
+     dark theme, this sits on the page's normal paper background and needs no tab-hiding logic
+     at all (it's simply not present on any other tab's page). */
+  .curriculum-toolbar{max-width:var(--maxw); margin:0 auto; padding:1.2rem 1.3rem 1.4rem; border-bottom:1px solid var(--rule);}
+  .bar-tools{display:flex; align-items:center; gap:.6rem; flex-wrap:wrap;}
+  .search{flex:1; min-width:190px; display:flex; align-items:center; gap:.5rem; background:#fff;
+    border:1px solid var(--rule); border-radius:7px; padding:.4rem .7rem;}
+  .search input{flex:1; background:transparent; border:0; outline:0; color:var(--ink); font-size:14px; font-family:var(--sans);}
+  .search input::placeholder{color:var(--muted);}
   .chips{display:flex; gap:.32rem; flex-wrap:wrap;}
-  .chip{font-family:var(--mono); font-size:10.5px; letter-spacing:.04em; text-transform:uppercase; background:transparent;
-    color:var(--muted-deep); border:1px solid var(--rule-deep); padding:.32rem .55rem; border-radius:20px; cursor:pointer; transition:.15s;}
-  .chip:hover{color:#fff;}
+  .chip{font-family:var(--mono); font-size:10.5px; letter-spacing:.04em; text-transform:uppercase; background:#fff;
+    color:var(--muted); border:1px solid var(--rule); padding:.32rem .55rem; border-radius:20px; cursor:pointer; transition:.15s;}
+  .chip:hover{color:var(--ink); border-color:var(--muted);}
   .chip.on{background:var(--signal); color:#fff; border-color:var(--signal);}
-  .navjump{display:flex; gap:.55rem 1rem; flex-wrap:wrap; margin-top:.5rem;}
-  .navjump a{font-family:var(--mono); font-size:10.5px; letter-spacing:.03em; text-transform:uppercase; color:var(--muted-deep);}
-  .navjump a:hover{color:var(--signal-soft); text-decoration:none;}
+  .navjump{display:flex; gap:.55rem 1rem; flex-wrap:wrap;}
+  .navjump a{font-family:var(--mono); font-size:10.5px; letter-spacing:.03em; text-transform:uppercase; color:var(--muted);}
+  .navjump a:hover{color:var(--signal); text-decoration:none;}
   /* Below 720px the <a> list wraps into too many lines to be a "quick" nav any more — swap it
      for the compact, native, already-keyboard-accessible <select> built alongside it (see
      render() in src/ui/render-curriculum.js). */
-  .navjump-select{display:none; width:100%; margin-top:.5rem; font-family:var(--mono); font-size:11px; text-transform:uppercase;
-    padding:.4rem .55rem; border-radius:7px; border:1px solid var(--rule-deep); background:rgba(255,255,255,.06); color:#fff;}
+  .navjump-select{display:none; width:100%; font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    padding:.4rem .55rem; border-radius:7px; border:1px solid var(--rule); background:#fff; color:var(--ink);}
   @media(max-width:720px){ .navjump{display:none;} .navjump-select{display:block;} }
 
-  /* Curriculum-only controls (search, filter chips, phase quick-nav, "Expand all") only affect
-     the curriculum item tree, so they're only shown while that tab is active — switchView() in
-     src/ui/render-shared.js toggles .view-curriculum on .bar. */
-  .bar:not(.view-curriculum) .curriculum-only{display:none;}
-
-  /* ---------- capability strip (top-bar aggregate capability scores) ---------- */
-  .capstrip{display:flex; gap:.5rem 1.1rem; flex-wrap:wrap; margin-top:.5rem; padding-top:.5rem; border-top:1px solid var(--rule-deep);}
+  /* ---------- capability strip (aggregate capability scores, in the curriculum toolbar) ---------- */
+  .capstrip{display:flex; gap:.5rem 1.1rem; flex-wrap:wrap; margin-top:1rem; padding-top:.9rem; border-top:1px dotted var(--rule);}
   .capstrip.empty{display:none;} /* nothing assessed yet — six "no data" chips is noise, not signal */
   .capchip{display:flex; align-items:center; gap:.4rem; min-width:100px; flex-shrink:0;}
-  .capchip .cc-label{font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted-deep); white-space:nowrap;}
-  .capchip .cc-bar{width:42px; height:5px; background:rgba(255,255,255,.1); border-radius:5px; overflow:hidden; flex-shrink:0;}
-  .capchip .cc-bar>i{display:block; height:100%; background:var(--signal-soft); border-radius:5px;}
+  .capchip .cc-label{font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); white-space:nowrap;}
+  .capchip .cc-bar{width:42px; height:5px; background:var(--paper-2); border-radius:5px; overflow:hidden; flex-shrink:0;}
+  .capchip .cc-bar>i{display:block; height:100%; background:var(--signal); border-radius:5px;}
   .capchip.ri .cc-bar>i{background:var(--master);}
-  .capchip .cc-pct{font-family:var(--mono); font-size:10px; color:#fff; font-weight:600; white-space:nowrap;}
-  .capchip.nodata .cc-pct{color:var(--muted-deep); font-weight:400;}
-  /* Narrow viewports: scroll horizontally instead of disappearing outright, so the same six
-     chips stay reachable by a swipe. */
+  .capchip .cc-pct{font-family:var(--mono); font-size:10px; color:var(--ink); font-weight:600; white-space:nowrap;}
+  .capchip.nodata .cc-pct{color:var(--muted); font-weight:400;}
+  /* Narrow viewports: scroll horizontally instead of wrapping into a tall block. */
   @media(max-width:900px){ .capstrip{flex-wrap:nowrap; overflow-x:auto; padding-bottom:.2rem;} }
 
   /* ---------- page tabs + page shells ---------- */
