@@ -16,7 +16,7 @@ import {
   render, toggleAllSections, toggleDetail,
   setCompetency, setCompetencyDate, toggleEvidenceForm, submitEvidenceForm, deleteEvidence,
 } from './ui/render-curriculum.js';
-import { setFilter, applyFilters, switchView, toggleDiag, triggerImport } from './ui/render-shared.js';
+import { setFilter, applyFilters, switchView, toggleDiag, triggerImport, confirmDialogYes, confirmDialogNo } from './ui/render-shared.js';
 import { exportProgress, handleImportFile, applyImport, closeImport, resetAll } from './import-export.js';
 import {
   toggleRqCard, rqFieldBlur, rqSetStatus, rqDelete, rqNew, rqSetFilter, rqSetQuery,
@@ -31,7 +31,7 @@ import {
 Object.assign(window, {
   render, toggleAllSections, toggleDetail,
   setCompetency, setCompetencyDate, toggleEvidenceForm, submitEvidenceForm, deleteEvidence,
-  setFilter, applyFilters, switchView, toggleDiag, triggerImport,
+  setFilter, applyFilters, switchView, toggleDiag, triggerImport, confirmDialogYes, confirmDialogNo,
   exportProgress, handleImportFile, applyImport, closeImport, resetAll,
   toggleRqCard, rqFieldBlur, rqSetStatus, rqDelete, rqNew, rqSetFilter, rqSetQuery,
   actAdd, actRemove, actSetCadence,

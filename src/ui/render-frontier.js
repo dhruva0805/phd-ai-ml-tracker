@@ -9,14 +9,20 @@ import {
   markFrontierReviewed, addFrontierKeyPaper, removeFrontierKeyPaper,
   frontierDaysSinceReview, isFrontierStale,
 } from '../state.js';
-import { toast } from './render-shared.js';
+import { toast, confirmDialog } from './render-shared.js';
 import { itemRow } from './render-curriculum.js';
+
+// See render-curriculum.js's KA constant for what this does and why.
+const KA = 'tabindex="0" role="button" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();this.click();}"';
 
 let frReviewOnly = false, frOpenId = null;
 function frToggleReviewMode(){ frReviewOnly = !frReviewOnly; renderFrontierPage(); }
 function frNewTopic(){ const t=addFrontierTopic(); frOpenId=t.id; renderFrontierPage(); }
 function frToggleCard(id){ frOpenId = (frOpenId===id) ? null : id; renderFrontierPage(); }
-function frDelete(e,id){ e.stopPropagation(); if(!confirm('Delete this frontier topic? This cannot be undone.')) return; deleteFrontierTopic(id); toast('Deleted'); renderFrontierPage(); }
+function frDelete(e,id){
+  e.stopPropagation();
+  confirmDialog('Delete this frontier topic? This cannot be undone.', () => { deleteFrontierTopic(id); toast('Deleted'); renderFrontierPage(); });
+}
 function frFieldBlur(e,id,key){ updateFrontierTopic(id, {[key]: e.target.value.slice(0, key==='topic'?200:4000)}); }
 function frSetStatus(id,status){ if(!FRONTIER_STATUSES.includes(status)) return; updateFrontierTopic(id, {status}); renderFrontierPage(); }
 function frSetConfidence(id,level){ updateFrontierTopic(id, {confidence: clampLevel(level)}); renderFrontierPage(); }
@@ -44,7 +50,7 @@ function frTopicCard(t){
   const confOpts = FRONTIER_CONFIDENCE_LEVELS.map((l,i)=>'<option value="'+i+'"'+(t.confidence===i?' selected':'')+'>'+l+'</option>').join('');
   const papers = (t.keyPapers||[]).map(p=>'<div class="gate-link-row">→ <a href="'+escapeHtml(p.url)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">'+escapeHtml(p.title)+'</a> <a href="#" onclick="event.preventDefault();frRemovePaperUI(event,\''+t.id+'\',\''+p.id+'\')" style="color:var(--frontier)">×</a></div>').join('');
   return '<div class="fr-card'+(open?' open':'')+(stale?' stale':'')+'" id="frcard-'+t.id+'">'+
-    '<div class="fr-top" onclick="frToggleCard(\''+t.id+'\')">'+
+    '<div class="fr-top" '+KA+' onclick="frToggleCard(\''+t.id+'\')">'+
       '<span class="fr-status fs-'+t.status+'">'+FRONTIER_STATUS_LABELS[t.status]+'</span>'+
       '<span class="fr-topic">'+escapeHtml(t.topic||'(untitled topic)')+'</span>'+
       (stale?'<span class="refresh-badge" title="Review cadence is every '+FRONTIER_REVIEW_STALE_DAYS+' days">Review due</span>':'')+

@@ -16,20 +16,34 @@ import {
   getReplicationStatus, setReplicationStatus,
   getSpecializationRole, setSpecializationRole,
 } from '../state.js';
-import { applyFilters, updateAllMetrics, toast, getCurFilter, registerSectionOpen } from './render-shared.js';
+import { applyFilters, updateAllMetrics, toast, getCurFilter, registerSectionOpen, makeKeyboardActivatable, confirmDialog } from './render-shared.js';
+
+// Repeated on every HTML-string-built clickable span/div alongside its onclick=, so Enter/Space
+// activates it the same way a click would (this.click() re-fires the existing onclick handler
+// rather than duplicating its logic). See makeKeyboardActivatable() in render-shared.js for the
+// equivalent applied to elements built via document.createElement.
+const KA = 'tabindex="0" role="button" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();this.click();}"';
 
 let sectionOpen = {}, allExpanded = false;
 registerSectionOpen(() => sectionOpen);
 
 function render(){
   const app = document.getElementById('app'), nav = document.getElementById('navjump');
+  const navSelect = document.getElementById('navjumpSelect');
   app.innerHTML=''; nav.innerHTML='';
+  if(navSelect) navSelect.innerHTML = '<option value="">Jump to phase…</option>';
   SECTIONS.forEach(sec=>{
     if(!(sec.key in sectionOpen)) sectionOpen[sec.key] = !!sec.open;
     const secItems = ITEMS.filter(i=>i.ph===sec.key);
+    const label = sec.num+' · '+sec.title.split('—')[0].split('(')[0].trim();
     const a=document.createElement('a'); a.href='#sec-'+sec.key;
-    a.textContent = sec.num+' · '+sec.title.split('—')[0].split('(')[0].trim();
+    a.textContent = label;
     nav.appendChild(a);
+    // Narrow-viewport equivalent of the <a> quick-nav above (shown/hidden by CSS at the same
+    // breakpoint, see .curriculum-only / .navjump-select in styles/main.css) — a native <select>
+    // is compact, works with no JS beyond the plain onchange below, and is keyboard-accessible
+    // for free.
+    if(navSelect){ const opt=document.createElement('option'); opt.value='#sec-'+sec.key; opt.textContent=label; navSelect.appendChild(opt); }
 
     const wrap=document.createElement('section');
     wrap.className='sec'+(sectionOpen[sec.key]?'':' collapsed'); wrap.id='sec-'+sec.key;
@@ -50,6 +64,7 @@ function render(){
       '<div class="sec-prog"><div class="sbar"><i id="sfill-'+sec.key+'"></i></div><span class="scount" id="scount-'+sec.key+'"></span><span class="scomp mono" id="scomp-'+sec.key+'" style="display:none" title="Average evidence-weighted competency (0-4) across this section\'s major units"></span></div>'+
       '<span class="chev">▾</span>';
     head.addEventListener('click',()=>toggleSection(sec.key));
+    makeKeyboardActivatable(head);
     wrap.appendChild(head);
 
     const body=document.createElement('div'); body.className='sec-body';
@@ -111,7 +126,7 @@ function itemRow(it){
   const link=it.u?'<a class="lnk" href="'+it.u+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">open ↗</a>':'';
   const meta=it.m?'<div class="m">'+it.m+'</div>':'';
   const compMini=it.major?'<div class="comp-mini">'+renderCompMini(it.id)+'</div>':'';
-  const expander=(it.detail||it.major)?'<span class="expander" onclick="toggleDetail(event,this)">details ⌄</span>':'';
+  const expander=(it.detail||it.major)?'<span class="expander" '+KA+' onclick="toggleDetail(event,this)">details ⌄</span>':'';
   const replSelect = it.replication ? (()=>{
     const cur = getReplicationStatus(it.id);
     const opts = REPLICATION_STATUSES.map(s=>'<option value="'+s+'"'+(cur===s?' selected':'')+'>'+REPLICATION_STATUS_LABELS[s]+'</option>').join('');
@@ -125,6 +140,7 @@ function itemRow(it){
     expander+
     '<span class="badge '+it.type+'">'+TYPE_LABEL[it.type]+'</span>';
   r.addEventListener('click',()=>cycle(it,row));
+  makeKeyboardActivatable(r);
   row.appendChild(r);
 
   if(it.detail || it.major){
@@ -216,7 +232,7 @@ function evidenceSectionInner(it){
     });
   }
   html += '</div>';
-  html += '<span class="expander" onclick="toggleEvidenceForm(event,\''+it.id+'\')">+ add evidence</span>';
+  html += '<span class="expander" '+KA+' onclick="toggleEvidenceForm(event,\''+it.id+'\')">+ add evidence</span>';
   html += '<div class="evid-add-form" id="evform-'+it.id+'">'+
     '<input type="text" id="ev-title-'+it.id+'" placeholder="Title (e.g. \'Reproduced ResNet-18 on CIFAR-10\')" maxlength="200">'+
     '<select id="ev-type-'+it.id+'">'+EVIDENCE_TYPES.map(t=>'<option value="'+escapeHtml(t)+'">'+escapeHtml(t)+'</option>').join('')+'</select>'+
@@ -262,10 +278,11 @@ function submitEvidenceForm(e,unitId){
 }
 function deleteEvidence(e,unitId,evidenceId){
   e.stopPropagation();
-  if(!confirm('Remove this evidence record?')) return;
-  removeEvidence(unitId, evidenceId);
-  refreshUnitDetail(unitId);
-  toast('Evidence removed');
+  confirmDialog('Remove this evidence record?', () => {
+    removeEvidence(unitId, evidenceId);
+    refreshUnitDetail(unitId);
+    toast('Evidence removed');
+  });
 }
 
 export {

@@ -40,6 +40,13 @@ function updateProgress(){
 function renderCapStrip(){
   const el=document.getElementById('capstrip'); if(!el) return;
   const profile = calculateCapabilityProfile(getState(), ITEMS);
+  // Before anything has been rated, every category reads "no data" — six gray chips that are
+  // pure noise on a first visit. Hide the whole strip until there's real signal to show; it
+  // reappears on its own the moment the first competency gets rated (this re-runs on every
+  // state change via updateAllMetrics()).
+  const anyData = CAPABILITY_CATEGORIES.some(cat=>{ const d=profile[cat]; return d && d.pct!==null && d.count>0; });
+  el.classList.toggle('empty', !anyData);
+  if(!anyData){ el.innerHTML=''; return; }
   el.innerHTML = CAPABILITY_CATEGORIES.map(cat=>{
     const d=profile[cat], label=CAPABILITY_LABELS[cat], riCls=cat==='research_independence'?' ri':'';
     if(!d||d.pct===null||d.count===0) return '<div class="capchip nodata'+riCls+'"><span class="cc-label">'+label+'</span><span class="cc-pct">no data</span></div>';
@@ -59,6 +66,10 @@ function switchView(view){
   const target = document.getElementById('page-'+view);
   if(target) target.classList.remove('hide');
   document.querySelectorAll('.pagetab').forEach(b=>b.classList.toggle('on', b.dataset.view===view));
+  // The search box, filter chips, phase quick-nav and "Expand all" only do anything on the
+  // Curriculum tab — .curriculum-only elements are hidden via CSS on every other tab so the bar
+  // isn't showing controls that have no effect on the page you're looking at.
+  document.querySelector('.bar').classList.toggle('view-curriculum', view==='curriculum');
   refreshActivePage();
 }
 function refreshActivePage(){
@@ -125,10 +136,42 @@ function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg
 /* ---------- import trigger (the actual file read lives in import-export.js) ---------- */
 function triggerImport(){ document.getElementById('importFile').click(); }
 
+/* ---------- keyboard accessibility ---------- */
+// Every custom clickable element (a <div>/<span> with an onclick, not a real <button>/<a>) gets
+// tabindex+role="button" plus a keydown handler that fires the element's own click handler via
+// el.click() on Enter/Space — so existing click logic is reused verbatim, never duplicated.
+// Elements built as HTML strings (rq-top, fr-top, .expander) get the equivalent inline:
+// tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"
+function makeKeyboardActivatable(el){
+  el.tabIndex = 0;
+  el.setAttribute('role','button');
+  el.addEventListener('keydown', e=>{
+    if(e.key==='Enter' || e.key===' '){ e.preventDefault(); el.click(); }
+  });
+}
+
+/* ---------- confirm dialog (replaces the native confirm() for destructive actions) ---------- */
+let pendingConfirm = null;
+function confirmDialog(message, onConfirm){
+  pendingConfirm = onConfirm;
+  document.getElementById('confirmMessage').textContent = message;
+  document.getElementById('confirmModal').classList.add('show');
+}
+function confirmDialogYes(){
+  const fn = pendingConfirm; pendingConfirm = null;
+  document.getElementById('confirmModal').classList.remove('show');
+  if(typeof fn==='function') fn();
+}
+function confirmDialogNo(){
+  pendingConfirm = null;
+  document.getElementById('confirmModal').classList.remove('show');
+}
+
 export {
   getCurFilter, getCurQuery, registerSectionOpen,
   updateProgress, renderCapStrip, updateAllMetrics,
   switchView, refreshActivePage,
   setFilter, applyFilters,
   toggleDiag, toast, triggerImport,
+  makeKeyboardActivatable, confirmDialog, confirmDialogYes, confirmDialogNo,
 };
