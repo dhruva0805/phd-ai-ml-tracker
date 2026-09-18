@@ -1,0 +1,15 @@
+{
+  "name": "phd-ai-ml-tracker",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Self-contained curriculum tracker for PhD-level AI/ML/GenAI depth. Source lives under src/ and is built into the single distributed index.html.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "watch": "node scripts/build.mjs --watch",
+    "test": "node --test tests/"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0"
+  }
+}

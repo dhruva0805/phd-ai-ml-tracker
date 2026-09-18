@@ -7,3 +7,4 @@ Thumbs.db
 .vscode/
 *.log
 .wrangler/
+node_modules/
