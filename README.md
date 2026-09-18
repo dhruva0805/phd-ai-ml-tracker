@@ -58,7 +58,27 @@ Item types include courses, books, papers, projects, milestones, standards, and 
 
 ## Tech
 
-Single static HTML file (CSS + JS inline). No framework, no package manager.
+For users, nothing changes: `index.html` is still one self-contained file — open it directly,
+no build step, no server, no dependencies.
+
+For contributors, the source behind that file lives under `src/` (data, state, scoring logic,
+and UI split into small modules — see the comment at the top of each file), `styles/main.css`,
+and `template.html` for the static page chrome. A small Node-only build script
+(`scripts/build.mjs`, using esbuild) bundles all of it back into the single, committed
+`index.html` — that generated file is what ships and what users open; never hand-edit it
+directly, edit the sources and rebuild.
+
+```bash
+npm install        # once
+npm run watch       # rebuilds index.html on every save under src/
+npm run build       # one-off build
+npm test            # runs the node:test suite (tests/) — pure state/scoring/import logic,
+                     # plus an integrity check against the real curriculum content
+```
+
+CI (`.github/workflows/ci.yml`) rebuilds on every push/PR and fails if the committed
+`index.html` doesn't match a fresh build, so `src/` and the shipped file can't silently drift
+apart.
 
 ## License
 

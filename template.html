@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhD-Level AI / ML / GenAI Curriculum — Tracker</title>
+<style>
+{{STYLES}}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="bar-inner">
+    <div class="bar-top">
+      <div class="bar-title"><b>RS Track</b> · PhD-Level AI / ML / GenAI</div>
+      <div class="overall" title="Resource completion — courses/books/papers/projects marked done or mastered. See the capability strip below for evidence-weighted competency scores.">
+        <div class="obar"><i id="oFill"></i><b id="oMaster"></b></div>
+        <span class="opct" id="oPct">0%</span>
+        <span class="opct" id="oCount" style="color:var(--muted-deep);">0 / 0</span>
+      </div>
+      <div class="bar-actions">
+        <button class="btn" id="expandBtn" onclick="toggleAllSections()">Expand all</button>
+        <button class="btn" onclick="toggleDiag()">Diagnostics</button>
+        <button class="btn" onclick="triggerImport()">Import</button>
+        <button class="btn" onclick="exportProgress()">Export</button>
+        <button class="btn" onclick="resetAll()">Reset</button>
+        <input type="file" id="importFile" accept="application/json,.json" style="display:none" onchange="handleImportFile(event)">
+      </div>
+    </div>
+    <div class="bar-tools">
+      <label class="search">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8FA0BD" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input id="q" type="text" placeholder="Search courses, books, papers, authors, standards, topics…" oninput="applyFilters()">
+      </label>
+      <div class="chips" id="chips">
+        <button class="chip on" data-f="all" onclick="setFilter('all',this)">All</button>
+        <button class="chip" data-f="course" onclick="setFilter('course',this)">Courses</button>
+        <button class="chip" data-f="book" onclick="setFilter('book',this)">Books</button>
+        <button class="chip" data-f="paper" onclick="setFilter('paper',this)">Papers</button>
+        <button class="chip" data-f="project" onclick="setFilter('project',this)">Projects</button>
+        <button class="chip" data-f="major" onclick="setFilter('major',this)">Major units</button>
+        <button class="chip" data-f="todo" onclick="setFilter('todo',this)">To-do</button>
+      </div>
+    </div>
+    <div class="navjump" id="navjump"></div>
+    <div class="capstrip" id="capstrip" title="Aggregate capability profile — computed from evidence-weighted competency scores, not resource completion"></div>
+    <nav class="pagetabs" id="pagetabs">
+      <button class="pagetab on" data-view="curriculum" onclick="switchView('curriculum')">Curriculum</button>
+      <button class="pagetab" data-view="research" onclick="switchView('research')">Research</button>
+      <button class="pagetab" data-view="dashboard" onclick="switchView('dashboard')">Dashboard</button>
+      <button class="pagetab" data-view="gates" onclick="switchView('gates')">Gates</button>
+      <button class="pagetab" data-view="frontier" onclick="switchView('frontier')">Frontier</button>
+    </nav>
+  </div>
+</div>
+
+<div class="page" id="page-curriculum">
+<div class="hero">
+  <div class="eyebrow">Self-directed doctoral program · progress saved in this browser</div>
+  <h1>Research-scientist depth in AI, ML &amp; <em>generative models</em>.</h1>
+  <p>Seven-phase core spine plus optional specialization tracks. Every item is checkable with a working link. <strong>Major learning units</strong> expand to show rationale, prerequisites, key topics, mastery checks and a required artifact — and support four states so you can mark real mastery, not just "watched it." Beyond that, major units now track <strong>six independent competency dimensions</strong> (Understand → Derive → Implement → Experiment → Critique → Research) that you back with <strong>evidence records</strong>, not just self-rating — because completing a course is not the same as being research-ready. Specialization tracks and modules start collapsed to keep the page clean; open what you're working on. Mark each specialization track's role — Primary / Secondary / Reading literacy / Not pursuing — from its section header; the <strong>Research</strong>, <strong>Dashboard</strong> and <strong>Gates</strong> tabs above turn that plus your evidence into a hypothesis log, a decomposed progress dashboard, and five defended research checkpoints.</p>
+  <div class="legend">
+    <span><i class="dot"></i> Not started</span>
+    <span><i class="dot p"></i> In progress</span>
+    <span><i class="dot d"></i> Done</span>
+    <span><i class="dot m"></i> Mastered</span>
+    <span style="color:var(--ink-soft)">· click a row to cycle · major units cycle all four states</span>
+  </div>
+  <div class="legend" style="margin-top:.5rem;">
+    <span><span class="src-tag src-self">Self-assessed</span></span>
+    <span><span class="src-tag src-evidence">Evidence-backed</span></span>
+    <span><span class="src-tag src-external">Externally validated</span></span>
+    <span style="color:var(--ink-soft)">· competency dimensions are labeled by how well-supported they are</span>
+  </div>
+</div>
+
+<div class="diag" id="diag"><div class="diag-inner" id="diagInner"></div></div>
+
+<div class="container"><div id="app"></div><div class="empty" id="empty">No items match your search or filter.</div></div>
+</div><!-- /page-curriculum -->
+
+<div class="page hide" id="page-research">
+  <div class="container pagehead">
+    <div class="eyebrow">Research</div>
+    <h1>The apparatus that turns study into contribution.</h1>
+    <p>Recurring research activity, logged explicitly — and a running Observation → Question → Hypothesis → Experiment → Result log. Nothing here is inferred from ticking a paper "done."</p>
+  </div>
+  <div class="container" id="researchPageBody"></div>
+</div>
+
+<div class="page hide" id="page-dashboard">
+  <div class="container pagehead">
+    <div class="eyebrow">Dashboard</div>
+    <h1>Decomposed progress — never one misleading percentage.</h1>
+    <p>Resource completion, competency development, evidence strength and research independence are tracked and shown separately, on purpose.</p>
+  </div>
+  <div class="container" id="dashboardPageBody"></div>
+</div>
+
+<div class="page hide" id="page-gates">
+  <div class="container pagehead">
+    <div class="eyebrow">Gates</div>
+    <h1>Research gates — defended, not checked off.</h1>
+    <p>Five explicit checkpoints. Each supports a real status (not attempted / self-assessed pass / external pass / needs revision), notes, and evidence links.</p>
+  </div>
+  <div class="container" id="gatesPageBody"></div>
+</div>
+
+<div class="page hide" id="page-frontier">
+  <div class="container pagehead">
+    <div class="eyebrow">Frontier</div>
+    <h1>Live research fronts.</h1>
+    <p>A research radar you maintain yourself — topics, why they matter, key papers, and when you last reviewed each one — plus the Frontier module from the curriculum below it. The radar highlights topics due for review on a rolling basis; it never assumes a particular current year.</p>
+  </div>
+  <div class="container" id="frontierPageBody"></div>
+</div>
+
+<footer>
+  <div class="container">
+    <p><strong>Using the tracker:</strong> click any row to advance its state. Simple resources toggle done; major units cycle Not&nbsp;started → In&nbsp;progress → Done → Mastered. The top bar shows resource-completion progress (the lighter overlay is the mastered share) plus a capability-profile strip; each section shows its own bar. <em>Import</em> restores an exported file (merge or replace, unknown IDs ignored safely); <em>Export</em> backs up everything including competencies, evidence, research questions, activity log and gate status; <em>Reset</em> clears all of it. Progress persists in this browser's local storage for this file.</p>
+    <p style="margin-top:.7rem;"><strong>Competency ≠ completion:</strong> expand a major unit to independently rate its six competency dimensions and attach evidence (a derivation, a reproduction, an ablation, a peer review, …). A dimension you only self-rate stays labeled <span class="src-tag src-self" style="vertical-align:middle;">Self-assessed</span>; only evidence moves it to <span class="src-tag src-evidence" style="vertical-align:middle;">Evidence-backed</span> or <span class="src-tag src-external" style="vertical-align:middle;">Externally validated</span>. Research Independence in the top strip is deliberately hard to raise by completing courses alone — it also factors in the <em>Research</em> tab's logged activity and the <em>Gates</em> tab's passed checkpoints; see <em>Diagnostics</em> for specific flags.</p>
+    <p style="margin-top:.7rem;"><strong>Research, Dashboard, Gates, Frontier:</strong> the <em>Research</em> tab holds an Observation → Question → Hypothesis → Experiment → Result log (nothing here is inferred from ticking a resource "done") plus a research-activity counter with configurable cadence targets. <em>Dashboard</em> rolls all of it up: capability profile, research output, research pipeline, evidence quality, your T-shaped expertise shape, gate status, and a nine-rung capability-based milestone ladder computed from competencies/evidence/activity/gates — never from checkbox counts. <em>Gates</em> holds five research checkpoints (Reproduction Defense through Independent Research Proposal), each with a real status, notes and evidence links.</p>
+    <p style="margin-top:.7rem;"><strong>Self-contained:</strong> this file uses a system-font stack and bundles all styles and logic inline — it runs fully offline. The only external references are hyperlinks to educational resources, which open in a new tab when you choose.</p>
+    <p class="dis">Course codes, standards numbers and arXiv identifiers were checked against official sources where possible (3GPP TR 38.843 / TR 37.817, CS336, Tse &amp; Viswanath, s1 = arXiv 2501.19393, etc.). Items marked <span class="pill verify" style="margin:0">⚠ verify</span> could not be fully confirmed — open and check them before citing. Universities re-number and re-offer courses and links move; confirm the current offering on each institution's site. This is a study plan, not academic or career advising.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<div class="modal-bg" id="importModal">
+  <div class="modal">
+    <h3>Import progress</h3>
+    <p id="importSummary">Choose how to apply the imported file.</p>
+    <div class="mbtns">
+      <button class="mbtn-primary" onclick="applyImport('merge')">Merge into current</button>
+      <button class="mbtn-primary" onclick="applyImport('replace')">Replace current</button>
+      <button class="mbtn-ghost" onclick="closeImport()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+{{SCRIPT}}
+</script>
+</body>
+</html>

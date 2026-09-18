@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run build
+      # The committed index.html is the artifact users actually open — this fails the build if
+      # a source edit under src/styles/template.html wasn't followed by `npm run build`, or vice
+      # versa, so the two can never silently drift apart.
+      - name: Verify the committed index.html is up to date with src/
+        run: |
+          if ! git diff --quiet -- index.html; then
+            echo "::error::index.html is out of date with src/. Run 'npm run build' and commit the result."
+            git diff -- index.html
+            exit 1
+          fi
+      - run: npm test

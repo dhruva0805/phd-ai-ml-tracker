@@ -1,0 +1,100 @@
+// Optional modules: Frontier reading list, telecom/wireless-AI vertical, research
+// methodology, qualifying-exam checkpoints, curated resource index, milestone ladder.
+
+const OPTIONAL_MODULES = [
+ // ---------------- MODULE: Frontier 2026 ----------------
+ {id:'fr-r1', ph:'fr', type:'paper', cur:'FRONTIER', seq:'reasoning', t:'DeepSeek-R1 — reasoning via RL (GRPO)', u:'https://arxiv.org/abs/2501.12948',
+  detail:{why:"Showed strong reasoning can emerge from largely pure RL on verifiable rewards, reshaping how frontier reasoning models are trained.",
+   tech:"GRPO as a critic-free, group-normalized policy gradient; the role of verifiable rewards and the reported self-correction ('aha') behavior.",
+   after:"Implement GRPO on a small verifiable task (e.g. arithmetic); compare against PPO; probe whether longer chains actually improve accuracy or just add length."}},
+ {id:'fr-s1', ph:'fr', type:'paper', cur:'FRONTIER', seq:'reasoning', t:'s1: Simple Test-Time Scaling — Muennighoff et al. 2025', u:'https://arxiv.org/abs/2501.19393'},
+ {id:'fr-latent', ph:'fr', type:'paper', cur:'FRONTIER', seq:'reasoning', t:'Scaling Test-Time Compute with Latent Reasoning — Geiping et al. 2025', u:'https://arxiv.org/abs/2502.05171'},
+ {id:'fr-latentsurvey', ph:'fr', type:'paper', cur:'FRONTIER', seq:'reasoning', t:'A Survey on Latent Reasoning — 2025', u:'https://arxiv.org/abs/2507.06203'},
+ {id:'fr-mamba', ph:'fr', type:'paper', cur:'FRONTIER', seq:'architectures', t:'Mamba: Selective State-Space Models — Gu & Dao 2023', u:'https://arxiv.org/abs/2312.00752'},
+ {id:'fr-switch', ph:'fr', type:'paper', cur:'FRONTIER', seq:'architectures', t:'Switch Transformer (MoE at scale) — Fedus et al. 2021', u:'https://arxiv.org/abs/2101.03961'},
+ {id:'fr-react', ph:'fr', type:'paper', cur:'FRONTIER', seq:'agents', t:'ReAct: Reasoning + Acting in LMs — Yao et al. 2022', u:'https://arxiv.org/abs/2210.03629'},
+ {id:'fr-toolformer', ph:'fr', type:'paper', cur:'FRONTIER', seq:'agents', t:'Toolformer — Schick et al. 2023', u:'https://arxiv.org/abs/2302.04761'},
+ {id:'fr-cot', ph:'fr', type:'paper', cur:'FRONTIER', seq:'reasoning', t:'Chain-of-Thought Prompting — Wei et al. 2022', u:'https://arxiv.org/abs/2201.11903',
+  detail:{why:"Showed that prompting for intermediate steps unlocks reasoning in large models — the conceptual root of the entire test-time-reasoning line.",
+   tech:"Why chain-of-thought helps (serial computation carried through tokens), its emergence with scale, and its fragility to prompt format.",
+   after:"Reproduce a CoT vs direct-answer gap on a reasoning benchmark; test self-consistency (sampling + majority vote); probe whether the reasoning is faithful or post-hoc."}},
+ {id:'fr-fno', ph:'fr', type:'paper', cur:'FRONTIER', seq:'ai-for-science', t:'Fourier Neural Operator for PDEs — Li et al. 2020', m:'AI-for-science method-transfer template', u:'https://arxiv.org/abs/2010.08895'},
+ {id:'fr-review', ph:'fr', type:'book', t:'Sebastian Raschka — State of LLMs annual reviews', m:'the quarterly currency habit', u:'https://magazine.sebastianraschka.com/'},
+
+ // ---------------- MODULE: Telecom vertex ----------------
+ {id:'tel-tse', ph:'tel', type:'book', major:true, t:'Fundamentals of Wireless Communication — Tse & Viswanath', m:'free author PDF; the graduate wireless spine', u:'https://web.stanford.edu/~dntse/papers/book121004.pdf',
+  detail:{why:"You cannot do credible AI-for-wireless research without the physical layer. This is the canonical graduate text; owning fading, MIMO, OFDM and capacity is the domain depth almost no ML researcher has.",
+   prereq:"Probability; linear algebra; basic signals.",
+   topics:["Wireless channel & fading","Diversity & MIMO","Capacity of wireless channels","OFDM & multiple access (CDMA)","Opportunistic & multiuser communication","Detection & estimation in noise"],
+   mastery:["Explain fading and the diversity–multiplexing tradeoff","Reason about MIMO capacity","Explain why OFDM is used in modern systems","Connect a channel model to an ML problem (e.g., channel estimation)"],
+   artifact:"A channel-estimation or beam-selection reproduction on simulated data, tying a wireless problem to an ML method."}},
+ {id:'tel-38843', ph:'tel', type:'std', t:'3GPP TR 38.843 — Study on AI/ML for NR air interface (Rel-18)', m:'CSI, beam mgmt, positioning; the LCM framework', u:'https://www.3gpp.org/technologies/ai-ml-nr'},
+ {id:'tel-37817', ph:'tel', type:'std', t:'3GPP TR 37.817 — AI/ML for NG-RAN', m:'energy savings, load balancing, mobility'},
+ {id:'tel-28105', ph:'tel', type:'std', t:'3GPP TS 28.105 — AI/ML management (LCM)'},
+ {id:'tel-23288', ph:'tel', type:'std', t:'3GPP TS 23.288 — Network Data Analytics (NWDAF)'},
+ {id:'tel-oran', ph:'tel', type:'std', t:'O-RAN specifications — architecture, RIC, rApp / xApp', u:'https://www.o-ran.org/specifications'},
+ {id:'tel-airan', ph:'tel', type:'std', t:'AI-RAN Alliance — vision & white papers', u:'https://ai-ran.org/'},
+ {id:'tel-oranpaper', ph:'tel', type:'paper', cur:'SYSTEMS', seq:'telecom', t:'Understanding O-RAN: Architecture, Interfaces, Algorithms, Security — Polese et al. 2022', u:'https://arxiv.org/abs/2202.01032'},
+ {id:'tel-llm', ph:'tel', type:'paper', cur:'FOUNDATIONAL', seq:'telecom', t:'Large Language Models for Telecom — Maatouk et al. 2023', u:'https://arxiv.org/abs/2308.06013'},
+ {id:'tel-roadmap', ph:'tel', type:'paper', cur:'FRONTIER', seq:'telecom', t:'Large-Scale AI in Telecom: Charting the Roadmap — Shahid et al. 2025', u:'https://arxiv.org/abs/2503.04184'},
+ {id:'tel-wlam', ph:'tel', type:'paper', cur:'FRONTIER', seq:'telecom', t:'Wireless Large AI Model: AI-native Future of 6G — 2025', u:'https://arxiv.org/abs/2504.14653'},
+ {id:'tel-sionna', ph:'tel', type:'course', t:'NVIDIA Sionna — differentiable link-level simulator', m:'ideal for AI air-interface reproductions', u:'https://nvlabs.github.io/sionna/', verify:true},
+ {id:'tel-proj', ph:'tel', type:'project', t:'Reproduce a deep-learning wireless result (channel estimation / beam management) on simulated data'},
+ {id:'tel-rq', ph:'tel', type:'skill', t:'Frame a research question at the ML × telecom intersection; target both an ML and a telecom venue'},
+
+ // ---------------- MODULE: Research methodology ----------------
+ {id:'rm-read', ph:'research', type:'skill', major:true, t:'The paper-reading protocol', m:'three-pass method; 500+ papers with notes',
+  detail:{why:"Reproduction and taste are what a PhD certifies. A disciplined reading system is the engine that produces both — most people consume papers without extracting anything durable.",
+   prereq:"None; start now.",
+   topics:["Three-pass reading (Keshav)","One-paragraph summary per paper","Recognizing authors, labs & lineages","Reading cadence: 2–3/wk → 5–10/wk"],
+   mastery:["Summarize any paper's contribution in your own words in a paragraph","Decide quickly which papers earn a deep pass","Place a new paper in its intellectual lineage"],
+   artifact:"A running annotated bibliography (Zotero/Notion) with your own summaries — the asset, not the PDFs."}},
+ {id:'rm-exp', ph:'research', type:'skill', major:true, t:'Experimental design & reproducibility for ML', m:'the methodology that makes a result trustworthy',
+  detail:{why:"Most ML claims that fail to replicate fail on methodology, not ideas: single seeds, an untuned baseline against your tuned method, data leakage, and cherry-picked checkpoints. Designing experiments that could falsify your hypothesis — and reporting them so others can rerun them — is the core research skill a PhD certifies.",
+   prereq:"Probability & statistics; the deep-learning core (so you have real runs to analyze).",
+   topics:["Hypothesis-driven experiment design","Seeds, variance & reporting mean ± CI over runs","Fair baselines & equal tuning budgets","Ablations: change one thing, attribute the effect","Data leakage & train/val/test hygiene","Multiple-comparison & significance pitfalls in ML","Reproducibility: environment, config, seeds & compute logging"],
+   mastery:["Design an experiment whose result could actually falsify your hypothesis","Report a result with uncertainty over seeds rather than a single number","Construct a fair baseline and defend the comparison","Design an ablation that isolates one component's contribution","Spot leakage or an unfair comparison in a paper or your own pipeline"],
+   artifact:"A reproduction/ablation report on a real method: multi-seed results with confidence intervals, an ablation table, a fair-baseline note, and a reproducibility checklist (code, config, seeds, hardware).",
+   resources:[{t:'Pineau et al. — Improving Reproducibility in ML Research (NeurIPS reproducibility program)'},{t:'The ML Reproducibility Checklist'}]}},
+ {id:'rm-annot', ph:'research', type:'project', t:'Maintain an annotated bibliography for your niche (your-words summary per paper)'},
+ {id:'rm-repro', ph:'research', type:'project', replication:true, t:'Write a reproduction report: setup, results vs paper, discrepancies, and lessons'},
+ {id:'rm-neg', ph:'research', type:'project', t:'Keep a negative-results log — hypotheses that failed and why (where taste forms)'},
+ {id:'rm-review', ph:'research', type:'skill', t:'Practice peer review: write a mock review of a recent paper against a venue rubric'},
+ {id:'rm-talk', ph:'research', type:'milestone', t:'Give a research talk / reading-group presentation on your reproduction'},
+ {id:'rm-public', ph:'research', type:'skill', t:'Build in public: blog reproductions + a clean GitHub (Karpathy / Weng / Huyen as the model)'},
+
+ // ---------------- MODULE: Qualifying exams ----------------
+ {id:'q-math', ph:'quals', type:'milestone', t:'Math quals — derive: SVD/PCA, an MLE + variance, a KKT solution, from memory'},
+ {id:'q-cs', ph:'quals', type:'milestone', t:'CS quals — prove an algorithm correct; reason about a race condition & an RPC'},
+ {id:'q-ml', ph:'quals', type:'milestone', t:'ML/theory quals — bias–variance, kernels, EM, generalization; defend method choices'},
+ {id:'q-dl', ph:'quals', type:'milestone', t:'Deep learning quals — whiteboard backprop, attention, and a diffusion step from memory'},
+ {id:'q-sys', ph:'quals', type:'milestone', t:'Systems quals — design train+serve stack for a 7B model on a fixed GPU budget; justify all'},
+ {id:'q-spec', ph:'quals', type:'milestone', t:'Specialization quals — present & defend a survey of your niche against hard questions'},
+
+ // ---------------- MODULE: Resource index ----------------
+ {id:'res-stanford', ph:'res', type:'course', t:'Stanford Online (YouTube) — CS229/231n/224n/336/234', u:'https://www.youtube.com/@stanfordonline'},
+ {id:'res-mit', ph:'res', type:'course', t:'MIT OpenCourseWare (YouTube) — 18.06 / 6.006 / 6.S191', u:'https://www.youtube.com/@mitocw'},
+ {id:'res-silver', ph:'res', type:'course', t:'DeepMind × UCL — David Silver RL lectures', u:'https://www.davidsilver.uk/teaching/'},
+ {id:'res-hf', ph:'res', type:'course', t:'Hugging Face — free courses (LLM, RL, agents)', u:'https://huggingface.co/learn'},
+ {id:'res-rohit', ph:'res', type:'course', t:'rohitg00/ai-engineering-from-scratch', u:'https://github.com/rohitg00/ai-engineering-from-scratch'},
+ {id:'res-sutton', ph:'res', type:'book', t:'Reinforcement Learning: An Introduction — Sutton & Barto', m:'free', u:'http://incompleteideas.net/book/the-book.html'},
+ {id:'res-isl', ph:'res', type:'book', t:'An Introduction to Statistical Learning — James et al.', m:'free', u:'https://www.statlearning.com/'},
+ {id:'res-chip-curr', ph:'res', type:'book', t:'Chip Huyen — free ML curriculum', u:'https://huyenchip.com/2019/08/05/free-online-machine-learning-curriculum.html'},
+ {id:'res-chip-guide', ph:'res', type:'book', t:'Chip Huyen — guide to AI at Stanford', u:'https://huyenchip.com/2018/03/30/guide-to-Artificial-Intelligence-Stanford.html'},
+ {id:'res-aadi', ph:'res', type:'course', t:'aadi1011/AI-ML-Roadmap-from-scratch', u:'https://github.com/aadi1011/AI-ML-Roadmap-from-scratch'},
+ {id:'res-azmine', ph:'res', type:'course', t:'azminewasi/online-ml-university', u:'https://github.com/azminewasi/online-ml-university'},
+ {id:'res-goodai', ph:'res', type:'course', t:'goodailist.com/repos — curated repo list', u:'https://goodailist.com/repos'},
+ {id:'res-lilog', ph:'res', type:'book', t:"Lilian Weng — Lil'Log (deep technical posts)", u:'https://lilianweng.github.io/'},
+ {id:'res-pwc', ph:'res', type:'book', t:'Papers with Code + Hugging Face Papers (daily currency)', u:'https://paperswithcode.com/'},
+
+ // ---------------- MODULE: Milestone ladder ----------------
+ {id:'ml-m3', ph:'ml', type:'milestone', t:'Month 3 — "I understand backprop." From-scratch NumPy net + derivation, public on GitHub'},
+ {id:'ml-m6', ph:'ml', type:'milestone', t:'Month 6 — "I built a neural net from scratch." micrograd → makemore → small nanoGPT'},
+ {id:'ml-y1', ph:'ml', type:'milestone', replication:true, t:'Year 1 — "I reproduced a paper." A faithful reproduction that matches numbers, written up'},
+ {id:'ml-y2', ph:'ml', type:'milestone', t:'Year 2 — "I have a research niche." Literature map + reproduced SOTA + first ablation + proposal'},
+ {id:'ml-y3', ph:'ml', type:'milestone', t:'Year 3 — "I published original work." Workshop paper (ideally ML × telecom); first qual defended'},
+ {id:'ml-y45', ph:'ml', type:'milestone', t:'Years 4–5 — "I am a research scientist." Main-conference/journal paper + used public reproductions'},
+ {id:'ml-y57', ph:'ml', type:'milestone', t:'Years 5–7 — Karpathy-adjacent. A recognized voice teaching, building & publishing in public'}
+];
+
+export { OPTIONAL_MODULES };
