@@ -27,6 +27,18 @@
   a:hover{text-decoration:underline;}
   .mono{font-family:var(--mono);}
 
+  /* ---------- keyboard focus ---------- */
+  /* .item-row, .sec-head, .expander, .rq-top, .fr-top are div/span click targets with
+     tabindex="0" + role="button" added (see makeKeyboardActivatable() in
+     src/ui/render-shared.js and the inline tabindex/role/onkeydown on the HTML-string-built
+     ones) — this makes their focus ring visible and consistent with the rest of the design
+     system instead of falling back to each browser's default outline. Native interactive
+     elements get the same treatment for consistency. */
+  a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible,
+  .item-row:focus-visible, .sec-head:focus-visible, .expander:focus-visible, .rq-top:focus-visible, .fr-top:focus-visible{
+    outline:2px solid var(--signal-soft); outline-offset:2px; border-radius:4px;
+  }
+
   /* ---------- command bar ---------- */
   .bar{position:sticky; top:0; z-index:60; background:var(--deep); color:#fff; border-bottom:1px solid var(--rule-deep);}
   .bar-inner{max-width:var(--maxw); margin:0 auto; padding:.75rem 1.3rem;}
@@ -43,7 +55,7 @@
     color:var(--muted-deep); border:1px solid var(--rule-deep); padding:.4rem .65rem; border-radius:6px; cursor:pointer; transition:.15s;}
   .btn:hover{color:#fff; border-color:var(--signal-soft);}
   .btn.on{background:var(--signal); color:#fff; border-color:var(--signal);}
-  .bar-tools{display:flex; align-items:center; gap:.6rem; margin-top:.65rem; flex-wrap:wrap;}
+  .bar-tools{display:flex; align-items:center; gap:.6rem; margin-top:.55rem; flex-wrap:wrap;}
   .search{flex:1; min-width:190px; display:flex; align-items:center; gap:.5rem; background:rgba(255,255,255,.06);
     border:1px solid var(--rule-deep); border-radius:7px; padding:.35rem .7rem;}
   .search input{flex:1; background:transparent; border:0; outline:0; color:#fff; font-size:14px; font-family:var(--sans);}
@@ -53,24 +65,37 @@
     color:var(--muted-deep); border:1px solid var(--rule-deep); padding:.32rem .55rem; border-radius:20px; cursor:pointer; transition:.15s;}
   .chip:hover{color:#fff;}
   .chip.on{background:var(--signal); color:#fff; border-color:var(--signal);}
-  .navjump{display:flex; gap:.55rem 1rem; flex-wrap:wrap; margin-top:.6rem;}
+  .navjump{display:flex; gap:.55rem 1rem; flex-wrap:wrap; margin-top:.5rem;}
   .navjump a{font-family:var(--mono); font-size:10.5px; letter-spacing:.03em; text-transform:uppercase; color:var(--muted-deep);}
   .navjump a:hover{color:var(--signal-soft); text-decoration:none;}
-  @media(max-width:720px){ .navjump{display:none;} }
+  /* Below 720px the <a> list wraps into too many lines to be a "quick" nav any more — swap it
+     for the compact, native, already-keyboard-accessible <select> built alongside it (see
+     render() in src/ui/render-curriculum.js). */
+  .navjump-select{display:none; width:100%; margin-top:.5rem; font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    padding:.4rem .55rem; border-radius:7px; border:1px solid var(--rule-deep); background:rgba(255,255,255,.06); color:#fff;}
+  @media(max-width:720px){ .navjump{display:none;} .navjump-select{display:block;} }
+
+  /* Curriculum-only controls (search, filter chips, phase quick-nav, "Expand all") only affect
+     the curriculum item tree, so they're only shown while that tab is active — switchView() in
+     src/ui/render-shared.js toggles .view-curriculum on .bar. */
+  .bar:not(.view-curriculum) .curriculum-only{display:none;}
 
   /* ---------- capability strip (top-bar aggregate capability scores) ---------- */
-  .capstrip{display:flex; gap:.5rem 1.1rem; flex-wrap:wrap; margin-top:.6rem; padding-top:.55rem; border-top:1px solid var(--rule-deep);}
-  .capchip{display:flex; align-items:center; gap:.4rem; min-width:100px;}
+  .capstrip{display:flex; gap:.5rem 1.1rem; flex-wrap:wrap; margin-top:.5rem; padding-top:.5rem; border-top:1px solid var(--rule-deep);}
+  .capstrip.empty{display:none;} /* nothing assessed yet — six "no data" chips is noise, not signal */
+  .capchip{display:flex; align-items:center; gap:.4rem; min-width:100px; flex-shrink:0;}
   .capchip .cc-label{font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted-deep); white-space:nowrap;}
   .capchip .cc-bar{width:42px; height:5px; background:rgba(255,255,255,.1); border-radius:5px; overflow:hidden; flex-shrink:0;}
   .capchip .cc-bar>i{display:block; height:100%; background:var(--signal-soft); border-radius:5px;}
   .capchip.ri .cc-bar>i{background:var(--master);}
   .capchip .cc-pct{font-family:var(--mono); font-size:10px; color:#fff; font-weight:600; white-space:nowrap;}
   .capchip.nodata .cc-pct{color:var(--muted-deep); font-weight:400;}
-  @media(max-width:900px){ .capstrip{display:none;} }
+  /* Narrow viewports: scroll horizontally instead of disappearing outright, so the same six
+     chips stay reachable by a swipe. */
+  @media(max-width:900px){ .capstrip{flex-wrap:nowrap; overflow-x:auto; padding-bottom:.2rem;} }
 
   /* ---------- page tabs + page shells ---------- */
-  .pagetabs{display:flex; gap:.35rem; flex-wrap:wrap; margin-top:.6rem;}
+  .pagetabs{display:flex; gap:.35rem; flex-wrap:wrap; margin-top:.5rem;}
   .pagetab{font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; background:transparent;
     color:var(--muted-deep); border:1px solid var(--rule-deep); padding:.38rem .8rem; border-radius:7px; cursor:pointer; transition:.15s;}
   .pagetab:hover{color:#fff; border-color:var(--signal-soft);}
@@ -338,6 +363,9 @@
   .comp-dates{display:flex; gap:.7rem; flex-wrap:wrap; width:100%; margin-left:calc(82px + .55rem);}
   .comp-dates label{display:flex; align-items:center; gap:.3rem; font-family:var(--mono); font-size:9.5px; text-transform:uppercase; letter-spacing:.03em; color:var(--muted);}
   .comp-dates input[type=date]{font-family:var(--sans); font-size:.78rem; padding:.15rem .3rem; border:1px solid var(--rule); border-radius:5px; background:#fff;}
+  /* At phone width the 82px offset (meant to align under comp-btns) leaves too little room for
+     two date fields — drop it and let them sit flush under the competency row instead. */
+  @media(max-width:520px){ .comp-dates{margin-left:0;} }
 
   /* ---------- evidence records ---------- */
   .evid-wrap{margin:.2rem 0 .3rem;}
@@ -397,7 +425,7 @@
 </head>
 <body>
 
-<div class="bar">
+<div class="bar view-curriculum">
   <div class="bar-inner">
     <div class="bar-top">
       <div class="bar-title"><b>RS Track</b> · PhD-Level AI / ML / GenAI</div>
@@ -407,7 +435,7 @@
         <span class="opct" id="oCount" style="color:var(--muted-deep);">0 / 0</span>
       </div>
       <div class="bar-actions">
-        <button class="btn" id="expandBtn" onclick="toggleAllSections()">Expand all</button>
+        <button class="btn curriculum-only" id="expandBtn" onclick="toggleAllSections()">Expand all</button>
         <button class="btn" onclick="toggleDiag()">Diagnostics</button>
         <button class="btn" onclick="triggerImport()">Import</button>
         <button class="btn" onclick="exportProgress()">Export</button>
@@ -415,7 +443,11 @@
         <input type="file" id="importFile" accept="application/json,.json" style="display:none" onchange="handleImportFile(event)">
       </div>
     </div>
-    <div class="bar-tools">
+    <!-- Search, filter chips, and phase quick-nav only do anything on the Curriculum tab (they
+         act on the curriculum item tree), so they're hidden on every other tab via the
+         .curriculum-only / .bar:not(.view-curriculum) rule in styles/main.css — switchView()
+         in src/ui/render-shared.js toggles the .view-curriculum class on .bar. -->
+    <div class="bar-tools curriculum-only">
       <label class="search">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8FA0BD" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
         <input id="q" type="text" placeholder="Search courses, books, papers, authors, standards, topics…" oninput="applyFilters()">
@@ -430,7 +462,8 @@
         <button class="chip" data-f="todo" onclick="setFilter('todo',this)">To-do</button>
       </div>
     </div>
-    <div class="navjump" id="navjump"></div>
+    <div class="navjump curriculum-only" id="navjump"></div>
+    <select class="navjump-select curriculum-only" id="navjumpSelect" onchange="if(this.value) location.hash=this.value;"></select>
     <div class="capstrip" id="capstrip" title="Aggregate capability profile — computed from evidence-weighted competency scores, not resource completion"></div>
     <nav class="pagetabs" id="pagetabs">
       <button class="pagetab on" data-view="curriculum" onclick="switchView('curriculum')">Curriculum</button>
@@ -452,7 +485,7 @@
     <span><i class="dot p"></i> In progress</span>
     <span><i class="dot d"></i> Done</span>
     <span><i class="dot m"></i> Mastered</span>
-    <span style="color:var(--ink-soft)">· click a row to cycle · major units cycle all four states</span>
+    <span style="color:var(--ink-soft)">· click a row to cycle (or focus it and press Enter/Space) · major units cycle all four states</span>
   </div>
   <div class="legend" style="margin-top:.5rem;">
     <span><span class="src-tag src-self">Self-assessed</span></span>
@@ -522,6 +555,16 @@
       <button class="mbtn-primary" onclick="applyImport('merge')">Merge into current</button>
       <button class="mbtn-primary" onclick="applyImport('replace')">Replace current</button>
       <button class="mbtn-ghost" onclick="closeImport()">Cancel</button>
+    </div>
+  </div>
+</div>
+<div class="modal-bg" id="confirmModal">
+  <div class="modal">
+    <h3>Are you sure?</h3>
+    <p id="confirmMessage"></p>
+    <div class="mbtns">
+      <button class="mbtn-primary" onclick="confirmDialogYes()">Yes</button>
+      <button class="mbtn-ghost" onclick="confirmDialogNo()">Cancel</button>
     </div>
   </div>
 </div>
@@ -2578,11 +2621,12 @@
   var rqFilter = "all";
   var rqQuery = "";
   var rqOpenId = null;
+  var KA = `tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"`;
   function rqCard(q) {
     const open = rqOpenId === q.id;
     const fields = RQ_FIELDS.map((f) => '<div class="rq-field"><label>' + f.label + '</label><textarea data-rqfield="' + f.key + `" onblur="rqFieldBlur(event,'` + q.id + "','" + f.key + `')">` + escapeHtml(q[f.key] || "") + "</textarea></div>").join("");
     const statusOpts = RQ_STATUSES.map((s) => '<option value="' + s + '"' + (q.status === s ? " selected" : "") + ">" + RQ_STATUS_LABELS[s] + "</option>").join("");
-    return '<div class="rq-card' + (open ? " open" : "") + '" id="rqcard-' + q.id + `"><div class="rq-top" onclick="toggleRqCard('` + q.id + `')"><span class="rq-status st-` + q.status + '">' + RQ_STATUS_LABELS[q.status] + '</span><span class="rq-q">' + escapeHtml(q.question || q.observation || "(untitled)") + '</span><span class="rq-date">' + escapeHtml((q.updatedAt || q.createdAt || "").slice(0, 10)) + `</span></div><div class="rq-body"><div class="rq-2col"><div class="rq-field"><label>Status</label><select onclick="event.stopPropagation()" onchange="rqSetStatus('` + q.id + `',this.value)">` + statusOpts + "</select></div><div></div></div>" + fields + `<div class="rq-actions"><button class="rq-del" onclick="rqDelete(event,'` + q.id + `')">Delete</button></div></div></div>`;
+    return '<div class="rq-card' + (open ? " open" : "") + '" id="rqcard-' + q.id + '"><div class="rq-top" ' + KA + ` onclick="toggleRqCard('` + q.id + `')"><span class="rq-status st-` + q.status + '">' + RQ_STATUS_LABELS[q.status] + '</span><span class="rq-q">' + escapeHtml(q.question || q.observation || "(untitled)") + '</span><span class="rq-date">' + escapeHtml((q.updatedAt || q.createdAt || "").slice(0, 10)) + `</span></div><div class="rq-body"><div class="rq-2col"><div class="rq-field"><label>Status</label><select onclick="event.stopPropagation()" onchange="rqSetStatus('` + q.id + `',this.value)">` + statusOpts + "</select></div><div></div></div>" + fields + `<div class="rq-actions"><button class="rq-del" onclick="rqDelete(event,'` + q.id + `')">Delete</button></div></div></div>`;
   }
   function toggleRqCard(id) {
     rqOpenId = rqOpenId === id ? null : id;
@@ -2597,10 +2641,11 @@
   }
   function rqDelete(e, id) {
     e.stopPropagation();
-    if (!confirm("Delete this research question entry?")) return;
-    deleteResearchQuestion(id);
-    toast("Deleted");
-    renderResearchPage();
+    confirmDialog("Delete this research question entry?", () => {
+      deleteResearchQuestion(id);
+      toast("Deleted");
+      renderResearchPage();
+    });
   }
   function rqNew() {
     const q = { id: genId("rq"), status: "observation", createdAt: (/* @__PURE__ */ new Date()).toISOString(), updatedAt: (/* @__PURE__ */ new Date()).toISOString() };
@@ -2772,6 +2817,7 @@
   }
 
   // src/ui/render-frontier.js
+  var KA2 = `tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"`;
   var frReviewOnly = false;
   var frOpenId = null;
   function frToggleReviewMode() {
@@ -2789,10 +2835,11 @@
   }
   function frDelete(e, id) {
     e.stopPropagation();
-    if (!confirm("Delete this frontier topic? This cannot be undone.")) return;
-    deleteFrontierTopic(id);
-    toast("Deleted");
-    renderFrontierPage();
+    confirmDialog("Delete this frontier topic? This cannot be undone.", () => {
+      deleteFrontierTopic(id);
+      toast("Deleted");
+      renderFrontierPage();
+    });
   }
   function frFieldBlur(e, id, key) {
     updateFrontierTopic(id, { [key]: e.target.value.slice(0, key === "topic" ? 200 : 4e3) });
@@ -2840,7 +2887,7 @@
     const statusOpts = FRONTIER_STATUSES.map((s) => '<option value="' + s + '"' + (t.status === s ? " selected" : "") + ">" + FRONTIER_STATUS_LABELS[s] + "</option>").join("");
     const confOpts = FRONTIER_CONFIDENCE_LEVELS.map((l, i) => '<option value="' + i + '"' + (t.confidence === i ? " selected" : "") + ">" + l + "</option>").join("");
     const papers = (t.keyPapers || []).map((p) => '<div class="gate-link-row">\u2192 <a href="' + escapeHtml(p.url) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">' + escapeHtml(p.title) + `</a> <a href="#" onclick="event.preventDefault();frRemovePaperUI(event,'` + t.id + "','" + p.id + `')" style="color:var(--frontier)">\xD7</a></div>`).join("");
-    return '<div class="fr-card' + (open ? " open" : "") + (stale ? " stale" : "") + '" id="frcard-' + t.id + `"><div class="fr-top" onclick="frToggleCard('` + t.id + `')"><span class="fr-status fs-` + t.status + '">' + FRONTIER_STATUS_LABELS[t.status] + '</span><span class="fr-topic">' + escapeHtml(t.topic || "(untitled topic)") + "</span>" + (stale ? '<span class="refresh-badge" title="Review cadence is every ' + FRONTIER_REVIEW_STALE_DAYS + ' days">Review due</span>' : "") + '<span class="fr-review-date">' + escapeHtml(frReviewLabel(t)) + '</span></div><div class="fr-body"><div class="rq-2col"><div class="rq-field"><label>Topic</label><input type="text" maxlength="200" value="' + escapeHtml(t.topic || "") + `" onclick="event.stopPropagation()" onblur="frFieldBlur(event,'` + t.id + `','topic')"></div><div class="rq-field"><label>Status</label><select onclick="event.stopPropagation()" onchange="frSetStatus('` + t.id + `',this.value)">` + statusOpts + `</select></div></div><div class="rq-field"><label>Why it matters</label><textarea onclick="event.stopPropagation()" onblur="frFieldBlur(event,'` + t.id + `','why')">` + escapeHtml(t.why || "") + `</textarea></div><div class="rq-2col"><div class="rq-field"><label>Confidence / relevance</label><select onclick="event.stopPropagation()" onchange="frSetConfidence('` + t.id + `',this.value)">` + confOpts + '</select></div><div class="rq-field"><label>Date added</label><input type="text" value="' + escapeHtml(t.dateAdded || "") + '" disabled></div></div><div class="rq-field"><label>Key papers</label><div class="gate-links">' + papers + '<div class="gate-addlink"><input type="text" id="frp-title-' + t.id + '" placeholder="Title (optional)" onclick="event.stopPropagation()"><input type="text" id="frp-url-' + t.id + `" placeholder="URL" onclick="event.stopPropagation()"><button onclick="event.stopPropagation();frAddPaperUI('` + t.id + `')">+ Paper</button></div></div></div><div class="rq-actions"><button class="btn" onclick="frMarkReviewed(event,'` + t.id + `')">Mark reviewed today</button><button class="rq-del" onclick="frDelete(event,'` + t.id + `')">Delete</button></div></div></div>`;
+    return '<div class="fr-card' + (open ? " open" : "") + (stale ? " stale" : "") + '" id="frcard-' + t.id + '"><div class="fr-top" ' + KA2 + ` onclick="frToggleCard('` + t.id + `')"><span class="fr-status fs-` + t.status + '">' + FRONTIER_STATUS_LABELS[t.status] + '</span><span class="fr-topic">' + escapeHtml(t.topic || "(untitled topic)") + "</span>" + (stale ? '<span class="refresh-badge" title="Review cadence is every ' + FRONTIER_REVIEW_STALE_DAYS + ' days">Review due</span>' : "") + '<span class="fr-review-date">' + escapeHtml(frReviewLabel(t)) + '</span></div><div class="fr-body"><div class="rq-2col"><div class="rq-field"><label>Topic</label><input type="text" maxlength="200" value="' + escapeHtml(t.topic || "") + `" onclick="event.stopPropagation()" onblur="frFieldBlur(event,'` + t.id + `','topic')"></div><div class="rq-field"><label>Status</label><select onclick="event.stopPropagation()" onchange="frSetStatus('` + t.id + `',this.value)">` + statusOpts + `</select></div></div><div class="rq-field"><label>Why it matters</label><textarea onclick="event.stopPropagation()" onblur="frFieldBlur(event,'` + t.id + `','why')">` + escapeHtml(t.why || "") + `</textarea></div><div class="rq-2col"><div class="rq-field"><label>Confidence / relevance</label><select onclick="event.stopPropagation()" onchange="frSetConfidence('` + t.id + `',this.value)">` + confOpts + '</select></div><div class="rq-field"><label>Date added</label><input type="text" value="' + escapeHtml(t.dateAdded || "") + '" disabled></div></div><div class="rq-field"><label>Key papers</label><div class="gate-links">' + papers + '<div class="gate-addlink"><input type="text" id="frp-title-' + t.id + '" placeholder="Title (optional)" onclick="event.stopPropagation()"><input type="text" id="frp-url-' + t.id + `" placeholder="URL" onclick="event.stopPropagation()"><button onclick="event.stopPropagation();frAddPaperUI('` + t.id + `')">+ Paper</button></div></div></div><div class="rq-actions"><button class="btn" onclick="frMarkReviewed(event,'` + t.id + `')">Mark reviewed today</button><button class="rq-del" onclick="frDelete(event,'` + t.id + `')">Delete</button></div></div></div>`;
   }
   function renderFrontierRadar() {
     const all = getFrontierTopics();
@@ -2902,6 +2949,15 @@
     const el = document.getElementById("capstrip");
     if (!el) return;
     const profile = calculateCapabilityProfile(getState(), ITEMS);
+    const anyData = CAPABILITY_CATEGORIES.some((cat) => {
+      const d = profile[cat];
+      return d && d.pct !== null && d.count > 0;
+    });
+    el.classList.toggle("empty", !anyData);
+    if (!anyData) {
+      el.innerHTML = "";
+      return;
+    }
     el.innerHTML = CAPABILITY_CATEGORIES.map((cat) => {
       const d = profile[cat], label = CAPABILITY_LABELS[cat], riCls = cat === "research_independence" ? " ri" : "";
       if (!d || d.pct === null || d.count === 0) return '<div class="capchip nodata' + riCls + '"><span class="cc-label">' + label + '</span><span class="cc-pct">no data</span></div>';
@@ -2925,6 +2981,7 @@
     const target = document.getElementById("page-" + view);
     if (target) target.classList.remove("hide");
     document.querySelectorAll(".pagetab").forEach((b) => b.classList.toggle("on", b.dataset.view === view));
+    document.querySelector(".bar").classList.toggle("view-curriculum", view === "curriculum");
     refreshActivePage();
   }
   function refreshActivePage() {
@@ -2999,22 +3056,58 @@
   function triggerImport() {
     document.getElementById("importFile").click();
   }
+  function makeKeyboardActivatable(el) {
+    el.tabIndex = 0;
+    el.setAttribute("role", "button");
+    el.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        el.click();
+      }
+    });
+  }
+  var pendingConfirm = null;
+  function confirmDialog(message, onConfirm) {
+    pendingConfirm = onConfirm;
+    document.getElementById("confirmMessage").textContent = message;
+    document.getElementById("confirmModal").classList.add("show");
+  }
+  function confirmDialogYes() {
+    const fn = pendingConfirm;
+    pendingConfirm = null;
+    document.getElementById("confirmModal").classList.remove("show");
+    if (typeof fn === "function") fn();
+  }
+  function confirmDialogNo() {
+    pendingConfirm = null;
+    document.getElementById("confirmModal").classList.remove("show");
+  }
 
   // src/ui/render-curriculum.js
+  var KA3 = `tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"`;
   var sectionOpen = {};
   var allExpanded = false;
   registerSectionOpen(() => sectionOpen);
   function render() {
     const app = document.getElementById("app"), nav = document.getElementById("navjump");
+    const navSelect = document.getElementById("navjumpSelect");
     app.innerHTML = "";
     nav.innerHTML = "";
+    if (navSelect) navSelect.innerHTML = '<option value="">Jump to phase\u2026</option>';
     SECTIONS.forEach((sec) => {
       if (!(sec.key in sectionOpen)) sectionOpen[sec.key] = !!sec.open;
       const secItems = ITEMS.filter((i) => i.ph === sec.key);
+      const label = sec.num + " \xB7 " + sec.title.split("\u2014")[0].split("(")[0].trim();
       const a = document.createElement("a");
       a.href = "#sec-" + sec.key;
-      a.textContent = sec.num + " \xB7 " + sec.title.split("\u2014")[0].split("(")[0].trim();
+      a.textContent = label;
       nav.appendChild(a);
+      if (navSelect) {
+        const opt = document.createElement("option");
+        opt.value = "#sec-" + sec.key;
+        opt.textContent = label;
+        navSelect.appendChild(opt);
+      }
       const wrap = document.createElement("section");
       wrap.className = "sec" + (sectionOpen[sec.key] ? "" : " collapsed");
       wrap.id = "sec-" + sec.key;
@@ -3029,6 +3122,7 @@
       head.className = "sec-head";
       head.innerHTML = '<div class="sec-num ' + numCls + '">' + sec.num + '</div><div class="sec-titles">' + kindLabel + "<h2>" + sec.title + '</h2><div class="dur">' + sec.dur + "</div></div>" + roleSelector + '<div class="sec-prog"><div class="sbar"><i id="sfill-' + sec.key + '"></i></div><span class="scount" id="scount-' + sec.key + '"></span><span class="scomp mono" id="scomp-' + sec.key + `" style="display:none" title="Average evidence-weighted competency (0-4) across this section's major units"></span></div><span class="chev">\u25BE</span>`;
       head.addEventListener("click", () => toggleSection(sec.key));
+      makeKeyboardActivatable(head);
       wrap.appendChild(head);
       const body = document.createElement("div");
       body.className = "sec-body";
@@ -3103,7 +3197,7 @@
     const link = it.u ? '<a class="lnk" href="' + it.u + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">open \u2197</a>' : "";
     const meta = it.m ? '<div class="m">' + it.m + "</div>" : "";
     const compMini = it.major ? '<div class="comp-mini">' + renderCompMini(it.id) + "</div>" : "";
-    const expander = it.detail || it.major ? '<span class="expander" onclick="toggleDetail(event,this)">details \u2304</span>' : "";
+    const expander = it.detail || it.major ? '<span class="expander" ' + KA3 + ' onclick="toggleDetail(event,this)">details \u2304</span>' : "";
     const replSelect = it.replication ? (() => {
       const cur = getReplicationStatus(it.id);
       const opts = REPLICATION_STATUSES.map((s) => '<option value="' + s + '"' + (cur === s ? " selected" : "") + ">" + REPLICATION_STATUS_LABELS[s] + "</option>").join("");
@@ -3113,6 +3207,7 @@
     r.className = "item-row";
     r.innerHTML = '<div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div class="item-main"><div class="t"><span class="tt">' + it.t + "</span>" + link + " " + pills + "</div>" + meta + compMini + replSelect + "</div>" + expander + '<span class="badge ' + it.type + '">' + TYPE_LABEL[it.type] + "</span>";
     r.addEventListener("click", () => cycle(it, row));
+    makeKeyboardActivatable(r);
     row.appendChild(r);
     if (it.detail || it.major) {
       const d = document.createElement("div");
@@ -3219,7 +3314,7 @@
       });
     }
     html += "</div>";
-    html += `<span class="expander" onclick="toggleEvidenceForm(event,'` + it.id + `')">+ add evidence</span>`;
+    html += '<span class="expander" ' + KA3 + ` onclick="toggleEvidenceForm(event,'` + it.id + `')">+ add evidence</span>`;
     html += '<div class="evid-add-form" id="evform-' + it.id + '"><input type="text" id="ev-title-' + it.id + `" placeholder="Title (e.g. 'Reproduced ResNet-18 on CIFAR-10')" maxlength="200"><select id="ev-type-` + it.id + '">' + EVIDENCE_TYPES.map((t) => '<option value="' + escapeHtml(t) + '">' + escapeHtml(t) + "</option>").join("") + '</select><input type="url" id="ev-url-' + it.id + '" placeholder="URL / reference (optional)" maxlength="500"><input type="date" id="ev-date-' + it.id + '"><textarea id="ev-notes-' + it.id + '" placeholder="Notes (optional)" maxlength="2000"></textarea><div class="evid-dimcheck">' + COMPETENCY_DIMS.map((d) => '<label><input type="checkbox" class="ev-dim" value="' + d + '"> ' + COMPETENCY_LABELS[d] + "</label>").join("") + `</div><div class="evid-form-btns"><button class="mbtn-primary" type="button" onclick="submitEvidenceForm(event,'` + it.id + `')">Save evidence</button><button class="mbtn-ghost" type="button" onclick="toggleEvidenceForm(event,'` + it.id + `')">Cancel</button></div></div>`;
     return html;
   }
@@ -3267,10 +3362,11 @@
   }
   function deleteEvidence(e, unitId, evidenceId) {
     e.stopPropagation();
-    if (!confirm("Remove this evidence record?")) return;
-    removeEvidence(unitId, evidenceId);
-    refreshUnitDetail(unitId);
-    toast("Evidence removed");
+    confirmDialog("Remove this evidence record?", () => {
+      removeEvidence(unitId, evidenceId);
+      refreshUnitDetail(unitId);
+      toast("Evidence removed");
+    });
   }
 
   // src/import-export.js
@@ -3561,10 +3657,11 @@
     document.getElementById("importModal").classList.remove("show");
   }
   function resetAll() {
-    if (!confirm("Reset all progress? This clears every mark, competency rating, evidence record, research question, activity log, gate status and specialization role \u2014 and cannot be undone.")) return;
-    resetState();
-    render();
-    toast("Progress reset");
+    confirmDialog("Reset all progress? This clears every mark, competency rating, evidence record, research question, activity log, gate status and specialization role \u2014 and cannot be undone.", () => {
+      resetState();
+      render();
+      toast("Progress reset");
+    });
   }
 
   // src/main.js
@@ -3582,6 +3679,8 @@
     switchView,
     toggleDiag,
     triggerImport,
+    confirmDialogYes,
+    confirmDialogNo,
     exportProgress,
     handleImportFile,
     applyImport,

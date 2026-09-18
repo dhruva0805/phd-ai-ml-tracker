@@ -7,16 +7,19 @@ import {
   addActivityLogEntry, removeActivityLogEntry, setCadence,
 } from '../state.js';
 import { calculateResearchQuestionStats, calculateResearchActivityCounts, calculateCadencePace } from '../calc.js';
-import { toast } from './render-shared.js';
+import { toast, confirmDialog } from './render-shared.js';
 
 let rqFilter = 'all', rqQuery = '', rqOpenId = null;
+
+// See render-curriculum.js's KA constant for what this does and why.
+const KA = 'tabindex="0" role="button" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();this.click();}"';
 
 function rqCard(q){
   const open = rqOpenId===q.id;
   const fields = RQ_FIELDS.map(f=>'<div class="rq-field"><label>'+f.label+'</label><textarea data-rqfield="'+f.key+'" onblur="rqFieldBlur(event,\''+q.id+'\',\''+f.key+'\')">'+escapeHtml(q[f.key]||'')+'</textarea></div>').join('');
   const statusOpts = RQ_STATUSES.map(s=>'<option value="'+s+'"'+(q.status===s?' selected':'')+'>'+RQ_STATUS_LABELS[s]+'</option>').join('');
   return '<div class="rq-card'+(open?' open':'')+'" id="rqcard-'+q.id+'">'+
-    '<div class="rq-top" onclick="toggleRqCard(\''+q.id+'\')">'+
+    '<div class="rq-top" '+KA+' onclick="toggleRqCard(\''+q.id+'\')">'+
       '<span class="rq-status st-'+q.status+'">'+RQ_STATUS_LABELS[q.status]+'</span>'+
       '<span class="rq-q">'+escapeHtml(q.question||q.observation||'(untitled)')+'</span>'+
       '<span class="rq-date">'+escapeHtml((q.updatedAt||q.createdAt||'').slice(0,10))+'</span>'+
@@ -31,7 +34,10 @@ function rqCard(q){
 function toggleRqCard(id){ rqOpenId = (rqOpenId===id) ? null : id; renderResearchPage(); }
 function rqFieldBlur(e, id, key){ updateResearchQuestion(id, {[key]: e.target.value.slice(0,4000)}); }
 function rqSetStatus(id, status){ updateResearchQuestion(id, {status}); renderResearchPage(); }
-function rqDelete(e, id){ e.stopPropagation(); if(!confirm('Delete this research question entry?')) return; deleteResearchQuestion(id); toast('Deleted'); renderResearchPage(); }
+function rqDelete(e, id){
+  e.stopPropagation();
+  confirmDialog('Delete this research question entry?', () => { deleteResearchQuestion(id); toast('Deleted'); renderResearchPage(); });
+}
 function rqNew(){
   const q = {id:genId('rq'), status:'observation', createdAt:new Date().toISOString(), updatedAt:new Date().toISOString()};
   RQ_FIELDS.forEach(f=>q[f.key]='');

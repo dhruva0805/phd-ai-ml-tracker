@@ -11,7 +11,7 @@ import { genId, clampLevel, todayISO } from './util.js';
 import { getState, setState, resetState, defaultState, migrateState, saveState, isComplete } from './state.js';
 import { calculateResourceCompletion, calculateEvidenceStrength } from './calc.js';
 import { render } from './ui/render-curriculum.js';
-import { toast } from './ui/render-shared.js';
+import { toast, confirmDialog } from './ui/render-shared.js';
 
 let pendingImport = null;
 
@@ -244,8 +244,9 @@ function applyImport(mode){
 }
 function closeImport(){ pendingImport=null; document.getElementById('importModal').classList.remove('show'); }
 function resetAll(){
-  if(!confirm('Reset all progress? This clears every mark, competency rating, evidence record, research question, activity log, gate status and specialization role — and cannot be undone.')) return;
-  resetState(); render(); toast('Progress reset');
+  confirmDialog('Reset all progress? This clears every mark, competency rating, evidence record, research question, activity log, gate status and specialization role — and cannot be undone.', () => {
+    resetState(); render(); toast('Progress reset');
+  });
 }
 
 export { exportProgress, handleImportFile, validateImportedState, applyImport, closeImport, resetAll };

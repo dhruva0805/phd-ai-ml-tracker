@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<div class="bar">
+<div class="bar view-curriculum">
   <div class="bar-inner">
     <div class="bar-top">
       <div class="bar-title"><b>RS Track</b> · PhD-Level AI / ML / GenAI</div>
@@ -20,7 +20,7 @@
         <span class="opct" id="oCount" style="color:var(--muted-deep);">0 / 0</span>
       </div>
       <div class="bar-actions">
-        <button class="btn" id="expandBtn" onclick="toggleAllSections()">Expand all</button>
+        <button class="btn curriculum-only" id="expandBtn" onclick="toggleAllSections()">Expand all</button>
         <button class="btn" onclick="toggleDiag()">Diagnostics</button>
         <button class="btn" onclick="triggerImport()">Import</button>
         <button class="btn" onclick="exportProgress()">Export</button>
@@ -28,7 +28,11 @@
         <input type="file" id="importFile" accept="application/json,.json" style="display:none" onchange="handleImportFile(event)">
       </div>
     </div>
-    <div class="bar-tools">
+    <!-- Search, filter chips, and phase quick-nav only do anything on the Curriculum tab (they
+         act on the curriculum item tree), so they're hidden on every other tab via the
+         .curriculum-only / .bar:not(.view-curriculum) rule in styles/main.css — switchView()
+         in src/ui/render-shared.js toggles the .view-curriculum class on .bar. -->
+    <div class="bar-tools curriculum-only">
       <label class="search">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8FA0BD" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
         <input id="q" type="text" placeholder="Search courses, books, papers, authors, standards, topics…" oninput="applyFilters()">
@@ -43,7 +47,8 @@
         <button class="chip" data-f="todo" onclick="setFilter('todo',this)">To-do</button>
       </div>
     </div>
-    <div class="navjump" id="navjump"></div>
+    <div class="navjump curriculum-only" id="navjump"></div>
+    <select class="navjump-select curriculum-only" id="navjumpSelect" onchange="if(this.value) location.hash=this.value;"></select>
     <div class="capstrip" id="capstrip" title="Aggregate capability profile — computed from evidence-weighted competency scores, not resource completion"></div>
     <nav class="pagetabs" id="pagetabs">
       <button class="pagetab on" data-view="curriculum" onclick="switchView('curriculum')">Curriculum</button>
@@ -65,7 +70,7 @@
     <span><i class="dot p"></i> In progress</span>
     <span><i class="dot d"></i> Done</span>
     <span><i class="dot m"></i> Mastered</span>
-    <span style="color:var(--ink-soft)">· click a row to cycle · major units cycle all four states</span>
+    <span style="color:var(--ink-soft)">· click a row to cycle (or focus it and press Enter/Space) · major units cycle all four states</span>
   </div>
   <div class="legend" style="margin-top:.5rem;">
     <span><span class="src-tag src-self">Self-assessed</span></span>
@@ -135,6 +140,16 @@
       <button class="mbtn-primary" onclick="applyImport('merge')">Merge into current</button>
       <button class="mbtn-primary" onclick="applyImport('replace')">Replace current</button>
       <button class="mbtn-ghost" onclick="closeImport()">Cancel</button>
+    </div>
+  </div>
+</div>
+<div class="modal-bg" id="confirmModal">
+  <div class="modal">
+    <h3>Are you sure?</h3>
+    <p id="confirmMessage"></p>
+    <div class="mbtns">
+      <button class="mbtn-primary" onclick="confirmDialogYes()">Yes</button>
+      <button class="mbtn-ghost" onclick="confirmDialogNo()">Cancel</button>
     </div>
   </div>
 </div>
