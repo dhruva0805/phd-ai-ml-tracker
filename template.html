@@ -20,7 +20,7 @@
         <span class="opct" id="oCount" style="color:var(--muted-deep);">0 / 0</span>
       </div>
       <div class="bar-actions">
-        <button class="btn curriculum-only" id="expandBtn" onclick="toggleAllSections()">Expand all</button>
+        <button class="btn" id="expandBtn" onclick="toggleAllSections()">Expand all</button>
         <button class="btn" onclick="toggleDiag()">Diagnostics</button>
         <button class="btn" onclick="triggerImport()">Import</button>
         <button class="btn" onclick="exportProgress()">Export</button>
@@ -28,28 +28,14 @@
         <input type="file" id="importFile" accept="application/json,.json" style="display:none" onchange="handleImportFile(event)">
       </div>
     </div>
-    <!-- Search, filter chips, and phase quick-nav only do anything on the Curriculum tab (they
-         act on the curriculum item tree), so they're hidden on every other tab via the
-         .curriculum-only / .bar:not(.view-curriculum) rule in styles/main.css — switchView()
-         in src/ui/render-shared.js toggles the .view-curriculum class on .bar. -->
-    <div class="bar-tools curriculum-only">
-      <label class="search">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8FA0BD" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-        <input id="q" type="text" placeholder="Search courses, books, papers, authors, standards, topics…" oninput="applyFilters()">
-      </label>
-      <div class="chips" id="chips">
-        <button class="chip on" data-f="all" onclick="setFilter('all',this)">All</button>
-        <button class="chip" data-f="course" onclick="setFilter('course',this)">Courses</button>
-        <button class="chip" data-f="book" onclick="setFilter('book',this)">Books</button>
-        <button class="chip" data-f="paper" onclick="setFilter('paper',this)">Papers</button>
-        <button class="chip" data-f="project" onclick="setFilter('project',this)">Projects</button>
-        <button class="chip" data-f="major" onclick="setFilter('major',this)">Major units</button>
-        <button class="chip" data-f="todo" onclick="setFilter('todo',this)">To-do</button>
-      </div>
-    </div>
-    <div class="navjump curriculum-only" id="navjump"></div>
-    <select class="navjump-select curriculum-only" id="navjumpSelect" onchange="if(this.value) location.hash=this.value;"></select>
-    <div class="capstrip" id="capstrip" title="Aggregate capability profile — computed from evidence-weighted competency scores, not resource completion"></div>
+    <!-- "Expand all" only does anything on the Curriculum tab, so it's the one bar-actions
+         button hidden on every other tab (see #expandBtn's rule in styles/main.css) —
+         switchView() in src/ui/render-shared.js toggles the .view-curriculum class on .bar.
+         Search, filter chips, phase quick-nav and the capability strip used to live here too,
+         but they only matter while starting to browse, not while scrolled into the item list —
+         they're now part of the Curriculum page's own content (see .curriculum-toolbar below),
+         which also means they no longer need any tab-hiding logic: they're simply not on the
+         page for any other tab. -->
     <nav class="pagetabs" id="pagetabs">
       <button class="pagetab on" data-view="curriculum" onclick="switchView('curriculum')">Curriculum</button>
       <button class="pagetab" data-view="research" onclick="switchView('research')">Research</button>
@@ -61,6 +47,27 @@
 </div>
 
 <div class="page" id="page-curriculum">
+<div class="curriculum-toolbar">
+  <div class="bar-tools">
+    <label class="search">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6A6C74" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="q" type="text" placeholder="Search courses, books, papers, authors, standards, topics…" oninput="applyFilters()">
+    </label>
+    <div class="chips" id="chips">
+      <button class="chip on" data-f="all" onclick="setFilter('all',this)">All</button>
+      <button class="chip" data-f="course" onclick="setFilter('course',this)">Courses</button>
+      <button class="chip" data-f="book" onclick="setFilter('book',this)">Books</button>
+      <button class="chip" data-f="paper" onclick="setFilter('paper',this)">Papers</button>
+      <button class="chip" data-f="project" onclick="setFilter('project',this)">Projects</button>
+      <button class="chip" data-f="major" onclick="setFilter('major',this)">Major units</button>
+      <button class="chip" data-f="todo" onclick="setFilter('todo',this)">To-do</button>
+    </div>
+  </div>
+  <div class="grp-label">Jump to a phase</div>
+  <div class="navjump" id="navjump"></div>
+  <select class="navjump-select" id="navjumpSelect" onchange="if(this.value) location.hash=this.value;"></select>
+  <div class="capstrip" id="capstrip" title="Aggregate capability profile — computed from evidence-weighted competency scores, not resource completion"></div>
+</div>
 <div class="hero">
   <div class="eyebrow">Self-directed doctoral program · progress saved in this browser</div>
   <h1>Research-scientist depth in AI, ML &amp; <em>generative models</em>.</h1>

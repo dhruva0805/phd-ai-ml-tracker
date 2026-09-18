@@ -6,7 +6,7 @@ import { SECTIONS } from '../data/sections.js';
 import { CAPABILITY_CATEGORIES, CAPABILITY_LABELS } from '../constants.js';
 import { escapeHtml } from '../util.js';
 import { getState, isComplete } from '../state.js';
-import { calculateResourceCompletion, calculateGroupCompetency, calculateCapabilityProfile, runIntegrity, runCapabilityDiagnostics } from '../calc.js';
+import { calculateResourceCompletion, calculateGroupCompetency, calculateCapabilityProfile, calculateCompetencyDevelopment, runIntegrity, runCapabilityDiagnostics } from '../calc.js';
 import { renderResearchPage } from './render-research.js';
 import { renderDashboardPage } from './render-dashboard.js';
 import { renderGatesPage } from './render-gates.js';
@@ -39,12 +39,16 @@ function updateProgress(){
 }
 function renderCapStrip(){
   const el=document.getElementById('capstrip'); if(!el) return;
-  const profile = calculateCapabilityProfile(getState(), ITEMS);
-  // Before anything has been rated, every category reads "no data" — six gray chips that are
-  // pure noise on a first visit. Hide the whole strip until there's real signal to show; it
-  // reappears on its own the moment the first competency gets rated (this re-runs on every
+  const state = getState();
+  const profile = calculateCapabilityProfile(state, ITEMS);
+  // Before anything has been rated, every real category still has tagged units (pct computes
+  // to 0, never null — only an untagged category would read null), so checking `pct!==null`
+  // here would never actually detect "nothing rated yet" for the real dataset. assessedDims is
+  // the direct signal: has any competency dimension on any active major unit been rated at all.
+  // Hide the whole strip until it has — six gray/zero chips are pure noise on a first visit —
+  // and it reappears on its own the moment the first rating happens (this re-runs on every
   // state change via updateAllMetrics()).
-  const anyData = CAPABILITY_CATEGORIES.some(cat=>{ const d=profile[cat]; return d && d.pct!==null && d.count>0; });
+  const anyData = calculateCompetencyDevelopment(state, ITEMS).assessedDims > 0;
   el.classList.toggle('empty', !anyData);
   if(!anyData){ el.innerHTML=''; return; }
   el.innerHTML = CAPABILITY_CATEGORIES.map(cat=>{
