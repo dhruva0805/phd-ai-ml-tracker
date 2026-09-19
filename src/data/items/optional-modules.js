@@ -19,7 +19,16 @@ const OPTIONAL_MODULES = [
   detail:{why:"Showed that prompting for intermediate steps unlocks reasoning in large models — the conceptual root of the entire test-time-reasoning line.",
    tech:"Why chain-of-thought helps (serial computation carried through tokens), its emergence with scale, and its fragility to prompt format.",
    after:"Reproduce a CoT vs direct-answer gap on a reasoning benchmark; test self-consistency (sampling + majority vote); probe whether the reasoning is faithful or post-hoc."}},
+ {id:'fr-prm', ph:'fr', type:'paper', cur:'FRONTIER', seq:'reasoning', t:"Let's Verify Step by Step — Lightman et al. 2023", m:'process reward models beat outcome supervision — the direct ancestor of R1/o1-style reasoning training', u:'https://arxiv.org/abs/2305.20050',
+  detail:{why:"Established that rewarding each reasoning step (not just the final answer) produces far more reliable reasoning models — the training idea that GRPO/DeepSeek-R1-style RL on verifiable rewards builds directly on.",
+   tech:"Process-supervised vs. outcome-supervised reward models (PRM vs. ORM) trained on step-level human labels, and why step-level credit assignment beats a single terminal reward.",
+   after:"Train a small outcome reward model and a process reward model on the same reasoning dataset; compare how well each reranks sampled solutions; identify a case where the ORM rewards a wrong-reasoning-right-answer trace."}},
  {id:'fr-fno', ph:'fr', type:'paper', cur:'FRONTIER', seq:'ai-for-science', t:'Fourier Neural Operator for PDEs — Li et al. 2020', m:'AI-for-science method-transfer template', u:'https://arxiv.org/abs/2010.08895'},
+ {id:'fr-alphafold2', ph:'fr', type:'paper', cur:'LANDMARK', seq:'ai-for-science', t:'Highly Accurate Protein Structure Prediction with AlphaFold — Jumper et al. 2021', m:'Nature; 2024 Nobel Prize in Chemistry (Hassabis & Jumper)', u:'https://www.nature.com/articles/s41586-021-03819-2',
+  detail:{why:"The clearest existence proof that a learned model can solve a decades-open scientific problem (protein folding) rather than just fit a benchmark — the template every later AI-for-science claim gets measured against.",
+   tech:"The Evoformer's iterative refinement of a residue-pair representation from MSAs and templates, and the structure module that turns it into 3D coordinates via invariant point attention.",
+   after:"Run AlphaFold2 (or ColabFold) on a protein of known structure; compare the predicted structure and per-residue confidence (pLDDT) to the experimental one; explain one case where confidence and accuracy diverge."}},
+ {id:'fr-alphafold3', ph:'fr', type:'paper', cur:'FRONTIER', seq:'ai-for-science', t:'Accurate Structure Prediction of Biomolecular Interactions with AlphaFold3 — Abramson et al. 2024', m:'Nature; generalizes from proteins alone to protein–ligand/DNA/RNA complexes via a diffusion module', u:'https://www.nature.com/articles/s41586-024-07487-w'},
  {id:'fr-review', ph:'fr', type:'book', t:'Sebastian Raschka — State of LLMs annual reviews', m:'the quarterly currency habit', u:'https://magazine.sebastianraschka.com/'},
 
  // ---------------- MODULE: Telecom vertex ----------------

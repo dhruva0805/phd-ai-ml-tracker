@@ -36,6 +36,8 @@ const CORE_MODULES = [
  {id:'ev-harness', ph:'eval', type:'course', t:'EleutherAI lm-evaluation-harness', m:'the standard eval tooling', u:'https://github.com/EleutherAI/lm-evaluation-harness'},
  {id:'ev-helm', ph:'eval', type:'paper', cur:'SYSTEMS', seq:'evaluation', t:'Holistic Evaluation of Language Models (HELM) — Liang et al. 2022', u:'https://arxiv.org/abs/2211.09110'},
  {id:'ev-passk', ph:'eval', type:'paper', cur:'FOUNDATIONAL', seq:'evaluation', t:'Evaluating Large Language Models Trained on Code — Chen et al. 2021', m:'defines pass@k', u:'https://arxiv.org/abs/2107.03374'},
+ {id:'ev-gpqa', ph:'eval', type:'paper', cur:'FOUNDATIONAL', seq:'evaluation', t:'GPQA: A Graduate-Level Google-Proof Q&A Benchmark — Rein et al. 2023', m:'the standard hard-science-reasoning benchmark every frontier model release quotes', u:'https://arxiv.org/abs/2311.12022'},
+ {id:'ev-arcagi', ph:'eval', type:'paper', cur:'FRONTIER', seq:'evaluation', t:'ARC Prize 2024: Technical Report', m:'Chollet’s abstraction-and-reasoning corpus; built to resist memorization rather than reward it', u:'https://arxiv.org/abs/2412.04604'},
  {id:'ev-contam', ph:'eval', type:'paper', cur:'FRONTIER', seq:'evaluation', t:'Detecting Pretraining Data from Large Language Models — Shi et al. 2023', u:'https://arxiv.org/abs/2310.16789'},
  {id:'ev-mirage', ph:'eval', type:'paper', cur:'CRITIQUE', seq:'evaluation', t:'Are Emergent Abilities of Large Language Models a Mirage? — Schaeffer et al. 2023', m:'metric choice can manufacture apparent "emergence"', u:'https://arxiv.org/abs/2304.15004'},
  {id:'ev-calib', ph:'eval', type:'paper', cur:'METHOD', seq:'evaluation', t:'On Calibration of Modern Neural Networks — Guo et al. 2017', u:'https://arxiv.org/abs/1706.04599'},
